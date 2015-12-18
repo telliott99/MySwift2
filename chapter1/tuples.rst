@@ -4,7 +4,7 @@
 Tuples
 ######
 
-Tuples may contain two or more values of any type you like.  
+Tuples may contain two or more values of any types you like.  
 
 .. sourcecode:: bash
 
@@ -21,13 +21,15 @@ Tuples may contain two or more values of any type you like.
     
 .. sourcecode:: bash
 
-    > xcrun swift test.swift
+    > swift test.swift
     Not Found
     Not Found
     OK
     >
 
-Tuples can be used to return multiple values from a function.  A silly example:
+A couple points to make here.  First, indexing always starts with ``0``.  Hence ``status.1`` is the *second* component of the tuple ``status``.  Also, Swift encourages the use of ``_`` to ignore or throw away the value of a result when it is not actually going to be used.  And third, assignment of a tuple to ``(_, str)`` requires the parentheses.
+
+Tuples are useful for returning multiple values from a function.  A silly example:
 
 .. sourcecode:: bash
 
@@ -44,7 +46,7 @@ Tuples can be used to return multiple values from a function.  A silly example:
 
 .. sourcecode:: bash
 
-    > xcrun swift test.swift
+    > swift test.swift
     5
     >
     
@@ -52,28 +54,13 @@ Tuples can be used for multiple assignment:
 
 .. sourcecode:: bash
 
-    func myswap(i: Int, j: Int) -> (Int, Int) {
+    func myswap(i: Int, _ j: Int) -> (Int, Int) {
         return (j, i)
     }
 
     let (i,j) = (1,2)
-    print("i: \(i) j: \(j)")
-    var (x,y) = (i,j)
-    print("x: \(x) y: \(y)")
-    (x,y) = myswap(x,y)
-    print("x: \(x) y: \(y)")
-    (x,y) = (y,x)
-    print("x: \(x) y: \(y)")
+    var (x,y) = (i,j)     // equals (1,2)
+    (x,y) = myswap(x,y)   // equals (2,1)
+    (x,y) = (y,x)         // equals (1,2)
 
     var (a,b,c) = (1,2,3)
-    print("a: \(a) b: \(b) c: \(c)")
-    
-.. sourcecode:: bash
-
-    > xcrun swift test.swift
-    i: 1 j: 2
-    x: 1 y: 2
-    x: 2 y: 1
-    x: 1 y: 2
-    a: 1 b: 2 c: 3
-    >

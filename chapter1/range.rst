@@ -6,7 +6,13 @@ Range and Interval
 
 Swift has the notions of intervals, ranges, and strides.
 
-It also has both half-open and closed intervals and ranges.  A closed interval includes both endpoints, and a half-open one extends up to but does not include the top value.  In Swift you see half-open intervals most.
+It also has both half-open and closed intervals and ranges.  A closed interval includes both endpoints, and a half-open one extends up to but does not include the top value.  In Swift you see half-open intervals most.  For example
+
+..sourcecode:: bash
+
+    let r = 0..<5   // 0,1,2,3,4
+    
+``r`` is a ``Range<Int>``.
 
 A Swift interval "contains" the values between two endpoints, but it does not know anything about iterating through the values or incrementing them.  An interval can even extend between one (or two) *non-integer* values, and a value of interest can then be tested for inclusion in the interval.
 
@@ -29,10 +35,10 @@ Here the type information isn't required, but I want to tell the compiler what w
     // prints:
     // true
 
-    // this used to be OK
+    // this used to be OK but is not any longer
     // print(i1.contains(3.14159265))
 
-A new operator ``~=`` can be used to test for this:
+A new operator ``~=`` can be used to do this test:
 
 .. sourcecode:: bash
 
@@ -45,7 +51,7 @@ The operators for ranges and intervals are the same.
 
     let r1: Range = 1...5
     let r2: Range = 1..<6
-    if r1 == r2 { }
+    r1 == r2
     // true
 
 (The previously used half-open notation ``..`` has been replaced by ``..<``, which is definitely clearer).
@@ -59,7 +65,7 @@ To reverse a range, use ``reverse``
 
 .. sourcecode:: bash
 
-    > xcrun swift test.swift
+    > swift test.swift
     3 
     2 
     1 
@@ -75,11 +81,23 @@ There is also ``stride``, sort of like ``range`` in Python with the optional thi
 
 .. sourcecode:: bash
 
-    > xcrun swift test.swift
+    > swift test.swift
     0
     -2
     -4
     >
+
+The Swift "interpreter" REPL prints:
+
+.. sourcecode:: bash
+
+      5> let st = 0.stride(through: -4, by: -2)
+    st: StrideThrough<Int> = {
+      start = 0
+      end = -4
+      stride = -2
+    }
+    
 
 .. sourcecode:: bash
 
@@ -90,7 +108,7 @@ There is also ``stride``, sort of like ``range`` in Python with the optional thi
 
 .. sourcecode:: bash
 
-    > xcrun swift test.swift
+    > swift test.swift
     3 
     2 
     1 
@@ -107,9 +125,11 @@ And finally:
         case (5...10):
             print("OK")
         default:
-            print("not in interval")
+            print("not in interval 5-10")
     }
     // OK
+
+We will talk about ``switch`` statements a bit later.  I hope it is obvious how this works.
 
 .. sourcecode:: bash
 
@@ -120,6 +140,6 @@ And finally:
         case (5...10, 3...6):
             print("OK")
         default:
-            print("not in interval")
+            print("not in specified intervals")
     }
     // also OK

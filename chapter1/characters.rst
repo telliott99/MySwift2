@@ -4,15 +4,13 @@
 Characters
 **********
 
-A character is a Type in Swift and may be output as ``'a'`` for example, with single quotes, representing the single character a.  But as a programmer, you will not initialize a character with a literal character.  Instead do this:
+A character is a Type in Swift.  You will typically initialize a single character with a String, like this:
 
 .. sourcecode:: bash
 
     let c: Character = "a"
     
-which converts the string ``"a"`` to the corresponding character.  
-
-Or, when iterating through a string, we get CharacterView, which is a special type of array of the characters, and go through each one with the for-in construct:
+When iterating through a string, we first obtain a CharacterView, which is a special type of array of the characters, and go through each one with the for-in construct:
 
 .. sourcecode:: bash
 
@@ -31,21 +29,21 @@ To print all on one line you *could* do:
     for c in "abc".characters {
         print(c, terminator: ".")
     }
-    print("*")
+    print("\n")
     // prints:
-    // a.b.c.*
+    // a.b.c.
 
 But best is probably:
 
 .. sourcecode:: bash
 
-    let s = "abc"
-    let s2 = String(s.characters)
-    print(s2)
+    let cL = "abc".characters
+    let s = String(cL)
+    print(s)
     // prints:
     // abc
 
-As in the above example, one can put together a String from its characters by just calling a String initializer.  To put a single character onto the end of a String, you can do this:
+As in the above example, one can construct a String from its characters by calling a String initializer.  To put a single character onto the end of a String, you can do this:
 
 .. sourcecode:: bash
 
@@ -56,7 +54,7 @@ As in the above example, one can put together a String from its characters by ju
     // prints:
     // ab
     
-As of recently, the ``+=`` operator is only for String concatenation, so we need to change the Character back into a String first:
+As of Swift 2, the ``+=`` operator is only for String concatenation, so to use it we need to change the Character back into a String first:
 
 .. sourcecode:: bash
 
@@ -67,13 +65,23 @@ As of recently, the ``+=`` operator is only for String concatenation, so we need
     
      String and Character have been revised to follow the changes to Array, which clarifies that the + operator is only for "concatenation", not "append”. Therefore String + Character, Character + String, and String += Character, as well as the analogous Array + Element combinations, have been removed.
      
+A note about the global ``print`` function.  (Changed from Swift 1).  ``print`` gives us a newline as the default.  To control this, you use an additional argument:
+
+.. sourcecode:: bash
+    
+    let a = "a"
+    print(a, terminator: "")    // a
+    print(a)                    // a\n
+    
 -------
 Unicode
 -------
 
 Swift is very modern when it comes to Unicode, even more so than NSString.
 
-NextStep and NSString were designed around the time that Unicode was the next new thing, but it was surely only going to be 16 bit.  So NSString's are 2 bytes.  Swift Strings are different.
+NextStep and NSString were designed around the time that Unicode was the a new thing, when it thought that 16 bits would be enough for everything.  
+
+So NSString values are 2 bytes.  Swift's String type are different.
 
 Recall that in Unicode (virtually) every character that can be written is represented as a "code point", which is essentially just a mapping between numbers and glyphs.  Originally it was thought that 2e16, or two bytes (more than one million), was enough to represent them all.  
 
@@ -87,7 +95,7 @@ A unicode code point comes in both decimal and binary equivalents, though binary
 
 The question then becomes, how to represent Unicode characters in memory and on disk.  The apparent two byte limit argued for a two byte representation, but there are two different orders for the pair of single bytes, leading to big- and little-endian UTF-16 encoding.
 
-(Mac x86_64 is little-endian, the low value byte of a 4 byte integer comes *first* in memory, so for example ``21000000`` is the decimal 33).
+(Mac x86_64 is little-endian, the low value byte of a 4 byte integer comes *first* in memory, so for example the eight bytes ``21000000`` evaluate to decimal 33).
 
 It may be that since we managed pretty well with characters represented in a single byte (or even just 7 bits with ASCII)
 
@@ -97,9 +105,11 @@ it was natural to develop the UTF-8 encoding.  UTF-8 is a **variable length** en
 
 http://en.wikipedia.org/wiki/UTF-8
 
-So really the first issue that comes up with Unicode, after realizing that the representation is critical, is how to count length correctly as characters rather than as bytes when we have variable length, multibyte characters.
+So really the first issue that comes up with Unicode, after realizing that the representation is critical, is how to count length correctly as characters rather than as bytes when we have variable length, multibyte characters in the most common encoding ``NSUTF8StringEncoding``.
 
-The second issue is that the same character may be formed in different ways (although this is fairly rare, it is not that rare), and we would like those two representations to compare as equal.
+The second issue is that the same character may be formed in different ways (although this is fairly rare, it is not that rare).
+
+We would like those two representations to compare as equal.
 
 Let's look at length first.  
 
@@ -111,107 +121,83 @@ Here is an example of a String literal (``blackHeart``) formed from a Unicode sc
     print("I \(blackHeart) you")
     // prints:
     // I ♥ you
-    
-To keep things simple, I will copy this character and paste it into the Python interpreter:
 
 .. sourcecode:: bash
 
-    >>> s = "♥"
-    >>> s
-    '\xe2\x99\xa5'
+    let s = "♥"
+    print(s.utf8, terminator: "")
+    // prints:
+    // ♥
 
-The default encoding here when we do the paste is UTF-8.  The hex value ``e2 99 a5`` is the UTF-8 encoded value of the code point known as "BLACK HEART SUIT" (hex 2665, decimal 9829).  
-
-.. sourcecode:: bash
-
-    >>> h = '0x2665'
-    >>> int(h,16)
-    9829
-    >>>
-
-To specify it in a Swift String, one way is to recall (or look up) its Unicode scalar value, which is typically written ``U+2665``.  Python again:
-
-    >>> s = "♥"
-    >>> s
-    '\xe2\x99\xa5'
-    >>> unicode(s,'utf-8')
-    u'\u2665'
-    >>> s.decode('utf-8')
-    u'\u2665'
-    >>>
-
-In order to interpret these three bytes, one must know the encoding (for say, two bytes, the result will be much different for UTF-16 versus UTF-8).
-
-One could also write the data to disk and use ``hexdump``
+That's not very helpful!  Try again
 
 .. sourcecode:: bash
 
-    >>> s = "♥"
-    >>> FH = open('x.txt','w')
-    >>> FH.write(s)
-    >>> FH.close()
-    >>> 
-    [2]+  Stopped                 python
-    > hexdump -C x.txt
-    00000000  e2 99 a5                                              
-    |...|
-    00000003
+    let s = "♥"
+    let a = Array(s.utf8)
+    a
+    // prints:
+    // [226, 153, 165]
+
+
+Here we have told the interpreter to explicitly convert the "String.UTF8View" obtained with ``s.utf8`` to an array of unsigned integers UInt8 (values 0..255 inclusive), which is a common way of thinking about raw data.  
+
+Or accomplish the same thing in the Swift REPL:
+
+.. sourcecode:: bash
+
+    1> let s = "♥"
+    s: String = "♥"
+      2> for c in s.utf8 { print(c) }
+    226
+    153
+    165
+      3>
+
+Another common representation is hex bytes:
+
+.. sourcecode:: bash
+
+    226/16 = 14 (e), 226 % 16 = 2
+    153/16 = 9, 153 % 16 = 9
+    165/16 = 10 (a), 165 % 16 = 5
+
+Thus the UTF-8 representation of "♥" can also be written as ``e2 99 a5``.
+
+Writing to disk has become complicated in Swift 2.  For the moment, I get around that by using a text editor, pasting in the "♥" character plus a newline and saving as ``x.txt``.
+
+.. sourcecode:: bash
+
+    > hexdump x.txt
+    0000000 e2 99 a5 0a                                    
+    0000004
     >
+
+Our three bytes for "♥" are followed by ``0a``, which is the newline character "\n".
+
+``hexdump`` prints the bytes but can't deal with the encoded "♥".
+
+On the other hand, ``cat`` does OK:
+
+.. sourcecode:: bash
+
+    > cat x.txt
+    ♥
+    >
+
+The default encoding here when we do the write is UTF-8.  (If you check the Preferences for your editor, you will see other possibilities).
+
+The hex value ``e2 99 a5`` is the UTF-8 encoded value of the code point known as "BLACK HEART SUIT" (hex 2665, decimal 9829).  (For more detail on how ``9829`` is encoded as the value ``e2 99 a5`` see the Wikipedia article).
+
+We can just think about "♥" as equivalent to the number 9829 or 0x2665.
+
+To specify it in a Swift String, one way is to just paste "♥" into the code.  
+
+Another way is to recall (or look up) its Unicode scalar value, which is typically written ``U+2665`` but in Swift is ``\u{2665}``.
 
 As mentioned above, the official name for this character is:  "Unicode Character 'BLACK HEART SUIT' (U+2665)".  In html you can write it either as ``&#9829`` or ``&#x2665``.
 
-Similarly, the "White smiling face"  ☺ is ``9786`` in Unicode, which in hexadecimal is ``U+263A``.
-
-In Python, if I have the character as Unicode I convert it to UTF-8 before writing to disk:
-
-.. sourcecode:: bash
-
-    >>> u = unichr(9786)
-    >>> u
-    u'\u263a'
-    >>> ord(u)
-    9786
-    >>> print u
-    ☺
-    >>> s = u.encode('utf-8')
-    >>> s
-    '\xe2\x98\xba'
-    >>> FH = open('x.txt','w')
-    >>> FH.write(s + "\n")
-    >>> FH.close()
-    >>> 
-    [1]+  Stopped                 python
-    > cat x.txt
-    ☺
-    >
-
-In Swift, this is done as follows with ``.utf8``:
-
-.. sourcecode:: bash
-
-    let smiley = "\u{263a}"
-    for codeUnit in smiley.utf8 {
-        print("\(codeUnit) ", terminator: "")
-    }
-    print("")
-
-.. sourcecode:: bash
-
-    > xcrun swift test.swift 
-    226 152 186 
-    >
-    
-``226`` is the decimal value equal to ``e2``, and so on.  Python again:
-
-.. sourcecode:: bash
-
-    >>> hex(226)
-    '0xe2'
-    >>> hex(152)
-    '0x98'
-    >>> hex(186)
-    '0xba'
-    >>>
+Similarly, the "White smiling face"  ☺ is ``9786`` in Unicode, which in hexadecimal is ``U+263A``, and its UTF-8 encoding is ``e2 x98 ba``.
     
 -------------------
 Counting characters
@@ -227,11 +213,11 @@ And now, the big question is, how many characters are there in ``blackHeart``?
     
 .. sourcecode:: bash
 
-    > xcrun swift test.swift
+    > swift test.swift
     ♥ has 1 character.
     >
 
-Three bytes in memory and on disk, but one character according to ``countElements``.
+Three bytes in memory and on disk, but one character according to ``count``.
 
 Expand the example:
 
@@ -242,18 +228,17 @@ Expand the example:
     var str = NSString(unicodeScalarLiteral: "\u{2665}")
     print(str.length)
     print(str.characterAtIndex(0))
-    print(str.characterAtIndex(0))
     
 NSString says:
 
 .. sourcecode:: bash
 
-    > xcrun swift test.swift
+    > swift test.swift
     1
     9829
     >
 
-Seems like NSString counts correctly too, in this case, though when it yields the character it gives us back the decimal value of the Unicode code point.
+Seems like NSString counts correctly too, in this case, though when it yields the character it gives us back the decimal value of the Unicode code point in UTF-16!
 
 Here is another example, from the docs, where the same character can be formed in two different ways:
 
@@ -275,7 +260,7 @@ Here is another example, from the docs, where the same character can be formed i
 
 .. sourcecode:: bash
 
-    > xcrun swift test.swift
+    > swift test.swift
     é é
     1
     1
@@ -299,7 +284,7 @@ Now the combined output is:
 
 .. sourcecode:: bash
 
-    > xcrun swift test.swift
+    > swift test.swift
     é é
     1
     1
@@ -311,7 +296,7 @@ Now the combined output is:
 
 So, the problem (solved by Swift and not by NSString) is how to deal with "extended grapheme clusters".  Such a cluster is a single character composed of multiple graphemes, such as ``"\u{65}\u{301}"``.
 
-There used to be a global function ``countElements(s)`` that could be called on a String.  No more in Swift 2.  The reason is that the number of elements depends on your point of view:  are we talking about "characters", UTF8, UTF16, or "extended grapheme clusters"?
+There used to be a global function ``countElements(s)`` that could be called on a String.  No more in Swift 2.  The reason is that the number of elements depends on your point of view:  are we talking about "characters", UTF-8, UTF-16, or "extended grapheme clusters"?
 
 Let's try a menagerie of characters:
 
@@ -329,7 +314,7 @@ Let's try a menagerie of characters:
 
 .. sourcecode:: bash
 
-    > xcrun swift test.swift
+    > swift test.swift
     abc♥☺éé
     >
 
@@ -345,7 +330,7 @@ Add this
 
 .. sourcecode:: bash
 
-    > xcrun swift test.swift
+    > swift test.swift
     abc♥☺éé
     7
     14
@@ -370,7 +355,7 @@ Finally, here is an example of incorporating characters into a String by using t
     print("\(dogCow)")
 .. sourcecode:: bash
 
-    > xcrun swift test.swift
+    > swift test.swift
     ������ ������
     >
 
@@ -391,7 +376,7 @@ If you want to convert a String to data (of UTF-8 encoding), one way is to do th
 
 .. sourcecode:: bash
 
-    > xcrun swift test.swift
+    > swift test.swift
     240 
     159 
     144 

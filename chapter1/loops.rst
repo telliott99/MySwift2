@@ -14,7 +14,7 @@ We are going to use some arrays below, even though they haven't been introduced 
 
 .. sourcecode:: bash
 
-    > xcrun swift test.swift
+    > swift test.swift
     2 4 6 
     >
 
@@ -30,7 +30,7 @@ We can get a range of values (including 3)
 
 .. sourcecode:: bash
 
-    > xcrun swift test.swift 
+    > swift test.swift 
     1 2 3 
     >
 
@@ -45,7 +45,7 @@ A while loop:
 
 .. sourcecode:: bash
 
-    > xcrun swift test.swift 
+    > swift test.swift 
     Yes
     >
 
@@ -61,7 +61,7 @@ And a traditional loop
 
 .. sourcecode:: bash
 
-    > xcrun swift test.swift
+    > swift test.swift
     3
     >
 

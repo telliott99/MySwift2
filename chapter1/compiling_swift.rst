@@ -6,7 +6,7 @@ Compiling Swift
 
 In order to compile Swift programs, you need Xcode.app.  
 
-Currently, I have Xcode 7.2 (7C68)).  
+Currently, I have Xcode 7.2 (7C68).  
 
 If you have more than one version, you can find out which one is selected by:
 
@@ -32,9 +32,19 @@ With this file on the Desktop
 
     print("Hello Swift world")
 
+The way I have done this forever is to do:
+
 .. sourcecode:: bash
 
-    > xcrun swift Hello.swift
+    > swift test.swift
+    Hello Swift world
+    >
+
+Now I find that you can just do:
+
+.. sourcecode:: bash
+
+    > swift test.swift
     Hello Swift world
     >
 
@@ -48,7 +58,7 @@ Some other options are to run swift as an "interpreter" by just doing ``swift`` 
     Hello, swift
       2>
       
-or, place this as the first line in your code ``#! /usr/bin/xcrun swift``.  Make the file executable before running it:
+or, make the equivalent of a ``bash`` or ``python`` script.  Place this as the first line in your code ``#! /usr/bin/swift``.  Make the file executable before trying to run it:
 
 .. sourcecode:: bash
 
@@ -74,13 +84,20 @@ or both steps at once
 
     > xcrun -sdk macosx swiftc test.swift && ./test
     
-I have observed a few constructs that work correctly by this last method and not by my standard one.
+I have observed a few constructs that worked correctly by this last method and not by my standard one, but that was back in Swift 1 days.
 
-As shown above, a basic print statement is ``print("a string")`` or ``print("a string")``.  Notice the absence of semicolons.
+As shown, a basic print statement is
 
-One of several changes from Swift 1 to Swift 2 was to introduce this way of doing a print statement.
+.. sourcecode:: bash
 
-One can also do variable substitution, like this
+    print("a string")
+    print("a string")
+    
+Notice the absence of semicolons.
+
+One of several changes from Swift 1 to Swift 2 was to change to this way of doing a print statement.
+
+One can also do "string interpolation", like this
 
 ``test.swift``:
 
@@ -91,13 +108,25 @@ One can also do variable substitution, like this
 
 .. sourcecode:: bash
 
-    > xcrun swift test.swift 
+    > swift test.swift 
     Hello Tom
     >
 
-Variables are *typed* (with the type coming after the variable name) and there is rarely any implicit conversion between types (except when doing ``print(anInt)`` or ``print(anArray)``).  
+Variables are introduced with the ``var`` keyword, and are *typed*.  It can be specified, with the type coming after the variable name).
 
-Here we print an Int without any explicit conversion:
+.. sourcecode:: bash
+
+    var s: String = "hello"
+
+But the compiler can figure the type out most of the time, so it's not necessary or usual to specify it in this way.
+
+.. sourcecode:: bash
+
+    var s = "hello"
+
+There is rarely any implicit conversion between types---except when doing ``print(anInt)`` or ``print(anArray)``.  
+
+Here we print an Int:
 
 ``test.swift``:
 
@@ -108,23 +137,29 @@ Here we print an Int without any explicit conversion:
     var s: String = String(x)
     print(s)
     
-This works, and prints what you'd expect.  If a value is not going to change (a constant), always use ``let``:
+This works, and prints what you'd expect.  Going back the other way:
 
 .. sourcecode:: bash
 
-    let s = "Hello"
-    print("\(s)")
+    let x = Int("2")
+
+The type of x is an "Optional".  What this means is that the value may be nil (because the conversion failed).  
+
+To use an optional, one must first unwrap it:
+
+.. sourcecode:: bash
+
+    let x = Int("2")
+    let y = x! + 2
+    print(y)
+    // prints:
+    // 4
+
+If a value is not going to change (it's a constant), always use ``let``:
+
+.. sourcecode:: bash
+
+    let s = "Tom"
+    print("Hello \(s)")
 
 which also works, and prints what you'd expect.  
-
-The reason this works (without the ``:String`` type declaration is that the compiler can almost always infer type information from the context.
-
-The usual Swift style would be:
-
-.. sourcecode:: bash
-
-    var x = 2
-    var f = 1.23e4
-    print(f)
-    // prints:  12300.0
-    >

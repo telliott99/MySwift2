@@ -38,7 +38,7 @@ The values ``m`` and ``n`` are "Optionals".  Test for ``nil`` by doing either of
     
 .. sourcecode:: bash
 
-    > xcrun swift test.swift
+    > swift test.swift
     n = Int("123") worked: 123
     really
     > 
@@ -67,7 +67,7 @@ Use of the ! symbol in ``n!`` forces the value of ``n`` as an Int to be used, wh
 
 .. sourcecode:: bash
 
-    > xcrun swift test.swift
+    > swift test.swift
     1: 8
     2: 7
     5: 8
@@ -105,7 +105,7 @@ A bit stranger is the "implicitly unwrapped optional":
 
 .. sourcecode:: bash
 
-    > xcrun swift test.swift
+    > swift test.swift
     standard optional string
     implicitly unwrapped optional
     >
