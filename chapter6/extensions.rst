@@ -31,7 +31,6 @@ This might be handy:
     2 5 7 4 10 10 9 10 7 3 
     > 
     
-    
 Moving to extensions on the String type, currently, the syntax 
 
 .. sourcecode:: bash
@@ -39,7 +38,7 @@ Moving to extensions on the String type, currently, the syntax
     var s = "Hello, world"
     print(s[0...4])
 
-doesn't work.  We can fix that with the following code:
+doesn't work.  We can fix that with the following code, although it's probably not a good idea :)  :
 
 .. sourcecode:: bash
 
@@ -71,21 +70,6 @@ Since ``r`` is a ``Range<Int>``, ``r.startIndex`` is just the first Int in the r
 
 And after that we advance it to where we want to stop.  We really should do some bounds checking, or not?
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 Here is an extension on the Array type that I got from 
 
 https://github.com/pNre/ExSwift/blob/master/ExSwift/Array.swift
@@ -108,14 +92,14 @@ https://github.com/pNre/ExSwift/blob/master/ExSwift/Array.swift
     }
 
     var a = [1,2,3]
-    println("\(f(a))")
-    println("\(a.all { $0 > 0 })")
+    print("\(f(a))")
+    print("\(a.all { $0 > 0 })")
     a += [0]
-    println("\(f(a))")
+    print("\(f(a))")
 
 .. sourcecode:: bash
 
-    > xcrun swift test.swift
+    > swift test.swift
     true
     true
     false
@@ -125,8 +109,4 @@ This is a bit sophisticated.  (There are lots of sophisticated things in Swift, 
 
 We can call ``all`` with a closure, or wrap it in a function. 
 
-This all makes perfect sense *except* for the ``Element``, which is a name known to Swift, but I couldn't find any information about.  You can't replace it with some other name.
-
-The code prints out what you'd expect.
-
-.. sourcecode:: bash
+This all makes perfect sense *except* for the ``Element``, which is a name known to Swift.  You can't replace it with some other name.

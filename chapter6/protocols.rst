@@ -4,8 +4,79 @@
 Protocols
 #########
 
+The basic idea with a protocol is that, to define a new one, we say what function or property an object must have if it is going to be said to follow that protocol.
 
-However before dealing with Hashable, let's start by looking at Comparable and Equatable.  For Comparable, an object must respond to the operators ``==`` and ``<``.  These functions must be defined *at global scope*.
+.. sourcecode:: bash
+
+    protocol Stylish {
+        var style: Bool { get }
+    }
+
+    struct X: Stylish {
+        var style: Bool {
+            get { return true }
+        }
+    }
+
+    let x = X()
+    print(x.style)
+    
+.. sourcecode:: bash
+
+    > swift test.swift 
+    true
+    >
+
+By far the most common example is to outfit a struct or class with the ability to print itself in a useful way.
+    
+.. sourcecode:: bash
+
+    struct X: CustomStringConvertible {
+        var description: String {
+            get {
+                return "I am the greatest"
+            }
+        }
+    }
+
+    let x = X()
+    print("\(x)")
+
+.. sourcecode:: bash
+
+    > swift test.swift 
+    I am the greatest
+    >
+    
+The Hashable and Equatable protocols are required to be followed by objects that want to be included in a Set or a Dictionary.
+
+.. sourcecode:: bash
+
+    // must be at global scope
+    func == (a: X, b: X) -> Bool {
+        return true
+    }
+
+    struct X: Hashable, Equatable {
+        var hashValue: Int {
+            get { return 0 }
+        }
+    }
+
+    let x1 = X()
+    let x2 = X()
+    let s = Set([x1,x2])
+    print(s.count)
+    
+.. sourcecode:: bash
+
+    > swift test.swift 
+    1
+    >
+
+Given these definitions, only one object of type X can be included in a Set<X>.
+
+Here is a slightly more reasonable implementation.
 
 We obtain a unique id for each object from the current time (slightly different since they are initialized sequentially):
 
@@ -16,7 +87,7 @@ We obtain a unique id for each object from the current time (slightly different 
     class Obj: Comparable, Equatable {
         var n: Int
         init() {
-            var d = NSDate().timeIntervalSince1970
+            let d = NSDate().timeIntervalSince1970
             let i = Int(1000000*d)
             self.n = i
         }    
@@ -33,20 +104,18 @@ We obtain a unique id for each object from the current time (slightly different 
 
     var o1 = Obj()
     var o2 = Obj()
-    println("\(o1.n) \(o2.n)")
-    println(o1 == o2)
-    println(o1 < o2)
+    print("\(o1.n) \(o2.n)")
+    print(o1 == o2)
+    print(o1 < o2)
 
 .. sourcecode:: bash
 
-    > xcrun swift test.swift 
-    1409051635.29793
-    1409051635.29838
-    1409051635297932 1409051635298383
+    > swift test.swift 
+    1450574977019510 1450574977019523
     false
     true
     >
-
+    
 As you can see, the second object was initialized approximately 0.45 milliseconds after the first one, so it compares as not equal, and less than the second.
 
 For the Hashable protocol, an object is required to have a property ``hashValue``, but is also required to respond to ``==`` (it's undoubtedly faster to check that first).
@@ -55,11 +124,11 @@ For the Hashable protocol, an object is required to have a property ``hashValue`
 
     import Cocoa
 
-    class Obj: Hashable, Printable {
+    class Obj: Hashable, CustomStringConvertible {
         var n: Int
         var name: String
         init(name: String) {
-            var d = NSDate().timeIntervalSince1970
+            let d = NSDate().timeIntervalSince1970
             self.n = Int(1000000*d)
             self.name = name
         }
@@ -79,7 +148,7 @@ For the Hashable protocol, an object is required to have a property ``hashValue`
         var D = [T: Bool]()
         var a = [T]()
         for v in input {
-            if let f = D[v] {
+            if let _ = D[v] {
                 // pass
             }
             else {
@@ -96,17 +165,14 @@ For the Hashable protocol, an object is required to have a property ``hashValue`
     for o in result {
         print("\(o) ")
     }
-    println()
-    println(singles([o1,o1,o1,o1,o1,o1]))
-
-
-This *almost* works.  For some reason, it isn't printing the representation correctly.
+    print(singles([o1,o1,o1,o1,o1,o1]))
 
 .. sourcecode:: bash
 
-    > xcrun swift test.swift
-    test.Obj test.Obj 
-    [test.Obj]
+    > swift test.swift 
+    o1:1450575084856957 
+    o2:1450575084856970 
+    [o1:1450575084856957]
     >
 
 Here is another simple example.
@@ -114,10 +180,10 @@ Here is another simple example.
 .. sourcecode:: bash
 
     import Foundation
-    class Obj: Printable {
+    class Obj: CustomStringConvertible {
         var n: Int
         init() {
-            var d = NSDate().timeIntervalSince1970
+            let d = NSDate().timeIntervalSince1970
             self.n = Int(1000000*d)
         }
         var description: String {
@@ -126,46 +192,15 @@ Here is another simple example.
     }
 
     var o = Obj()
-    println("\(o)")
+    print("\(o)")
 
 .. sourcecode:: bash
     
-    > xcrun swift test.swift
-    test.Obj
-    > xcrun -sdk macosx swiftc test.swift && test
-    > xcrun -sdk macosx swiftc test.swift && ./test
-    Obj: 1410536845136505
-    >
-    
-Notice that it only works correctly by invoking the swift compiler directly (method 2).
-
-
-
-
-Here is an example from the docs
-
-.. sourcecode:: bash
-
-    protocol FullyNamed {
-        var fullName: String { get }
-    }
-
-    struct Person: FullyNamed {
-        var fullName: String
-    }
-
-    let john = Person(fullName: "John Appleseed")
-    print("\(john): \(john.fullName)")
-
-What this means is that we are constructing a protocol named ``FullyNamed``, and to follow the protocol an instance must have a property ``fullName`` that is a String and is accessible by ``get`` (``obj.fullName`` returns a String).  The ``struct`` Person is declared as following the protocol, and the compiler can check that it does.
-
-.. sourcecode:: bash
-
-    > swift test.swift
-    test.Person: John Appleseed
+    > swift test.swift 
+    Obj: 1450575158979457
     >
 
-Here is another one:
+Here is another one from the Swift docs:
 
 .. sourcecode:: bash
 
@@ -205,8 +240,6 @@ Some other common protocols mentioned already are Equatable, Comparable, Hashabl
 
 For more about all of these, see Generics.
 
-Here is a bit more about CustomStringConvertible (preivously Printable):  an implementation that is done as an extension on ``Object``
-
 .. sourcecode:: bash
 
     class Object {
@@ -229,47 +262,4 @@ Here is a bit more about CustomStringConvertible (preivously Printable):  an imp
     > swift test.swift
     Tom
     Tom
-    >
-    
-I believe the second call should work (that's the point of this?), but it doesn't yet.
-
-As before, the protocol definition gives the property that must be present, specifies the type of what we'll get back and that a "getter" will do it.
-
-To be able to create a set containing objects from a User-defined class, the class must implement two protocols:
-
-.. sourcecode:: bash
-
-    class Simple: Hashable, Equatable, CustomStringConvertible {
-        var value: Int
-        init(x: Int) { value = x }
-        var hashValue: Int {
-            get { return value }
-        }
-        var description: String {
-            get { return String(value) }
-        }
-    }
-
-    func == (lhs: Simple, rhs: Simple) -> Bool {
-        return lhs.value == rhs.value
-    }
-
-    var s1 = Simple(x: 42)
-    var s2 = Simple(x: 43)
-    print(s1 == s2)     // false
-
-    var S = Set<Simple>()
-    S.insert(s1)
-    S.insert(s2)
-
-    print("\(S)")
-    S.insert(Simple(x: 41))
-    print("\(S)")
-
-.. sourcecode:: bash
-
-    > swift test.swift
-    false
-    [43, 42]
-    [43, 41, 42]
     >
