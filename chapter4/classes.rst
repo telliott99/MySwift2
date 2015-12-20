@@ -6,7 +6,7 @@ Classes
 
 .. sourcecode:: bash
 
-    class Obj {
+    class Obj: CustomStringConvertible {
         var name: String
         init(name: String) {
             self.name = name
@@ -19,42 +19,40 @@ Classes
     }
 
     var o = Obj(name: "Tom")
-    println(o.name)
-    println(o.description())
+    print(o.name)
+    print(o)
 
 .. sourcecode:: bash
 
-    > xcrun swift test.swift 
+    > swift test.swift
     Tom
     Obj: Tom
     >
 
-My favorite simple example of a class is one which keeps track of the count of instances.  The docs say to do this with a ``class`` variable, but the compiler says this is not implemented *yet*.  So we'll use a global
+My favorite simple example of a class is one which keeps track of the count of instances.  The docs say to do this with a ``class`` variable.
 
 .. sourcecode:: bash
 
-    var count = 0
-    class O {
-        // not implemented yet!
-        // class var count = 0
+    class Counter {
+        static var count = 0
         var name: String
         init(s: String) {
-            count += 1
             name = s
+            Counter.count += 1
         }
     }
 
-    var o1: O = O(s: "Tom")
-    println("name: \(o1.name), \(count)")
-    var o2: O = O(s: "Joan")
-    println("name: \(o1.name), \(count)")
-    println("name: \(o2.name), \(count)")
+    var o1 = Counter(s: "Tom")
+    print("name: \(o1.name), \(Counter.count)")
+    var o2 = Counter(s: "Joan")
+    print("name: \(o2.name), \(Counter.count)")
+    print("name: \(o1.name), \(Counter.count)")
     
 
 .. sourcecode:: bash
 
-    > xcrun swift test.swift
+    > swift test.swift
     name: Tom, 1
-    name: Tom, 2
     name: Joan, 2
+    name: Tom, 2
     >

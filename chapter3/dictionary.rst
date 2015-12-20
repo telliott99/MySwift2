@@ -4,28 +4,34 @@
 Dictionary
 ##########
     
-Here is a simple dictionary
+Here is a Swift dictionary
 
 .. sourcecode:: bash
 
     var D = ["a":"apple","b":"banana","c":"cookie"]
     for (k,v) in D {
-        print("key: \(v) starts with the letter: \(k)")
+        print("\(v) starts with the letter: \(k)")
     }
-
+    
 .. sourcecode:: bash
 
     > swift test.swift 
-    key: banana starts with the letter: b
-    key: apple starts with the letter: a
-    key: cookie starts with the letter: c
+    banana starts with the letter: b
+    apple starts with the letter: a
+    cookie starts with the letter: c
     >
 
-The construct ``for (tuple) in dictionary`` loops over tuples of (key, value) pairs.  The (key,value) pairs in a dictionary are not ordered.  They are held in a data structure that is commonly called a "hash", which is optimized for fast lookup.
+The construct ``for (tuple) in dictionary`` loops over (key, value) pairs.  The (key,value) pairs in a dictionary are not ordered in the usual sense.  However, if you run this code repeatedly, it will repeat the same output.
 
-To know whether a value is contained in an array (without first sorting the array), one must look at every value.  That is not true of a dictionary.
+The values are held in a data structure that is commonly called a "hash", which is optimized for fast lookup.  
 
-We can also ask for these "properties"
+The idea is clever but not all that complicated.  Imagine we have a really big post office with a bunch of mailboxes numbered from 1 to one million.  We compute a "hash" from the key, a value between 1 and one million, and then go insert the value in that mailbox.  It's very quick to do a lookup and see what the value is that corresponds to a particular key, or whether any given key corresponds to a stored value.
+
+On the other hand, to know whether a particular value is contained in an array (without first sorting the array), one must look at every value.  Even with a sorted array, the number of lookups goes like log(n).  
+
+That is not true of a dictionary.
+
+We can ask for these "properties" from a dictionary:
 
     - ``D.keys`` 
     - ``D.values``
@@ -78,7 +84,7 @@ Here is the example from the docs:
     code: TYO
     >
     
-We can access the values by subscript notation.
+We can access the values in a dictionary by subscript notation.
 
 .. sourcecode:: bash
 
@@ -113,15 +119,17 @@ In the first line ``var D = Dictionary<String,Int>()``, we are getting an instan
 
 Dictionary operations return a value if the key is present, and otherwise ``nil`` i.e. and Optional.
 
-var D: Dictionary<String,Int> = [:]
-print(D["cookie"])  // nil
-D["cookie"] = 100
-print(D["cookie"])  // Optional(100)
-print(D["cookie"]!) // 100
+.. sourcecode:: bash
 
-The value of return type is a ``ValueType?``, which you must force to ``ValueType`` by saying ``ValueType!`` if you're sure it's not ``nil``.  Of course, you should test for ``nil``, so we should really do:
+    var D: Dictionary<String,Int> = [:]
+    print(D["cookie"])  // nil
+    D["cookie"] = 100
+    print(D["cookie"])  // Optional(100)
+    print(D["cookie"]!) // 100
+
+The value of the return type is a ``ValueType?``, which you must force to ``ValueType`` by saying ``ValueType!`` if you're sure it's not ``nil``.  Of course, you should test for ``nil``, so we should really do:
     
-So why does the airport example work without "!"  It's because we first asked the dictionary to return its keys and values.  It knows what is present, so the returned keys and values are not Optionals.
+So why does the airport example work without "!"  It's because we first asked the dictionary to return its keys and values.  Swift knows what is present, so the returned keys and values in those "LazyMapCollection"'s are not Optionals.
 
 The dictionary method ``updateValue`` returns the old value if present, otherwise it returns ``nil``
 
@@ -132,15 +140,17 @@ The dictionary method ``updateValue`` returns the old value if present, otherwis
         print("The old value was \(oldValue)")
     }
     else {
-        print("cookie is not in the dictionary")
+        print("cookie was not in the dictionary")
     }
     print(D)
+    print("but it is now")
 
 .. sourcecode:: bash
 
     > swift test.swift 
-    cookie is not in the dictionary
+    cookie was not in the dictionary
     ["banana": 2, "apple": 1, "cookie": 100]
+    but it is now
     >
     
 As usual for a dictionary, the keys *are in a particular order* (based on their hash values), but they're not in lexicographical order and appear to be unsorted.
@@ -162,7 +172,7 @@ As usual for a dictionary, the keys *are in a particular order* (based on their 
 dict(zip(a,b)) idiom
 --------------------
 
-I don't think there is anything comparable to Python's ``dict(zip(key_list,value_list))`` idiom.  So we'll roll our own:
+At first, I didn't think there was anything comparable to Python's ``dict(zip(key_list,value_list))`` idiom.  So I decided we would roll our own:
 
 .. sourcecode:: bash
 
@@ -209,3 +219,42 @@ Update:  I did find Swift's ``zip``, it is called ``Zip2Sequence``
     3: cookie
     [2: "banana", 3: "cookie", 1: "apple"]
     >
+
+Later, I found that there is an initializer for Dictionary that will take (key,value) pairs.
+
+http://swiftdoc.org/v2.0/type/Dictionary/
+
+For example, this works:
+
+.. sourcecode:: bash
+
+    let d1 = Dictionary(dictionaryLiteral: ("a",1), ("b",2))
+
+However, this does not work:
+
+.. sourcecode:: bash
+
+    let a1 = ["a", "b"]
+    let a2 = [1, 2]
+    let z = Zip2Sequence(a1, a2)
+    let d2 = Dictionary(z)  // does not work
+    print(z)
+
+It seems the reason is that the initializer with arguments ``dictionaryLiteral: ("a",1), ("b",2)`` takes a ``tuple``, while I am trying to use an array.  And the size of the tuple is known at compile time, while the size of my array is not.  This is not allowed.
+
+The technique is apparently called "splatting".
+
+http://stackoverflow.com/questions/26983019/explanation-of-splat
+
+The only thing I've gotten so far is (using ``z`` from above):
+
+.. sourcecode:: bash
+
+    var D = [String:Int]()
+    for (k,v) in z {
+        D[k] = v
+    }
+
+which is not as concise as I would like.
+
+

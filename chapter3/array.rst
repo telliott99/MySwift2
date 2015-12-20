@@ -10,22 +10,21 @@ The three basic collection types are arrays, dictionaries and sets. Let's start 
 
     let fruits = ["cats", "apples", "bananas"]
     print(fruits[0])
-    for f in fruits { print(f + " ") }
+    for f in fruits { print(f + " ", terminator: "") }
+    print("")
 
 .. sourcecode:: bash
 
     > swift test.swift 
     cats
-    cats 
-    apples 
-    bananas 
+    cats apples bananas  
     >
 
 A Swift array is a collection of items in a certain order.  All the items must be of the same type, at least generally.  Later we will talk about some fancier uses that are allowed because Objective-C ``NSArray`` may consist of objects with different types.
 
 Any Swift array is typed by the type of the objects it contains.  Above, ``fruits`` is an ``Array<String>``, usually written as ``[String]``.
 
-Array access starts from ``0`` (indexing is 0-based).  Notice the simplicity of the ``for f in fruits`` usage.  
+Array access starts from ``0`` (indexing is 0-based).  The simplicity of the ``for f in fruits`` usage is really nice.
 
 To check the number of items in an array, query the ``count`` property.  If there are no items, then ``isEmpty()`` will return ``true``.
 
@@ -49,7 +48,7 @@ To check the number of items in an array, query the ``count`` property.  If ther
     ["a", "b", "k", "d"]
     >
 
-This use of subscripting to change the contents of one element in the array requires that the array be declared as ``var`` variable, rather than a constant with ``let``.
+This use of subscripting to change the contents of one element in the array requires that the array be declared as variable with the ``var`` keyword, rather than as a constant with ``let``.
 
 Arrays have the properties ``first`` and ``last``.  Since a particular array may be empty, the result of ``a.first`` and ``a.last`` may or may not contain a value.  Swift deals with this by declaring that this result is an "Optional".  We'll talk more about Optionals later, but for now, we just note that to "unwrap" the value of an Optional and use it as the underlying variable, the trailing ``!`` is required.
 
@@ -67,7 +66,7 @@ Arrays have the properties ``first`` and ``last``.  Since a particular array may
     Optional(1), Optional(4)
     >
 
-(Best practice says that one first query whether the Optional variable has a value or is ``nil`` before using it).  For more details, see :ref:`optionals`.
+(Best practice says that one must first query whether the Optional variable has a value or is ``nil`` before using it.  If you do ``x!`` and ``x`` is ``nil``, your program will crash).  For more details, see :ref:`optionals`.
 
 There is a global function ``contains`` to test whether a value is included in a Collection.
 
@@ -92,7 +91,7 @@ To insert at a particular position, use ``insert(value, atIndex: index)``, like 
     // ["a","spam","b","c"]
     print(a.count)    // 4
 
-When adding onto the end of an array, use ``append`` for a single value or what is really nice, **use concatenation as the equivalent of Python's ``extend``**
+When adding onto the end of an array, use ``append`` for a single value or what is really nice, use *concatenation* with ``+=`` as the equivalent of Python's ``extend``.
 
 .. sourcecode:: bash
 
@@ -115,7 +114,7 @@ One can also use Range notation with arrays.
     print(a)   // ["a", "x", "y"]
     
 
-The valid indexes in an array run from 0 to ``count - 1`` so we can do:
+The valid indexes in an array run from 0 to ``count - 1``.
 
 As the docs say
 
@@ -140,6 +139,8 @@ As the docs say
     >
     
 Arrays are value types, so ``a`` and ``b`` refer to different arrays, despite the assignment.  (Although Swift implements copy-on-write, which means that ``a`` and ``b`` refer to the same underlying storage until the moment that we do ``b[1] = "j"``)
+
+The docs again:
 
     A value type is a type whose value is copied when it is assigned to a variable or constant
 

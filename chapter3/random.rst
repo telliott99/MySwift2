@@ -4,7 +4,7 @@
 Random
 ######
 
-[UPDATE:  I came across a really important function that is in Foundation and is really convenient for generating random data.
+[UPDATE:  I came across a really important function that is in Foundation and is really convenient for generating random data:  ``SecRandomCopyBytes``.
 
 .. sourcecode:: bash
 
@@ -18,23 +18,28 @@ Random
         return buffer
     }
 
-    print(randomBinaryData(6))
-    print(randomBinaryData(6))
-    print(randomBinaryData(6))
+    print(randomBinaryData())
+    print(randomBinaryData(8))
     
 .. sourcecode:: bash
 
     > swift test.swift 
-    [215, 97, 73, 135, 187, 18]
-    [64, 186, 241, 149, 113, 227]
-    [45, 206, 43, 4, 70, 146]
-    >
+    [143]
+    [14, 130, 173, 216, 2, 135, 12, 176]
+    > 
     
-We need to wait a while to explain this, but it's really convenient. ] 
+What is going on here is that Swift is giving us access to a C function in Foundation called ``SecRandomCopyBytes``, which takes a pointer to a buffer and fills that buffer with the requested number of random bytes.  Swift will accept a reference (``&buffer``) to an array of UInt8 as that value.  We need to supply the length of the buffer, of course.  (What's interesting is that it doesn't crash if we deliberately give ``SecRandomCopyBytes`` a bad value for ``n``).
 
-Swift itself doesn't seem to have a built-in facility for getting random numbers.
+Swift itself doesn't have a built-in facility for getting random numbers, that I know of.
 
-However, there are some Unix functions available, after an ``import Foundation``.  These are ``arc4random``, ``arc4random_uniform``, ``rand``, and ``random``.
+However, there are some other Unix functions available (after ``import Foundation``).  
+
+These are 
+
+    - ``arc4random``
+    - ``arc4random_uniform``
+    - ``rand``
+    - ``random``.
 
 Only ``rand`` and ``random`` allow you to set the seed (with ``srand`` or ``srandom`` respectively).  These are usually called with the time, as in ``srand(time(NULL))``.
 
@@ -111,13 +116,11 @@ then do
 
     import Foundation
 
-    import Foundation
-
     func randomIntInRange(begin: Int, _ end: Int) -> Int {
         var f = Double(arc4random())/Double(UInt32.max)
         // we must convert to allow the * operation
-        let range = Double(end - begin)
-        let result: Int = Int(f*range)
+        let r = Double(end - begin)
+        let result: Int = Int(f*r)
         return result + begin
     }
 
@@ -138,7 +141,7 @@ However, rather than doing that, do this:
         print(arc4random_uniform(2)) 
     }
 
-The function ``arc4random_uniform(N)`` gives a result in ``0...N-1``, that is ``[0,N)``.
+The function ``arc4random_uniform(N)`` gives a result in ``0...N-1``, that is, in ``[0,N)``.
 
 If you want to seed the generator, use ``rand`` or ``random``.  The first one generates a ``UInt32``.  The second generates an ``Int32``, although it never emits values less than zero.
 
@@ -217,7 +220,7 @@ Notice that the two runs generate exactly the same sequence of values.
 Shuffle
 -------
 
-If you want to "shuffle", rearrange the items in an array randomly, one correct algorithm is to move through the array with an index and exchange the value at current position with a random value *from the current position* through the end of the array (i.e. not from the beginning).
+If you want to "shuffle" an array, to rearrange the items randomly, one correct algorithm is to move through the array with an index and exchange the value at current position with a random value *from the current position* through the end of the array (i.e. not starting from the beginning).
 
 First, we need a function that produces a random Int in any range.  We choose to use a half-open range, which does not include the end value.
 
@@ -263,16 +266,14 @@ Now implement the algorithm described above.
         }
     }
 
-    var a: [Int] = [1,2,3,4,5,6,7]
+    var a: [Int] = Array(0..<20)
     shuffleIntArray(&a)
     print("\(a)")
 
 .. sourcecode:: bash
 
     > swift test.swift 
-    [7, 5, 6, 3, 4, 1, 2]
-    > swift test.swift 
-    [5, 3, 2, 7, 1, 6, 4]
+    [11, 19, 2, 12, 17, 0, 6, 3, 16, 5, 1, 14, 18, 10, 4, 8, 15, 9, 13, 7]
     >
 
 For this code to work, we must mark the array parameter as ``inout`` and then pass a reference to the array ``&a`` into both the original function ``shuffleIntArray`` and also the one that actually changes the array, ``swap``.

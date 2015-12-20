@@ -4,7 +4,7 @@
 Enumerations
 ************
 
-Historically, enumerations or ``enum`` s are a way to pass around an integer as a code for something, in a type-safe way.
+Historically, enumerations or ``enum`` s are a way to pass around an integer as a code for something, in a type-safe way.  From the Objective-C docs:
 
 .. sourcecode:: objective-c
 
@@ -26,8 +26,6 @@ Similarly,
     enum {
        NSNotFound = NSIntegerMax
     };
-    
-which, for 32-bit systems used to be defined directly as ``0x7fffffff``, but now may have different actual values in 32-bit versus 64-bit environments.
 
 In Swift:
 
@@ -38,13 +36,13 @@ In Swift:
 
     var flip = CoinFlip.Heads
     flip = .Tails
-    if flip == .Tails { println("tails") }
+    if flip == .Tails { print("tails") }
 
 The shorthand ``.Tails`` can be used because the compiler is able to deduce that the type of ``flip`` is ``CoinFlip`` from its declaration/definition ``var flip = CoinFlip.Heads``.
     
 .. sourcecode:: objective-c
 
-    > xcrun swift test.swift 
+    > swift test.swift 
     tails
     > 
 
@@ -64,33 +62,33 @@ If the definition is on multiple lines, it's slightly different:
 
     switch directionToHead {
     case .North:
-        println("Lots of planets have a north")
+        print("Lots of planets have a north")
     case .South:
-        println("Watch out for penguins")
+        print("Watch out for penguins")
     case .East:
-        println("Where the sun rises")
+        print("Where the sun rises")
     case .West:
-        println("Where the skies are blue")
+        print("Where the skies are blue")
     }
 
 .. sourcecode:: bash
 
-    > xcrun swift test.swift 
+    > swift test.swift 
     Watch out for penguins
     >
     
-If you see a leading period on something (like ``.None``), it's also an enumeration.
+If you see a leading period on something (like ``.None``), it's an enumeration.
 
 Here is another example
 
 .. sourcecode:: bash
 
-    enum Result: Int {
+    enum Result: Int, CustomStringConvertible {
         case Failure, Success
-        func simpleDescription() -> String {
+        var description: String {
             switch self {
                 case .Failure:
-                    return "tnhwf!"
+                    return "dang!"
                 case .Success:
                     return "oh joy!"
             }
@@ -100,43 +98,17 @@ Here is another example
     let r = Result.Failure
     switch r {
         case .Failure: 
-            println("N")
+            print("N")
         case .Success: 
-            println("Y")
+            print("Y")
     }
-    println("\(r.simpleDescription())")
-
+    print("\(r)")
 
 .. sourcecode:: bash
 
-    > > xcrun swift test.swift
+    > swift test.swift
     N
-    tnhwf!
-    >
-
-I thought I should be able to get this enum to print itself, like this:
-
-.. sourcecode:: bash
-
-    var description : String {
-        get {
-            switch self {
-                case .Failure:
-                    return "tnhwf!"
-                case .Success:
-                    return "oh joy!"
-            }
-        }
-    }
-    let r = Result.Failure
-    println("\(r)")
-
-But I failed, even with 
-
-.. sourcecode:: bash
-
-    > xcrun -sdk macosx swiftc test.swift && ./test
-    (Enum Value)
+    dang!
     >
 
 As the docs describe, enumerations in Swift are much more sophisticated than what you might be used to from other languages.
@@ -155,9 +127,9 @@ Here is an example based on the fact that bar-codes can be an array of 4 integer
 
     switch productBarcode {
         case .UPCA(let numberSystem, let manufacturer, let product, let check):
-            println("UPC-A: \(numberSystem), \(manufacturer), \(product), \(check).")
+            print("UPC-A: \(numberSystem), \(manufacturer), \(product), \(check).")
         case .QRCode(let productCode):
-            println("QR code: \(productCode).")
+            print("QR code: \(productCode).")
     }
     
 .. sourcecode:: bash
@@ -187,8 +159,8 @@ Here are some other enum definitions from the docs that I haven't really made in
 
     enum ASCIIControlCharacter: Character {
         case Tab = "\t"
-        Case LineFeed = "\n"
-        Case CarriageReturn = "\r"
+        case LineFeed = "\n"
+        case CarriageReturn = "\r"
     }
 
     enum Planet: Int {

@@ -8,14 +8,16 @@ Here is a Swift Struct
 
 .. sourcecode:: bash
 
-    struct Point { var x = 0, y = 1 }
+    struct Point { 
+        var x = 0, y = 1 
+    }
     var p = Point()
     p.y = 100
-    println("\(p.x) \(p.y)")
-
+    print("\(p.x) \(p.y)")
+    
 .. sourcecode:: bash
 
-    > xcrun swift test.swift
+    > swift test.swift
     0 100
     >
 
@@ -26,24 +28,24 @@ Structs are passed by value.
     struct Point { var x = 0, y = 1 }
     var p = Point()
     p.y = 100
-    println("\(p.x) \(p.y)")
+    print("p: \(p.x) \(p.y)")
 
     var q = p
     q.x = 90
-    println("\(p.x) \(p.y)")
-    println("\(q.x) \(q.y)")
+    print("p: \(p.x) \(p.y)")
+    print("q: \(q.x) \(q.y)")
 
 .. sourcecode:: bash
 
-    > xcrun swift test.swift
-    0 100
-    0 100
-    90 100
+    > swift test.swift
+    p: 0 100
+    p: 0 100
+    q: 90 100
     >
 
-The Struct ``p`` is not affected by what happens to ``q`` after the copy is made.
+The Struct ``p`` is not affected by alterations made to ``q`` after the copy is made.  And the converse is also true.
 
-Structs are substantially more complex in Swift than in C.  What structs can do:
+Structs are substantially more capable, or complex, in Swift than in C.  What structs can do:
 
     - define properties to store values
     - define methods 
@@ -62,59 +64,78 @@ Classes are still more powerful, though.  Things that classes can do that struct
 
 That's a lot, even for structs!  Let's see what we can demonstrate.
 
+.. sourcecode:: bash
+
+    struct MyStruct {
+        var x: Int
+    }
+
+    let st = MyStruct(x: 10)
+    print(st)
+
+.. sourcecode:: bash
+
+    > swift test.swift
+    MyStruct(x: 10)
+    >
+
+If you should call MyStruct(), you will get an error saying the ``x`` needs to be initialized.
+
 A property (a "stored property")
 
     is a constant or variable that is stored as part of an instance of a particular class or structure. Stored properties can be either variable stored properties (introduced by the var keyword) or constant stored properties (introduced by the let keyword).
 
 We saw properties in the first example.  On the other hand, properties can be more sophisticated.  A property may be "only calculated when it is needed".
 
-A method (just like in a class)
+Not complicated.  Let's leave subscripts, extension and protocols for later.
+
+Except: it is possible to print out a nice (programmer-designed) string to describe a struct or class.  ``description`` is a variable (not a method), which must implement ``get``.  Let's add something else to ``MyStruct``
+
+It looks like this:
 
 .. sourcecode:: bash
 
-    struct S {
-        var n: Int
+    struct MyStruct {
+        var x: Int
         var description: String {
             get {
-                return "\(n)"
+                return "MyStruct:  x = \(x)"
             }
         }
     }
 
-An initializer is exactly as you would expect, if you imagined making a struct more like a class:
+    let st = MyStruct(x: 10)
+    print(st)
+    print(st.description)
+    
+.. sourcecode:: bash
+
+    > swift test.swift
+    MyStruct(x: 10)
+    MyStruct:  x = 10
+    >
+    
+Wouldn't it be nice if we could call ``print(st)`` and have it print things exactly how we want?
+
+To do this, we need to implement ``description`` as above, and declare that the struct conforms to a protocol with a very fancy name.  Substitute what follows for the first line (and delete the last line):
 
 .. sourcecode:: bash
 
-    struct Fahrenheit {
-        var temperature: Double
-        init() {
-            temperature = 32.0
-        }
-    }
+    struct MyStruct: CustomStringConvertible {
 
-Not complicated.  Let's leave subscripts, extension and protocols for later.
-
-It is possible to print out a nice (programmer-designed) string to describe a struct or class.  ``description`` is a variable (not a method), which must implement ``get``.  It looks like this:
+Now ``print(st)`` will give:
 
 .. sourcecode:: bash
 
-    var description: String {
-        get {
-            return "my string with some variable:  \(v)"
-        }
-    }
-
-This wasn't working for me, but I discovered that my standard compilation method fails in some cases where other approaches (such as Playgrounds) work.  To make this work compile it as follows:
-
-.. sourcecode:: bash
-
-    xcrun -sdk macosx swiftc codefile.swift
-
+    > swift test.swift
+    MyStruct:  x = 10
+    >
+    
 One more thing about structs.
 
-    By default, the properties of a value type cannot be modified from within its instance methods.  
+    By default, the properties of a value type (and a struct *is* a value type), cannot be modified from within its instance methods.  
     
-    In the following code, in ``mutating func changeIt``, the ``mutating`` is required, it declares to the compiler we are going to not do the default thing and allow this function to change properties of the struct.
+    In the following code, in ``mutating func changeIt``, the ``mutating`` is required, it declares to the compiler we are going to allow this function to change properties of the struct.
 
 .. sourcecode:: bash
 
@@ -126,12 +147,15 @@ One more thing about structs.
     }
 
     var s = S()
-    println(s.x)
+    print(s.x)
     s.changeIt()
-    println(s.x)
-    if (s.x == 43) { println("OK") }
+    print(s.x)
+    if (s.x == 43) { print("OK") }
 
-Here it is in an Xcode "playground"
+.. sourcecode:: bash
 
-.. image:: /figures/struct_pg.png
-    :scale: 75 %
+    > swift test.swift
+    42
+    43
+    OK
+    >

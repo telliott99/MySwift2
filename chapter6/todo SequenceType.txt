@@ -1,0 +1,65 @@
+http://www.scottlogic.com/blog/2014/06/26/swift-sequences.html
+
+SequenceType is a protocol.  Here is a demo that I got off the web:
+
+.. sourcecode:: bash
+
+    struct MyList {
+        var args: [String]
+        init(sL: [String]) {
+            self.args = sL
+        }
+    }
+
+    struct CollectionGenerator <T>: GeneratorType {
+        var items: Slice<T>
+        mutating func next() -> T? {
+            if items.isEmpty { return .None }
+            // my modification:
+            let item = items.removeAtIndex(0)
+            return item
+        }
+    }
+
+    extension MyList: SequenceType {
+        func generate() -> CollectionGenerator<String> {
+            let n = args.count - 1
+            return CollectionGenerator(items: args[0...n])
+        }
+    }
+
+    let args = MyList(sL: ["a","b","c"])
+    for arg in args {
+       print("\(arg) ")
+    }
+    println()
+
+.. sourcecode:: bash
+
+    > xcrun swift test.swift
+    a b c 
+    >
+
+Some things don't work correctly the way that I normally build and run Swift programs on the command line.  Here is one example:
+
+.. sourcecode:: bash
+
+    struct S: Printable {
+        var name = ""
+        var description: String {
+            return "S: \(name)"
+        }
+    }
+
+    let value = S(name: "Tom")
+    println("Created a \(value)")
+    
+    .. sourcecode:: bash
+    
+    > xcrun -sdk macosx swiftc test.swift && ./test
+    Created a S: Tom
+    > xcrun swift test.swift
+    Created a test.S
+    >
+
+The first method gives the expected output.

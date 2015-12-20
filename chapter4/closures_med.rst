@@ -4,17 +4,19 @@
 More Closures
 #############
 
-A closure is like function with no name.  You are going to use it right away, so it seems like a shame to waste a good name on it.  Sort of like Clint Eastwood
+A closure is like function with no name.  Kind of like Clint Eastwood
 
 http://en.wikipedia.org/wiki/Man_with_No_Name
+
+You have a function and you are going to use it right away, so it seems like a shame to waste a good name on it.
 
 Maybe the simplest closure is the one I used in the chapter on sorting:
 
 .. sourcecode:: bash
 
     var a = ["Chris", "Alex", "Barry"]
-    a.sort { $0 < $1 }
-    println(a)
+    a.sortInPlace { $0 < $1 }
+    print(a)
 
 .. sourcecode:: bash
 
@@ -30,16 +32,22 @@ We could do this more explicitly as:
 
 .. sourcecode:: bash
 
-    { (a: String, b: String) -> Boolean 
+    { (a: String, b: String) -> Bool 
         in return a < b }
 
-Or fairly compactly as
+Fairly compactly as
 
 .. sourcecode:: bash
 
     { a,b in a < b }
+    
+Or ridiculously compactly as
 
-The Array class function ``map`` takes a function and applies it to each member of the array.  Here is a first example, using ``map`` with a function (rather than a closure):
+.. sourcecode:: bash
+
+    { < }
+
+The Array class method ``map`` takes a function as an argument and applies it to each member of the array.  Here is a first example, using ``map`` with a function (rather than a closure):
 
 .. sourcecode:: bash
 
@@ -48,7 +56,7 @@ The Array class function ``map`` takes a function and applies it to each member 
         return s + "*" 
     }
     let result = a.map(star)
-    println(result)
+    print(result)
 
 .. sourcecode:: bash
 
@@ -56,7 +64,7 @@ The Array class function ``map`` takes a function and applies it to each member 
     [a*, b*, c*]
     >
 
-Now, maybe we don't expect to want to reuse ``star`` in any other place.  Or... well, there are some common usages we can talk about in a bit.  So modify the example to use a closure:
+Now, maybe we don't expect we will reuse ``star`` in any other place.  Or... well, there are some common usages we can talk about in a bit.  So modify the example to use a closure:
 
 .. sourcecode:: bash
 
@@ -66,7 +74,7 @@ Now, maybe we don't expect to want to reuse ``star`` in any other place.  Or... 
         return s + "*" 
         })
     
-    println(result)
+    print(result)
 
 This second version (above) gives the same result as the first.  The keyword ``in`` separates the argument list and return type from the body.
 
@@ -81,7 +89,7 @@ Here is another example:
         return result
         })
 
-    println(result)
+    print(result)
     
     .. sourcecode:: bash
     
@@ -115,4 +123,39 @@ Similarly, for the other example this works:
 
     var a = ["a","b","c"]
     let result = a.map({ s in s + "*" })
-    println(result)
+    print(result)
+
+And so does this:
+
+.. sourcecode:: bash
+
+    var a = ["a","b","c"]
+    let result = a.map({ $0 + "*" })
+    print(result)
+
+You can even omit the parentheses!
+
+.. sourcecode:: bash
+
+    var a = ["a","b","c"]
+    let result = a.map { $0 + "*" }
+    print(result)
+
+Here are some common use cases for me:
+
+.. sourcecode:: bash
+
+    let cL = "ab".characters
+    let a1 = cL.map { String($0) }
+
+``characters`` gives a value of type ``String.CharacterView``.  I'd like an array of String values, and this does it.  Similarly,
+
+.. sourcecode:: bash
+
+    let iL = "ab".utf8
+    let a2 = iL.map { UInt($0) }
+
+``iL`` is a value of type ``String.UTF8View``.  I'd like an Array<Int>, and this does it.
+
+
+
