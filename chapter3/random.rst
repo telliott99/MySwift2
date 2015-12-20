@@ -4,7 +4,7 @@
 Random
 ######
 
-[UPDATE:  I came across a really important function that is in Foundation and is really convenient for generating random data:  ``SecRandomCopyBytes``.
+I came across a really important function that is in Foundation and is really convenient for generating random data:  ``SecRandomCopyBytes``.
 
 .. sourcecode:: bash
 
@@ -28,7 +28,9 @@ Random
     [14, 130, 173, 216, 2, 135, 12, 176]
     > 
     
-What is going on here is that Swift is giving us access to a C function in Foundation called ``SecRandomCopyBytes``, which takes a pointer to a buffer and fills that buffer with the requested number of random bytes.  Swift will accept a reference (``&buffer``) to an array of UInt8 as that value.  We need to supply the length of the buffer, of course.  (What's interesting is that it doesn't crash if we deliberately give ``SecRandomCopyBytes`` a bad value for ``n``).
+What is going on here is that Swift is giving us access to a C function in Foundation called ``SecRandomCopyBytes``, which takes a pointer to a buffer and fills that buffer with the requested number of random bytes.  Swift will accept a reference (``&buffer``) to an array of UInt8 as that value.  We need to supply the length of the buffer, of course.  
+
+(It's interesting that it doesn't crash if we deliberately give ``SecRandomCopyBytes`` a bad value for ``n``).
 
 Swift itself doesn't have a built-in facility for getting random numbers, that I know of.
 

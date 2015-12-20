@@ -1,0 +1,10 @@
+.. sourcecode:: bash
+
+label
+.. _optionals:
+
+refer to it in text
+:ref:`optionals`
+
+.. image:: /figures/open_panel.png
+   :scale: 100 %

@@ -4,29 +4,167 @@
 Generators
 ##########
 
-The Sequence protocol uses a generator:
+We introduced protocols previously (:ref:`protocols`).  Let's extend that discussion by looking at the GeneratorType protocol.
+
+First, and fundamentally, there is some object that provides a method ``next``, where each successive call to ``next`` provides the *next* element.
+
+We will try to do this with a struct rather than a class, because we don't intend to subclass our generator.  This means that the ``next`` function needs to be marked mutating, because it changes state within the struct, and ``i`` needs to be a variable rather than a constant.  (None of this is needed if we use a class).
 
 .. sourcecode:: bash
 
-    let seq = Range(start:1,end:5)
-    var g: RangeGenerator<Int> = seq.generate()
-    while let i = g.next() {
-      print("\(i) ")
+    struct IntGenerator {
+        var i = 0
+        mutating func next() -> Int {
+            i += 1
+            return i
+        }
     }
 
+    var o = IntGenerator()
+    for _ in 1..<11 { 
+        print(o.next(), terminator: " ")
+    }
+    print("")
+    
 .. sourcecode:: bash
 
-    > swift test.swift
-    1 
-    2 
-    3 
-    4 
+    > swift test.swift.txt 
+    1 2 3 4 5 6 7 8 9 10 
     >
 
-We don't need the type for ``g`` but I put it there just to document what it actually is.
+If we now try to say that our struct is
 
-Let's try to make a generator of our own.
-    http://www.scottlogic.com/blog/2014/06/26/swift-sequences.html
+.. sourcecode:: bash
+
+    struct IntGenerator: GeneratorType
+    
+we'll get some errors that lead us to make a few changes
+
+.. sourcecode:: bash
+
+    struct IntGenerator: GeneratorType {
+        typealias Element = Int
+        var i = 0
+        mutating func next() -> Element? {
+            i += 1
+            return i
+        }
+    }
+
+    var o = IntGenerator()
+    for _ in 1..<11 { 
+        if let n = o.next() {
+            print(n, terminator: " ")
+        }
+    }
+    print("")
+
+What have we done?  Fundamentally, the protocol requires a method ``next`` with this signature:
+
+.. sourcecode:: bash
+
+    mutating func next() -> Element?
+
+and that return type of ``Element`` requires a "nested" typealias in the struct definition.
+
+http://swiftdoc.org/v2.0/protocol/GeneratorType/
+
+This code compiles and gives the same output as before.
+
+.. sourcecode:: bash
+
+    > swift test.swift.txt 
+    1 2 3 4 5 6 7 8 9 10 
+    >
+
+The optional type of ``Element?`` is also required, and its presence suggests the idea that the sequence may have a finite number of values.  So let's modify ``next`` to return ``nil`` when the sequence reaches some maximum value:
+
+.. sourcecode:: bash
+
+    struct IntGenerator: GeneratorType {
+        typealias Element = Int
+        var i = 0
+        mutating func next() -> Element? {
+            i += 1
+            if i > 5 {
+                return nil
+            }
+            return i
+        }
+    }
+
+    var o = IntGenerator()
+    for _ in 1..<11 { 
+        if let n = o.next() {
+            print(n, terminator: " ")
+        }
+    }
+    print("")
+
+.. sourcecode:: bash
+
+    > swift test.swift.txt 
+    1 2 3 4 5 
+    >
+
+Now we try to use the ``for .. in`` construct, by substituting this for the bottom part of the code above:
+
+.. sourcecode:: bash
+
+    var og = IntGenerator()
+    for n in og { 
+        print(n)
+        }
+    print("")
+
+The compiler complains that "value of type 'IntGenerator' has no member 'Generator'".  
+
+I am not quite sure what's going on here, but I solved this by adding another struct.  That's the only change to the code.  That and we instantiate the second struct rather than the first in the ``for .. in`` part.
+
+.. sourcecode:: bash
+
+    struct IntGenerator: GeneratorType {
+        typealias Element = Int
+        var i = 0
+        mutating func next() -> Element? {
+            i += 1
+            if i > 5 { return nil }
+            return i
+        }
+    }
+
+    struct Interator: SequenceType {
+        typealias Generator = IntGenerator
+        func generate() -> Generator {
+            return IntGenerator()
+        }
+    }
+
+    var og = Interator()
+    for n in og { 
+        print(n, terminator: " ")
+        }
+    print("")
+
+This additional struct has a ``generate`` method which returns a ``Generator``
+
+.. sourcecode:: bash
+
+    func generate() -> Generator
+
+``Generator`` needs to be typealiased for this to work.  We also declare that the new struct follows the ``SequenceType`` protocol.
+
+It works!
+
+.. sourcecode:: bash
+
+    > swift test.swift.txt 
+    1 2 3 4 5 
+    >
+
+Here is another one that gives the Fibonacci numbers.  (It wouldn't be a CS book without the Fibonaccci numbers).
+    
+http://www.scottlogic.com/blog/2014/06/26/swift-sequences.html
     
 .. sourcecode:: bash
 
@@ -53,79 +191,44 @@ Let's try to make a generator of our own.
     0 1 1 2 3 5 8 13 21 34 55 89 144 233 
     >
     
-We can spiff this up a little bit by adding a class that provides the ``generate`` method:
+As before, we could spiff this up a little bit by adding a class that provides the ``generate`` method, and get it to conform to the SequenceType protocol.
+
+I thought it would be nice to have a class that generates random numbers suitable for encryption (that is, ``UInt8``).  We will use the Foundation function ``SecRandomCopyBytes`` (see :ref:`random`).
 
 .. sourcecode:: bash
 
-    class Fibonacci {
-        typealias GeneratorType = FibonacciGenerator
-        func generate() -> FibonacciGenerator {
-            return FibonacciGenerator()
+    import Foundation
+
+    struct RandGenerator: GeneratorType {
+        var buffer: [UInt8] = []
+        init() {
+            fillBuffer()
         }
-    }
-    
-I'm not quite certain why the ``typealias`` is needed, but it is.  To run this we just substitute:
-
-.. sourcecode:: bash
-
-    let fib = Fibonacci().generate()
-
-which gives the same output.
-
-I thought it might be nice to have a class that generates random numbers suitable for encryption (that is, ``UInt8``).  What follows is not quite it, and I'll explain why afterward.  The motivation for this is the encryption demo shown in :ref:`random`.
-
-.. sourcecode:: bash
-
-    import Darwin
-
-    class RandomGenerator: GeneratorType {
-        var a = [UInt8]()
-        var s: UInt32
-        init(seed: Int) {
-            s = UInt32(seed)
-            srand(s)
+        mutating func fillBuffer() {
+            buffer = [UInt8](
+                count:16, repeatedValue: 0)
+            SecRandomCopyBytes(
+                kSecRandomDefault, 16, &buffer)
         }
-        func next() -> UInt8? {
-            if a.isEmpty { 
-                a = filledArray()
-            }
-            return a.removeLast()
-        }
-        func filledArray() -> [UInt8] {
-            var a = [UInt8]()
-            let r: UInt32 = UInt32(UInt(rand()))
-            let b1 = (r & 0xFF0000FF) >> 24
-            a.append(UInt8(b1))
-            let b2 = (r & 0x00FF0000) >> 16
-            a.append(UInt8(b2))
-            let b3 = (r & 0x0000FF00) >> 8
-            a.append(UInt8(b3))
-            let b4 = r & 0x000000FF
-            a.append(UInt8(b4))
-            return a
+        mutating func next() -> UInt8? {
+            if buffer.isEmpty {  fillBuffer() }
+            return buffer.removeFirst()
         }
     }
 
-    func test() {
-        let rg = RandomGenerator(seed: 137)
-        for _ in 1..<10 {
-            print("\(rg.next()!) ")
+    var r = RandGenerator()
+    for _ in 1..<9 { 
+        if let n = r.next() {
+            print(n, terminator: " ")
         }
-        println()
     }
-
-    test()
-
+    print("")
 
 .. sourcecode:: bash
 
-    > xcrun swift test1.swift
-    95 34 35 0 11 139 165 2 136 
-    > xcrun swift test1.swift
-    95 34 35 0 11 139 165 2 136 
+    > swift test.swift.txt 
+    119 15 188 0 228 165 37 
     >
 
-Two reasons why it's not suitable:  according to StackOverflow, ``rand`` should not be used for encryption because the low value bytes show cycles (they're not random).  Second, ``rand`` gives us an ``Int`` (a signed integer), which means it's missing the top half of its range, so if you repeat the stream for long enough you should see that the 4th 8th 12th and so on numbers are never > 127.
-
-And then of course, it needs to be hooked up to an encryption routine that takes a string and a key and returns the encrypted text.
+Of course, it needs to be hooked up to an encryption routine that takes a string and a key and returns the encrypted text.
 
