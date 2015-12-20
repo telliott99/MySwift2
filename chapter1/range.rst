@@ -6,16 +6,6 @@ Range and Interval
 
 Swift has the notions of intervals, ranges, and strides.
 
-It also has both half-open and closed intervals and ranges.  A closed interval includes both endpoints, and a half-open one extends up to but does not include the top value.  In Swift you see half-open intervals most.  For example
-
-..sourcecode:: bash
-
-    let r = 0..<5   // 0,1,2,3,4
-    
-``r`` is a ``Range<Int>``.
-
-A Swift interval "contains" the values between two endpoints, but it does not know anything about iterating through the values or incrementing them.  An interval can even extend between one (or two) *non-integer* values, and a value of interest can then be tested for inclusion in the interval.
-
 From StackOverflow
 
 http://stackoverflow.com/questions/25308978/what-are-intervals-in-swift-ranges
@@ -24,7 +14,17 @@ http://stackoverflow.com/questions/25308978/what-are-intervals-in-swift-ranges
 
     An Interval type is optimized for testing whether a given value lies within the interval. It works with types that don't necessarily need a notion of incrementing, and provides [other] operations
 
-    Because the ``..<`` and ``...`` operators have two forms each--one that returns a Range and one that returns an Interval--type inference automatically uses the right one based on context.
+    Because the ``..<`` and ``...`` operators have two forms each--one that returns a Range and one that returns an Interval --- type inference automatically uses the right one based on context.
+
+Swift has both half-open and closed intervals and ranges.  A closed interval includes both endpoints, and a half-open one extends up to but does not include the top value.  In Swift you see half-open intervals most.  For example
+
+.. sourcecode:: bash
+
+    let r = 0..<5   // 0,1,2,3,4
+    
+``r`` is a ``Range<Int>``.
+
+A Swift interval "contains" the values between two endpoints, but it does not know anything about iterating through the values or incrementing them.  An interval can even extend between one (or two) *non-integer* values, and a value of interest can then be tested for inclusion in the interval.
 
 Here the type information isn't required, but I want to tell the compiler what we expect:
 
@@ -32,18 +32,29 @@ Here the type information isn't required, but I want to tell the compiler what w
 
     let i1: ClosedInterval = 1...5
     print(i1.contains(3))
-    // prints:
-    // true
+    // prints:  true
 
-    // this used to be OK but is not any longer
-    // print(i1.contains(3.14159265))
-
-A new operator ``~=`` can be used to do this test:
+This doesn't work:  ``print(i1.contains(3.14159265))`` but the reason is that the interval is typed!  In the interpreter:
 
 .. sourcecode:: bash
 
+    1> let i = 1.5...3.5
+    i: ClosedInterval<Double> = {
+      _start = 1.5
+      _end = 3.5
+    }
+      2> i.contains(3.14)
+    $R0: Bool = true
+      3>
+
+A new operator ``~=`` can be used to do the ``contains`` test:
+
+.. sourcecode:: bash
+
+    let i1: ClosedInterval = 1...5
     print(i1.contains(3))
-    // false
+    print(i1 ~= 3)
+    // both are true
 
 The operators for ranges and intervals are the same.
 
@@ -71,7 +82,7 @@ To reverse a range, use ``reverse``
     1 
     >
 
-There is also ``stride``, sort of like ``range`` in Python with the optional third argument.  In Swift:
+There is also ``stride``, which is sort of like ``range`` in Python with the optional third argument.  In Swift:
 
 .. sourcecode:: bash
 
@@ -98,6 +109,7 @@ The Swift "interpreter" REPL prints:
       stride = -2
     }
     
+Sequences can be generated lazily (only as needed for use), which is useful with very long ones.
 
 .. sourcecode:: bash
 
@@ -113,8 +125,6 @@ The Swift "interpreter" REPL prints:
     2 
     1 
     >
-
-(Sequences can be generated lazily).
 
 And finally:
 

@@ -36,7 +36,7 @@ The way I have done this forever is to do:
 
 .. sourcecode:: bash
 
-    > swift test.swift
+    > xcrun swift test.swift
     Hello Swift world
     >
 
@@ -58,7 +58,11 @@ Some other options are to run swift as an "interpreter" by just doing ``swift`` 
     Hello, swift
       2>
       
-or, make the equivalent of a ``bash`` or ``python`` script.  Place this as the first line in your code ``#! /usr/bin/swift``.  Make the file executable before trying to run it:
+or, make the equivalent of a ``bash`` or ``python`` script.  Place this as the first line in your code 
+
+    - ``#! /usr/bin/swift``
+
+Make the file executable before trying to run it:
 
 .. sourcecode:: bash
 
@@ -90,7 +94,6 @@ As shown, a basic print statement is
 
 .. sourcecode:: bash
 
-    print("a string")
     print("a string")
     
 Notice the absence of semicolons.
@@ -143,7 +146,7 @@ This works, and prints what you'd expect.  Going back the other way:
 
     let x = Int("2")
 
-The type of x is an "Optional".  What this means is that the value may be nil (because the conversion failed).  
+The type of x is an "Optional".  What this means is that the value may be ``nil`` (because the conversion failed).  
 
 To use an optional, one must first unwrap it:
 

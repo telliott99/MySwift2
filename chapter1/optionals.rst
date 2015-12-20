@@ -14,15 +14,14 @@ It's useful to allow an operation that may or may not succeed, and if it doesn't
     let n: Int? = Int(s)
     print(m)
     print(n)
-
-The second conversion ``s.toInt()`` will fail because the value ``"123x"`` can't be converted to an integer.  Nevertheless, the code compiles and when run it prints
+    
+The second conversion ``Int(s)`` will fail because the value ``"123x"`` can't be converted to an integer.  Nevertheless, the code compiles and when run it prints
 
 .. sourcecode:: bash
 
     Optional(123)
     nil
     > 
-    
 
 The values ``m`` and ``n`` are "Optionals".  Test for ``nil`` by doing either of the following:
 
@@ -32,6 +31,7 @@ The values ``m`` and ``n`` are "Optionals".  Test for ``nil`` by doing either of
     let m: Int? = Int("123x")
     let n = Int("123")
     // "forced unwrapping"
+    
     if m != nil { print("m: Int? = Int(\"123x\") worked: \(m!)") }
     if n != nil { print("n = Int(\"123\") worked: \(n!)") }
     if let o = Int("123") {  print("really") }
@@ -42,7 +42,6 @@ The values ``m`` and ``n`` are "Optionals".  Test for ``nil`` by doing either of
     n = Int("123") worked: 123
     really
     > 
-    
     
 Use of the ! symbol in ``n!`` forces the value of ``n`` as an Int to be used, which is fine, once we know for sure that it is not ``nil``.
 
@@ -110,4 +109,4 @@ A bit stranger is the "implicitly unwrapped optional":
     implicitly unwrapped optional
     >
     
-The second string is an uptional (and could have nil assigned to it), but we are telling the compiler that we will check to make sure it's non-nil right away, and we're requesting the convenience of not having to write ``assumedString!`` everywhere we want to access its value.
+The second string is an Optional (and could have nil assigned to it), but we are telling the compiler that we will check to make sure it's non-nil right away, and we're requesting the convenience of not having to write ``assumedString!`` everywhere we want to access its value.

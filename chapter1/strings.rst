@@ -8,7 +8,7 @@ This is a good thing to remember about Strings:
 
     Swift’s String type is bridged seamlessly to Foundation’s NSString class. If you are working with the Foundation framework in Cocoa or Cocoa Touch, the entire NSString API is available to call on any String value you create, in addition to the String features described in this chapter. You can also use a String value with any API that requires an NSString instance.
 
-This helped me to finally figure out some things that had been confusing.  Without being explicit about the problems, the answer is that NSString methods are available to String variables, but *only if* we've done ``import Foundation``.
+This helped me to finally figure out some things that had been confusing.  Without being explicit about the problems, the answer is that NSString methods are available to String variables, but *only* if we've done ``import Foundation``.
 
 .. sourcecode:: bash
 
@@ -24,7 +24,7 @@ This helped me to finally figure out some things that had been confusing.  Witho
     [Tom, Sean, Joan]
     >
 
-Not only is the ``NSString`` method called, but the type that is returned is a Swift ``[String]`` (also known as ``Array<String>``) rather than an Objective-C NSArray with NSString objects.
+Not only is the ``NSString`` method called, but the type that is returned is a Swift ``[String]`` (also known as ``Array<String>``) rather than an Objective-C NSArray containing NSString objects.
 
 Another useful thing is that one can go back and forth between String and NSString pretty easily:
 
@@ -34,18 +34,16 @@ Another useful thing is that one can go back and forth between String and NSStri
     let s: NSString = "supercalifragilistic"
     let r = NSRange(location:0,length:5)
     print(s.substringWithRange(r))
-    // prints:  
-    // super
+    // prints:  super
 
     import Foundation 
     let s: NSString = "supercalifragilistic"
     print(s.rangeOfString("cali"))    
-    // prints:
-    // (5,4)
+    // prints:  (5,4)
 
 The location is 5 and the length is 4.
 
-Basic methods:
+Basic String methods:
 
     - ``isEmpty: -> Bool``
     - ``hasPrefix(s: String) -> Bool``
@@ -60,9 +58,9 @@ Basic methods:
     s
     // "aaaaa"
 
-A lot of the complexity of the String class comes from the nature of their component characters.  In the simplest case, above, a Character is a single ASCII character like "a".  The "a" is a string, but we construct a Character by calling the Character class initializer on "a".  We'll look at Characters in the next section.
+A lot of the complexity of the String class comes from the nature of a String's component characters.  In the simplest case, above, a Character is a single ASCII character like "a".  The "a" is a string, but we construct a Character by calling the Character class initializer on "a".  We'll look at Characters in the next section.
 
-To check identity, use the operator ``===``.  
+To check identity, use the operator ``==``.  
 
 Operators 
     - ``+``
@@ -73,8 +71,7 @@ Operators
 .. sourcecode:: bash
 
     print("Tom" > "Joan")
-    // prints:
-    // true
+    // prints:  true
 
 The reason for the last operator is to allow sorting of String values.
 
@@ -89,7 +86,7 @@ The reason for the last operator is to allow sorting of String values.
 Splitting strings
 -----------------
 
-Something we do all the time in text processing is to split up a String into components, expecially the lines (separated by newlines "\n"), or the words separated by " ".
+Something we do all the time in text processing is to split up a String into components, expecially the lines (separated by newlines ``\n``), or the words separated by " ".
 
 If you need to split on a single character (like a space), one way to do it is to use an NSString method:
 
@@ -112,4 +109,4 @@ A pure Swift implementation is a lot more complicated
 
 Let's look at Characters next.
 
-(If you need to split on all whitespace, see :ref:`stdin`).
+(If you need to split on all whitespace characters, see :ref:`stdin`).

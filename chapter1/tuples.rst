@@ -4,7 +4,7 @@
 Tuples
 ######
 
-Tuples may contain two or more values of any types you like.  
+Tuples may contain two (or more) values of any Type or Types you like.  
 
 .. sourcecode:: bash
 

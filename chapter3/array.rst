@@ -210,8 +210,8 @@ As we said at the beginning, looping over the values can be done by ``for-in``:
 
     var a = 1...2
     for var i in a { print("\(i)") }
-    \\ 1
-    \\ 2
+    // 1
+    // 2
 
 ---------
 Enumerate
@@ -227,7 +227,7 @@ Swift also has enumerate:
     }
 .. sourcecode:: bash
 
-    > xcrun swift test.swift 
+    > swift test.swift 
     Item 1: apples
     Item 2: bananas
     Item 3: cats
@@ -246,7 +246,7 @@ A little functional programming:
     
 .. sourcecode:: bash
 
-    > xcrun swift test.swift
+    > swift test.swift
     [2, 4, 6, 8, 10]
     >
 

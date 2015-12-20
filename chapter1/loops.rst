@@ -9,7 +9,9 @@ We are going to use some arrays below, even though they haven't been introduced 
 .. sourcecode:: bash
 
     var intList = [2,4,6]
-    for x in intList { print(String(x) + " ", terminator:"")}
+    for x in intList { 
+        print(String(x) + " ", terminator:"")
+        }
     print("")
 
 .. sourcecode:: bash
@@ -25,7 +27,9 @@ We can get a range of values (including 3)
 .. sourcecode:: bash
 
     var i:Int
-    for i in 1...3 { print(String(i) + " ", terminator:"") }
+    for i in 1...3 { 
+        print(String(i) + " ", terminator:"") 
+        }
     print("")
 
 .. sourcecode:: bash

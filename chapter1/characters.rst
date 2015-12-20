@@ -54,7 +54,7 @@ As in the above example, one can construct a String from its characters by calli
     // prints:
     // ab
     
-As of Swift 2, the ``+=`` operator is only for String concatenation, so to use it we need to change the Character back into a String first:
+As of Swift 2, the ``+=`` operator is only for String concatenation, so to use it with a Character we need to change the Character back into a String first:
 
 .. sourcecode:: bash
 
@@ -62,8 +62,10 @@ As of Swift 2, the ``+=`` operator is only for String concatenation, so to use i
     let b = Character("b")
     s += String(b)
     print(s)
-    
-     String and Character have been revised to follow the changes to Array, which clarifies that the + operator is only for "concatenation", not "append”. Therefore String + Character, Character + String, and String += Character, as well as the analogous Array + Element combinations, have been removed.
+
+Here is a quote from the docs:
+
+    String and Character have been revised to follow the changes to Array, which clarifies that the + operator is only for "concatenation", not "append”. Therefore String + Character, Character + String, and String += Character, as well as the analogous Array + Element combinations, have been removed.
      
 A note about the global ``print`` function.  (Changed from Swift 1).  ``print`` gives us a newline as the default.  To control this, you use an additional argument:
 
@@ -79,11 +81,11 @@ Unicode
 
 Swift is very modern when it comes to Unicode, even more so than NSString.
 
-NextStep and NSString were designed around the time that Unicode was the a new thing, when it thought that 16 bits would be enough for everything.  
+NextStep and NSString were designed around the time that Unicode was the a new thing, when it thought that 16 bits would be enough for every possible written character.  
 
 So NSString values are 2 bytes.  Swift's String type are different.
 
-Recall that in Unicode (virtually) every character that can be written is represented as a "code point", which is essentially just a mapping between numbers and glyphs.  Originally it was thought that 2e16, or two bytes (more than one million), was enough to represent them all.  
+Recall that in Unicode (virtually) every character that can be written is represented as a "code point", which is essentially just a mapping between numbers and glyphs.  Originally it was thought that two bytes (more than one million values), was enough to represent them all.  
 
 Now some values are as much as three bytes.  Wikipedia
 
@@ -107,9 +109,7 @@ http://en.wikipedia.org/wiki/UTF-8
 
 So really the first issue that comes up with Unicode, after realizing that the representation is critical, is how to count length correctly as characters rather than as bytes when we have variable length, multibyte characters in the most common encoding ``NSUTF8StringEncoding``.
 
-The second issue is that the same character may be formed in different ways (although this is fairly rare, it is not that rare).
-
-We would like those two representations to compare as equal.
+The second issue is that the same character may be formed in different ways (although this is fairly rare, it is not that rare).  We would like two such representations to compare as equal.
 
 Let's look at length first.  
 
@@ -140,9 +140,9 @@ That's not very helpful!  Try again
     // [226, 153, 165]
 
 
-Here we have told the interpreter to explicitly convert the "String.UTF8View" obtained with ``s.utf8`` to an array of unsigned integers UInt8 (values 0..255 inclusive), which is a common way of thinking about raw data.  
+Here we have told the interpreter to explicitly convert the "String.UTF8View" obtained with ``s.utf8`` to an array.  It isn't absolutely clear to me what the type of these values is, but they could be unsigned integers UInt8 (values 0..255 inclusive), which is a common way of thinking about raw data.  
 
-Or accomplish the same thing in the Swift REPL:
+Accomplish the same thing in the Swift REPL:
 
 .. sourcecode:: bash
 
@@ -177,7 +177,7 @@ Our three bytes for "♥" are followed by ``0a``, which is the newline character
 
 ``hexdump`` prints the bytes but can't deal with the encoded "♥".
 
-On the other hand, ``cat`` does OK:
+On the other hand, ``cat`` does OK  :)
 
 .. sourcecode:: bash
 
@@ -297,6 +297,8 @@ Now the combined output is:
 So, the problem (solved by Swift and not by NSString) is how to deal with "extended grapheme clusters".  Such a cluster is a single character composed of multiple graphemes, such as ``"\u{65}\u{301}"``.
 
 There used to be a global function ``countElements(s)`` that could be called on a String.  No more in Swift 2.  The reason is that the number of elements depends on your point of view:  are we talking about "characters", UTF-8, UTF-16, or "extended grapheme clusters"?
+
+https://www.mikeash.com/pyblog/friday-qa-2015-11-06-why-is-swifts-string-api-so-hard.html
 
 Let's try a menagerie of characters:
 
