@@ -4,7 +4,7 @@
 NSCoding protocol
 #################
 
-This works, but I have to run it in the special way (with ``-sdk macosx swiftc``).
+I have a working example of a class that follows the NSCoding protocol.  I need to write more about this, but here it is for now.
 
 http://stackoverflow.com/questions/25701476/how-to-implement-nscoding
 
@@ -26,7 +26,7 @@ http://stackoverflow.com/questions/25701476/how-to-implement-nscoding
         }
 
         required init(coder: NSCoder) {
-            n = coder.decodeObjectForKey("name") as String
+            n = coder.decodeObjectForKey("name") as! String
         }
 
         func encodeWithCoder(coder: NSCoder) {
@@ -39,17 +39,17 @@ http://stackoverflow.com/questions/25701476/how-to-implement-nscoding
     }
 
     let c = C("Tom")
-    println(c)
+    print(c)
     if NSKeyedArchiver.archiveRootObject(c, toFile: "demo") {
-        println("OK")
+        print("OK")
     }
-    let c2: C = NSKeyedUnarchiver.unarchiveObjectWithFile("demo") as C
-    println(c2)
+    let c2: C = NSKeyedUnarchiver.unarchiveObjectWithFile("demo") as! C
+    print(c2)
     
 
 .. sourcecode:: bash
 
-    > xcrun -sdk macosx swiftc coder.swift && ./coder
+    > swift test.swift 
     C instance: Tom
     OK
     C instance: Tom

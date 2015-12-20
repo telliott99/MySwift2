@@ -50,7 +50,7 @@ Here is the basic code to draw to pdf:
 
 As it grew, it got a bit complicated.  
 
-Here is the resulting figure:
+Here is the resulting figure, which may justify browsing through the code below.
 
 .. image:: /figures/x.png
    :scale: 75 %

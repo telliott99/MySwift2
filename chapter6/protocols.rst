@@ -27,14 +27,14 @@ The basic idea with a protocol is that, to define a new one, we say what functio
     true
     >
 
-By far the most common example is to outfit a struct or class with the ability to print itself in a useful way.
+By far the most common example is to outfit a struct or class with the ability to print itself in a useful way.  (For some reason, they felt the need to rename the Printable protocol as CustomStringConvertible, maybe because it's used for things other than printing.  Certainly, the change is a blow to clarity).
     
 .. sourcecode:: bash
 
     struct X: CustomStringConvertible {
         var description: String {
             get {
-                return "I am the greatest"
+                return "I *am* the greatest"
             }
         }
     }
@@ -45,7 +45,7 @@ By far the most common example is to outfit a struct or class with the ability t
 .. sourcecode:: bash
 
     > swift test.swift 
-    I am the greatest
+    I *am* the greatest
     >
     
 The Hashable and Equatable protocols are required to be followed by objects that want to be included in a Set or a Dictionary.
@@ -87,6 +87,7 @@ We obtain a unique id for each object from the current time (slightly different 
     class Obj: Comparable, Equatable {
         var n: Int
         init() {
+            // seconds, to a precision of microseconds
             let d = NSDate().timeIntervalSince1970
             let i = Int(1000000*d)
             self.n = i
@@ -116,7 +117,7 @@ We obtain a unique id for each object from the current time (slightly different 
     true
     >
     
-As you can see, the second object was initialized approximately 0.45 milliseconds after the first one, so it compares as not equal, and less than the second.
+As you can see, the second object was initialized approximately 0.013 milliseconds after the first one, so it compares as not equal, and less than the second.
 
 For the Hashable protocol, an object is required to have a property ``hashValue``, but is also required to respond to ``==`` (it's undoubtedly faster to check that first).
 
@@ -128,6 +129,7 @@ For the Hashable protocol, an object is required to have a property ``hashValue`
         var n: Int
         var name: String
         init(name: String) {
+            // seconds, to a precision of microseconds
             let d = NSDate().timeIntervalSince1970
             self.n = Int(1000000*d)
             self.name = name
@@ -200,7 +202,7 @@ Here is another simple example.
     Obj: 1450575158979457
     >
 
-Here is another one from the Swift docs:
+And here is another one from the Swift docs:
 
 .. sourcecode:: bash
 

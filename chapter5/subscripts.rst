@@ -29,13 +29,7 @@ I think you can guess what this is going to print.
     
 Subscripts are like what we call the ``__getitem__`` operator in Python:  ``[index]``.
 
-You define ``subscript(index: Int) -> Int { }`` and then you can use it by calling ``mystruct[3]`` or whatever.
-
-.. sourcecode:: bash
-
-    > xcrun swift test.swift
-    6 times 3 is 18
-    > 
+If you define ``subscript(index: Int) -> Int { }``, then you can use it by calling ``mystruct[3]`` or whatever.
 
 Additional behavior includes the ability to replace both "getters" and "setters" with subscripts, as if your class were a type of dictionary.
 
@@ -81,11 +75,9 @@ OK, that's a mouthful.  Notice that we can use subscripts with either structs or
     72
     >
     
-This is a little tricky because the two subscripts are overloaded on the return type.  We help the compiler by providing explicit type information for the variables ``result`` and ``i``.  We can also call the setter and find it.
+This is a little tricky because the two subscripts are overloaded on the return type.  We help the compiler by providing explicit type information for the variables ``result`` and ``i``.  We can also call the setter and change that value in ``ia``.
 
-All of this is more than a little baroque.
-
-Where I found it useful was in writing a class that wraps an array of binary data.  Here is the class definition:
+I found it useful in writing a class that wraps an array containing binary data (i.e. a [UInt8]).  Here is a utility function we will need, followed by the class definition:
 
 .. sourcecode:: bash
 
@@ -93,9 +85,7 @@ Where I found it useful was in writing a class that wraps an array of binary dat
 
     public func intToHexByte(n: UInt8) -> String {
         let s = NSString(format: "%x", n) as String
-        if s.characters.count == 1 {
-            return "0" + s
-        }
+        if s.characters.count == 1 { return "0" + s }
         return s
     }
 
@@ -111,50 +101,34 @@ Where I found it useful was in writing a class that wraps an array of binary dat
         public var description : String {
             get {
                 let sa = data.map { intToHexByte($0) }
-                // return sa.joinWithSeparator(" ")
                 return sa.joinWithSeparator("")
-                // doesn't work
-                // return ByteString(self.data)
             }
         }
 
         public var count : Int {
-            get {
-                return self.data.count
-            }
+            get { return self.data.count }
         }
 
         public var endIndex: Int {
-            get {
-                return data.count
-            }
+            get { return data.count }
         }
 
         public var startIndex: Int {
-            get {
-                return 0
-            }
+            get { return 0 }
         }
 
         public subscript (position: Int) -> UInt8 {
-            get {
-                return data[position]
-            }
+            get { return data[position] }
         }
 
         public subscript (r: Range<Int>) -> BinaryData {
             get {
-                var ret: [UInt8] = []
-                for (i,v) in data.enumerate() {
-                    if r.contains(i) {
-                        ret.append(v)
-                    }
-                }
-                return BinaryData(ret)
+                // must first cast to Array for some reason
+                return BinaryData(Array(data[r]))
             }
         }
     }
-    
+
 We declare ``BinaryData`` to follow the ``Indexable`` protocol, and that means we need to provide implementations of ``startIndex`` and ``endIndex``, as well as overloaded ``subscript`` for an Int or a Range<Int>.
 
 Having done that we can do something like:
@@ -164,7 +138,6 @@ Having done that we can do something like:
     let b = BinaryData([0,10,128,255])
     print("\(b)")
     print("\(b[0..<2])")
-    
 
 .. sourcecode:: bash
 

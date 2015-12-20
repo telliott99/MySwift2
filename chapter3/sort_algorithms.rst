@@ -6,13 +6,13 @@ Sort Algorithms
 
 .. sourcecode:: bash
 
-    func pp (s: String, a: [Int]) {
+    func pp (s: String, _ a: [Int]) {
         print (s + " ")
-        for n in a { print("\(n) ") }
-        println()
+        for n in a { print("\(n) ", terminator: " ") }
+        print("")
     }
 
-    func swap(inout a: [Int], i: Int, j: Int) {
+    func swap(inout a: [Int], _ i: Int, _ j: Int) {
         let tmp = a[i]
         a[i] = a[j]
         a[j] = tmp
@@ -56,7 +56,7 @@ Sort Algorithms
         }
     }
 
-    func merge(a1: [Int], a2: [Int]) -> [Int] {
+    func merge(a1: [Int], _ a2: [Int]) -> [Int] {
         // a1 and a2 are sorted already
         var ret: [Int] = Array<Int>()
         var i: Int = 0
@@ -82,59 +82,60 @@ Sort Algorithms
         if a.count == 1 { return a }
         if a.count == 2 { return merge([a[0]],[a[1]]) }
         let i = a.count/2
-        var a1 = merge_sort(Array(a[0...i]))
-        var a2 = merge_sort(Array(a[i+1...a.count-1]))
+        let a1 = merge_sort(Array(a[0...i]))
+        let a2 = merge_sort(Array(a[i+1...a.count-1]))
         return merge(a1, a2)
     }
 
-    var a = [32,7,100,29,55,3,19,82,23]
+    let a = [32,7,100,29,55,3,19,82,23]
     pp("before: ", a)
-    println()
 
-    let b = sorted(a, { $0 < $1 })
+    let b = a.sort { $0 < $1 }
     pp("sorted: ", b)
-    println()
 
     // make sure we bubble enough times
     var c = [32,7,100,29,55,19,82,23,3]
     pp("before: ", c)
     bubble_sort(&c)
     pp("bubble: ", c)
-    println()
 
     c = a
     pp("before: ", c)
     selection_sort(&c)
     pp("select: ", c)
-    println()
 
     c = a
     pp("before: ", c)
     insertion_sort(&c)
     pp("insert: ", c)
-    println()
 
     c = a
     pp("before: ", c)
+
     c = merge_sort(c)
     pp("merge : ", c)
     
 .. sourcecode:: bash
 
-    > xcrun swift sort_algorithms.swift 
-    before:  32 7 100 29 55 3 19 82 23 
-
-    sorted:  3 7 19 23 29 32 55 82 100 
-
-    before:  32 7 100 29 55 19 82 23 3 
-    bubble:  3 7 19 23 29 32 55 82 100 
-
-    before:  32 7 100 29 55 3 19 82 23 
-    select:  3 7 19 23 29 32 55 82 100 
-
-    before:  32 7 100 29 55 3 19 82 23 
-    insert:  3 7 19 23 29 32 55 82 100 
-
-    before:  32 7 100 29 55 3 19 82 23 
-    merge :  3 7 19 23 29 32 55 82 100 
+    > swift test.swift
+    before:  
+    32  7  100  29  55  3  19  82  23  
+    sorted:  
+    3  7  19  23  29  32  55  82  100  
+    before:  
+    32  7  100  29  55  19  82  23  3  
+    bubble:  
+    3  7  19  23  29  32  55  82  100  
+    before:  
+    32  7  100  29  55  3  19  82  23  
+    select:  
+    3  7  19  23  29  32  55  82  100  
+    before:  
+    32  7  100  29  55  3  19  82  23  
+    insert:  
+    3  7  19  23  29  32  55  82  100  
+    before:  
+    32  7  100  29  55  3  19  82  23  
+    merge :  
+    3  7  19  23  29  32  55  82  100  
     >

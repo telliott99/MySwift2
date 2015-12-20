@@ -10,4 +10,5 @@ Contents:
    protocols
    extensions
    generators
+   NSCoding
 

@@ -12,48 +12,42 @@ NSOpenPanel
     op.prompt = "Open File:"
     op.title = "A title"
     op.message = "A message"
+
     // op.canChooseFiles = true  // default
     // op.worksWhenModal = true  // default
     op.allowsMultipleSelection = false
     // op.canChooseDirectories = true  // default
     op.resolvesAliases = true
+
     op.allowedFileTypes = ["txt"]
 
     let home = NSHomeDirectory()
     let d = home.stringByAppendingString("/Desktop/")
     op.directoryURL = NSURL(string: d)
-
-    var readError: NSError?
     op.runModal()
-    // op.orderOut()
 
-    // op.URL contains the user's choice
-    let s = NSString(
-        contentsOfURL:op.URL,
-        encoding:NSUTF8StringEncoding,
-        error: &readError)
-
-    if readError != nil {
-        let e = readError!
-        let msg = e.localizedDescription
-        println("read failure: \(msg)")
-        // return nil
+    let url = op.URL
+    if url == nil { print("nope");  exit(1) }
+    var s: String = ""
+    do {
+        s = try String(
+            contentsOfURL:url!,
+            encoding: NSUTF8StringEncoding)
+            print(s)
     }
-    else {
-        let str = s as String
-        println("str = \(str)*")
+    catch {
+        print("oops")
     }
-    
-    // NSFileHandlingPanelOKButton
-    // [savePanel orderOut:nil]
 
 .. sourcecode:: bash
 
     > echo "abc" > x.txt
-    > xcrun swift test.swift
-    str = abc
-    *
+    > swift test.swift
+    abc
+
     >
     
+``echo`` puts a newline in the file and then there is one added as print returns, I guess.
+
 .. image:: /figures/open_panel.png
    :scale: 100 %

@@ -1,5 +1,5 @@
 ###################
-More Advanced Swift
+Graphics and Images
 ###################
 
 Contents:
@@ -7,8 +7,6 @@ Contents:
 .. toctree::
    :maxdepth: 1
    
-   sort_algorithms
    drawing
-   NSCoding
-   
+   images
 

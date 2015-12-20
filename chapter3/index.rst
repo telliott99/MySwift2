@@ -12,3 +12,4 @@ Contents:
    set
    random
    sort
+   sort_algorithms
