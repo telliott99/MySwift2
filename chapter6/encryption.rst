@@ -8,7 +8,7 @@ I love encryption!
 
 It can be very simple or much more complex for real-world examples.  We introduced the simple stuff in :ref:`binary`, and here is some more.  The ideas are still simple, the setup is a little more complicated.
 
-If I have a UInt8 (value from 0...255) that represents my *plaintext*, let's call it *p*, and I also have a UInt8 value that represents my *key*, call it *k*, then the encrypted *ciphertext c* is: ``c = p ^ k``.  
+If I have a UInt8 (value from 0...255) that represents my plaintext, let's call it *p*, and I also have a UInt8 value that represents my key, call it *k*, then the encrypted ciphertext is: ``c = p ^ k``.  
 
 Here, ``^`` is the "exclusive or" (XOR) operator applied to these two operands.
 
@@ -22,7 +22,7 @@ The XOR truth table is
     - 1 ^ 0 = 1
     - 1 ^ 1 = 0
 
-In Boolean, logic, the result of ``x ^ y`` is true if just one of ``x`` and ``y`` is true, and false otherwise.  
+In Boolean, logic, the result of ``x ^ y`` is true if exactly one of ``x`` and ``y`` is true, and false otherwise.  
 
 The wonderful result here is that the reverse is also correct:  ``c ^ k`` is equal to ``p``.  (On every line, if we switched the ``=`` and the ``^``, the expression would still be true).
 
@@ -92,15 +92,15 @@ Let's explore the first stage of that series:  key generation, as well as actual
 
 http://telliott99.blogspot.com/2015/12/commoncrypto.html
 
-(plus three more directly after).
+(plus three more posts directly following this first one).
 
-This code will work in a Swift Cocoa app that has a "bridging header".  (To get a bridging header, simply add an empty Objective-C file to the project, and click yes when asked whether you want Xcode to generate the header for you).  Then put
+This code will work in a Swift Cocoa app that has a "bridging header".  (To get a bridging header, simply add an empty Objective-C file to an Xcode Swift Cocoa app project, and click yes when asked whether you want Xcode to generate the header for you).  Then put
 
 .. sourcecode:: bash
 
     #import <CommonCrypto/CommonCrypto.h>
 
-in the header.  This won't work from the command line, but there is a trick to make the library available, which is explained in the post.
+in the header.  This won't work from the command line, but there is a trick to make the library available there, which is explained in the post.
 
 The first function below, we saw previously in :ref:`random` 
 
@@ -125,20 +125,17 @@ We'll use that function in what follows.  Let me list the code first and then ex
 
     let pw = "password"
     print("pw: \(pw)")
-    
-    let pwBytes = pw.utf8.map { Int8($0) }
-    let pwLen = pwBytes.count
+    let pwLen = pw.utf8.count
 
     let saltLen = 6
     let salt = randomBinaryData(saltLen)
     print("salt: \(salt)")
 
-    // zero a key buffer of the correct size
+    // zero a buffer of the correct size to hold the key
     let keyLen = Int(CC_SHA1_DIGEST_LENGTH)
     let key = Array<UInt8>(
         count:keyLen,
         repeatedValue:0)
-
     print("key length: \(keyLen)")
     
     let rounds = UInt32(1500001)
@@ -158,23 +155,15 @@ We'll use that function in what follows.  Let me list the code first and then ex
     print(key[0..<mid])
     print(key[mid..<keyLen])
 
-.. sourcecode:: bash
+What is going on here?  The big picture is that the password has very little *entropy* (there aren't that many possible values).  But we start with the password and then we crank algorithm in the library 1.5 million times.  It takes about one second to do this.  The idea is to make it computationally expensive for a "password cracker" to turn a candidate into the correct answer.
 
-    > swift test.swift
-    pw: password
-    salt: [235, 82, 70, 120, 43, 26]
-    key length: 20
-    [158, 210, 102, 151, 70, 149, 83, 214, 90, 130]
-    [154, 133, 96, 115, 174, 137, 140, 1, 3, 124]
-    >
+We start with a String (hard-coded here as "password").  We could turn it first into utf8 and then into [UInt8], but it turns out that Swift will take care of that for us, we just pass the password as a Swift String into the C function.  
 
-What is going on here?  The big picture is that the password has very little *entropy* (there aren't that many possible values).  Then we crank algorithm in the library 1.5 million times.  It takes about one second to do this.  The idea is to make it computationally expensive for a "password cracker" to turn a candidate into the correct answer.
+Then, to that is added some random data as "salt".  Note that the salt really is *random* data (the PRNG is not seeded), so you will see a different output each time you run this.
 
-We start with a String (hard-coded here as "password") and turn it first into utf8 and then into [UInt8].  Then, to that is added some random data as "salt".  Note that the salt really is *random* data (the PRNG is not seeded), so you will see a different output each time you run this.
+The library function ``CCKeyDerivationPBKDF`` is used to "stretch" the key.  This is a C library, and in C, the common way to get data in and out of a function is to pass pointers to data structures (because a function can only return a single value).  
 
-The library function ``CCKeyDerivationPBKDF`` is used to "stretch" the key.  This is a C library, and in C, the common way to get data in and out of a function is to pass a pointer to data structure (because a function can only return a single value).  
-
-In Swift these are marked ``UnsafePointer<UInt8>`` and ``UnsafeMutablePointer<UInt8>``, the latter being used for the key, because the function is going to write into that buffer.  It turns out that in some cases (like with ``pw`` here), you can pass an array or even a String.
+In Swift these are marked ``UnsafePointer<UInt8>`` and ``UnsafeMutablePointer<UInt8>``, the latter being marked "Mutable" is used for the key buffer, because the function is going to write into that.
 
 If you want to figure out how many rounds are needed so that the computation takes 1000 ms, run this:
 
@@ -189,4 +178,47 @@ If you want to figure out how many rounds are needed so that the computation tak
         1000)
 
 I found out the result is variable.  (unless you are in a Playground!).  So I just put in a number that is close.
+
+It works!
+
+.. sourcecode:: bash
+
+    > swift test.swift
+    pw: password
+    salt: [235, 82, 70, 120, 43, 26]
+    key length: 20
+    [158, 210, 102, 151, 70, 149, 83, 214, 90, 130]
+    [154, 133, 96, 115, 174, 137, 140, 1, 3, 124]
+    >
+
+If you want to see what's available in CommonCrypto you can look at the header files here:  ``/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/usr/include/CommonCrypto/``
+
+The function used above is shown in the file ``CommonKeyDerivation`` as
+
+.. sourcecode:: bash
+
+    int 
+    CCKeyDerivationPBKDF( 
+          CCPBKDFAlgorithm algorithm, 
+          const char *password, size_t passwordLen,
+          const uint8_t *salt, size_t saltLen,
+          CCPseudoRandomAlgorithm prf, uint rounds, 
+          uint8_t *derivedKey, size_t derivedKeyLen)
+
+Take them in order:
+
+    - ``CCPBKDFAlgorithm``:  is listed earlier in the file as ``typedef uint32_t CCPBKDFAlgorithm``, so it's just a uint32_t.  According to the file "Currently only PBKDF2 is available via kCCPBKDF2", so we just called with ``CCPBKDFAlgorithm(kCCPBKDF2)``
+    - const char *password:  so this is different than the salt, which explains why Swift obligingly let us pass a Swift String in for this parameter
+    - size_t passwordLen:  Int
+    - const uint8_t *salt:  UnsafePointer<UInt8>(salt)
+    - size_t saltLen:  Int
+    - CCPseudoRandomAlgorith: is also ``typedef uint32_t CCPBKDFAlgorithm``, so it's just a uint32_t.  We called this with CCPseudoRandomAlgorithm(kCCPRFHmacAlgSHA1), which is an enum with the value 1.
+    - uint rounds:  Int (why not UInt?)
+    - uint8_t *derivedKey:  UnsafeMutablePointer<UInt8>(key)
+    - size_t derivedKeyLen
+
+For a lot more about this see
+
+https://www.mikeash.com/pyblog/friday-qa-2012-08-10-a-tour-of-commoncrypto.html
+
 

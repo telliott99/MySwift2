@@ -4,7 +4,7 @@
 Types
 #####
 
-So of course, Swift is strongly typed, but there are situations that arise where we may need to cast between types.  There is a nice example from the book of a base class ``MediaItem`` and derived classes ``Movie`` and ``Song``:
+As everyone knows, Swift is strongly typed, but there are situations that arise where we may need to cast between types.  There is a nice example from the book of a base class ``MediaItem`` and derived classes ``Movie`` and ``Song``:
 
 .. sourcecode:: bash
 
@@ -51,7 +51,7 @@ We exercise it this way:
     }
     print(movieCount) // 2
 
-So, we were able to construct an array containing both Movie and Song objects, because the compiler can find that they are both MediaItem types.  We can use the ``is`` operator to test whether a particular item has the type we are looking for.  Another application is to use a conditional form ``as?`` (which is called "downcasting"):
+We were able to construct an array containing both Movie and Song objects, because the compiler can find that they are both MediaItem types.  We can use the ``is`` operator to test whether a particular item has the type we are looking for.  Another application is to use a conditional form ``as?`` (which is called "downcasting"):
 
 .. sourcecode:: bash
 
@@ -97,6 +97,8 @@ For the MediaItem example
 
     // alternatively
     for movie in a2 as! [Movie] { print("\(movie.name)") }
+
+Here we have used ``as!`` to force the downcast because we're sure it cannot fail.
     
 .. sourcecode:: bash
 
@@ -109,9 +111,9 @@ For the MediaItem example
     Alien
     >
 
-Any is even broader than AnyObject, it can include function types
+``Any`` is even broader than ``AnyObject``, it can include *function* types
 
-Works in a Playground, but not from the command line.
+The following works in a Playground, but not from the command line.
 
 .. sourcecode:: bash
 
@@ -129,6 +131,8 @@ Works in a Playground, but not from the command line.
             print("oops")
         }
     }
+
+Here is a quick demo with a user-defined class and a protocol.
 
 .. sourcecode:: bash
 

@@ -9,17 +9,17 @@ The basic idea with a protocol is that, to define a new one, we say what functio
 .. sourcecode:: bash
 
     protocol Stylish {
-        var style: Bool { get }
+        var isStylish: Bool { get }
     }
 
     struct X: Stylish {
-        var style: Bool {
+        var isStylish: Bool {
             get { return true }
         }
     }
 
     let x = X()
-    print(x.style)
+    print(x.isStylish)
     
 .. sourcecode:: bash
 
@@ -28,6 +28,31 @@ The basic idea with a protocol is that, to define a new one, we say what functio
     >
 
 By far the most common example is to outfit a struct or class with the ability to print itself in a useful way.  (For some reason, they felt the need to rename the Printable protocol as CustomStringConvertible, maybe because it's used for things other than printing.  Certainly, the change is a blow to clarity).
+
+.. sourcecode:: bash
+
+    class Object {
+        var n: String
+        init(name: String) {
+            self.n = name
+        }
+    }
+
+    extension Object: CustomStringConvertible {
+        var description: String { return n }
+    }
+
+    var o = Object(name: "Tom")
+    print("\(o.description)")
+    print("\(o)")
+
+.. sourcecode:: bash
+
+    > swift test.swift
+    Tom
+    Tom
+    >
+
     
 .. sourcecode:: bash
 
@@ -84,14 +109,17 @@ We obtain a unique id for each object from the current time (slightly different 
 
     import Cocoa
 
-    class Obj: Comparable, Equatable {
+    class Obj: Comparable, Equatable, CustomStringConvertible {
         var n: Int
         init() {
             // seconds, to a precision of microseconds
             let d = NSDate().timeIntervalSince1970
             let i = Int(1000000*d)
             self.n = i
-        }    
+        }
+        var description: String {
+            get { return "Obj: \(self.n)" }
+        }
     }
 
     // must be at global scope
@@ -108,18 +136,20 @@ We obtain a unique id for each object from the current time (slightly different 
     print("\(o1.n) \(o2.n)")
     print(o1 == o2)
     print(o1 < o2)
+    print("\([o2,o1].sort())")
 
 .. sourcecode:: bash
 
     > swift test.swift 
-    1450574977019510 1450574977019523
+    1450720245805032 1450720245805045
     false
     true
+    [Obj: 1450720245805032, Obj: 1450720245805045]
     >
     
 As you can see, the second object was initialized approximately 0.013 milliseconds after the first one, so it compares as not equal, and less than the second.
 
-For the Hashable protocol, an object is required to have a property ``hashValue``, but is also required to respond to ``==`` (it's undoubtedly faster to check that first).
+For the Hashable protocol, an object is required to have a property ``hashValue``, but is also required to respond to ``==``.
 
 .. sourcecode:: bash
 
@@ -241,27 +271,3 @@ We first test whether ``prefix`` holds a value, and if so, we get rid of the Opt
 Some other common protocols mentioned already are Equatable, Comparable, Hashable, and CustomPrintConvertible.  
 
 For more about all of these, see Generics.
-
-.. sourcecode:: bash
-
-    class Object {
-        var n: String
-        init(name: String) {
-            self.n = name
-        }
-    }
-
-    extension Object: CustomStringConvertible {
-        var description: String { return n }
-    }
-
-    var o = Object(name: "Tom")
-    print("\(o.description)")
-    print("\(o)")
-
-.. sourcecode:: bash
-
-    > swift test.swift
-    Tom
-    Tom
-    >

@@ -105,7 +105,7 @@ https://github.com/pNre/ExSwift/blob/master/ExSwift/Array.swift
     false
     >
 
-This is a bit sophisticated.  (There are lots of sophisticated things in Swift, and unfortunately they don't seem to be very well documented yet).  The array method ``all`` is going to take as a parameter a function that can be used on each element of the array and will return a Boolean.  The end result of the ``all`` method will also return a Boolean.
+The array method ``all`` is going to take as a parameter a function that can be used on each element of the array and will return a Boolean.  The end result of the ``all`` method will also return a Boolean.
 
 We can call ``all`` with a closure, or wrap it in a function. 
 

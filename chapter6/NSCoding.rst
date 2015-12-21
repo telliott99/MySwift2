@@ -40,10 +40,13 @@ http://stackoverflow.com/questions/25701476/how-to-implement-nscoding
 
     let c = C("Tom")
     print(c)
-    if NSKeyedArchiver.archiveRootObject(c, toFile: "demo") {
+    if NSKeyedArchiver.archiveRootObject(
+            c, 
+            toFile: "demo") {
         print("OK")
     }
-    let c2: C = NSKeyedUnarchiver.unarchiveObjectWithFile("demo") as! C
+    let c2: C = NSKeyedUnarchiver.unarchiveObjectWithFile(
+        "demo") as! C
     print(c2)
     
 
@@ -53,4 +56,10 @@ http://stackoverflow.com/questions/25701476/how-to-implement-nscoding
     C instance: Tom
     OK
     C instance: Tom
-    >
+    > cat demo
+    U$null?0?X$versionX$objectsY$archiverT$top???
+
+
+    TnameV$class??STom?Z$classnameX$classesVtest.C?XNSObject_NSKeyedArchiver?Troot#-27<BGLSUW[`kt{~?????>
+    
+That last is not so enlightening.  Perhaps we can explore it more in another section.

@@ -11,7 +11,7 @@ Contents:
    string_extensions
    array_extensions
    protocols
-   generators
+   sequence_type
    NSCoding
    encryption
    types
