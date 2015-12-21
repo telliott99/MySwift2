@@ -92,3 +92,5 @@ Of course, we are still using an NSString method:  ``componentsSeparatedByString
 .. sourcecode:: bash
 
     s.characters.split() { $0 == "\n" }.map{ String($0) }
+
+I looked at a couple other tricky examples in :ref:`images` and :ref:`NSCoding`.

@@ -7,8 +7,10 @@ Contents:
 .. toctree::
    :maxdepth: 1
    
-   protocols
    extensions
+   str_extensions
+   protocols
    generators
    NSCoding
+   encryption
 

@@ -4,7 +4,7 @@
 Images
 ######
 
-Much of this material is borrowed from the fabulous Mike Ash:
+Much of this material is borrowed from the incomparable Mike Ash:
 
 https://mikeash.com/pyblog/friday-qa-2012-08-31-obtaining-and-interpreting-image-data.html
 

@@ -247,7 +247,7 @@ First, we need a function that produces a random Int in any range.  We choose to
 
     test()
     
-It works.  In particular, we see both ``0`` and ``9`` in the output.
+It seems to work:  we see both ``0`` and ``9`` in the output.
     
 Now implement the algorithm described above.
 
