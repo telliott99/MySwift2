@@ -221,4 +221,87 @@ For a lot more about this see
 
 https://www.mikeash.com/pyblog/friday-qa-2012-08-10-a-tour-of-commoncrypto.html
 
+Update:  I'm adding an actual encryption example.
 
+.. sourcecode:: bash
+
+    import Foundation
+    import CommonCrypto
+    import Security
+
+    let key = "asecret16bytekey"
+    let keyLen = key.utf8.count
+
+    let msg = "message"
+    let msgLen = msg.utf8.count
+    let msgBytes = [UInt8](msg.utf8)
+    print("msgBytes: \(msgBytes)")
+
+    let operation = CCOperation(kCCEncrypt)
+    let algorithm = CCAlgorithm(kCCAlgorithmAES)
+
+    let options = CCOptions(kCCOptionPKCS7Padding | kCCOptionECBMode)
+
+    // AES128 block size is 16 bytes or 128 bits
+    let blockSize = 128
+
+    let bufferSize = 128
+    var cipherData = [UInt8](count: bufferSize, repeatedValue: 0)
+    var resultLen = 0
+    var status: Int32 = 0
+
+    status = CCCrypt(
+        operation,
+        algorithm,
+        options,
+        key,
+        keyLen,
+        //iv,
+        nil,
+        msg,
+        msgLen,
+        UnsafeMutablePointer<Void>(cipherData),
+        bufferSize,
+        &resultLen)
+
+    print("status: \(status)")
+    print("resultLen: \(resultLen)")
+    print("cipherData: \(cipherData[0..<16])")
+
+    var decrypted = [UInt8](count: bufferSize, repeatedValue: 0)
+
+    status = CCCrypt(
+        CCOperation(kCCDecrypt),
+        algorithm,
+        options,
+        key,
+        keyLen,
+        // iv,
+        nil,
+        cipherData,
+        bufferSize,
+        UnsafeMutablePointer<Void>(decrypted),
+        bufferSize,
+        &resultLen)
+
+    print("status: \(status)")
+    print("resultLen: \(resultLen)")
+    print("decryptedData: \(decrypted[0..<16])")
+
+.. sourcecode:: bash
+
+    > swift test.swift
+    msgBytes: [109, 101, 115, 115, 97, 103, 101]
+    status: 0
+    resultLen: 16
+    cipherData: [212, 142, 248, 154, 122, 235, 247, 231, 52, 217, 175, 131, 206, 45, 107, 146]
+    status: 0
+    resultLen: 128
+    decryptedData: [109, 101, 115, 115, 97, 103, 101, 9, 9, 9, 9, 9, 9, 9, 9, 9]
+    >
+
+Please look at my posts about this if you are interested.
+
+For now, just notice that there are seven bytes in the message, that the block size is 16 bytes so that's what size ``cipherData`` and ``decryptedData`` have.  Also, the first seven bytes of ``decryptedData`` match the input.  After that we get the value ``9`` repeated for the length of the buffer.
+
+It works!
