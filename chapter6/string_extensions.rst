@@ -1,4 +1,4 @@
-.. _str_extensions:
+.. _string_extensions:
 
 #####################
 Extensions for String
@@ -86,4 +86,47 @@ In this section we'll develop some extensions for the String type.
     ["abcdefgh"]
     abcdef
     >
+
+And some useful for dealing with hexadecimal strings:
+
+.. sourcecode:: bash
+
+    /*
+    but first, a utility to print a UInt8
+    255 -> "ff"
+     10 -> "0a"
+    */
+
+    public func intToHexByte(n: UInt8) -> String {
+        let s = NSString(format: "%x", n) as String
+        if s.characters.count == 1 {
+            return "0" + s
+        }
+        return s
+    }
+
+    /* e.g. "ff" -> 255 */
+
+    public func singleHexByteStringToInt(h: String) -> UInt8 {
+        let sL = h.characters.map { String($0) }
+        assert (sL.count == 2, "not 2 character byte")
+
+        func f(s: String) -> Int {
+            let D = ["a":10,"b":11,"c":12,
+                "d":13,"e":14,"f":15]
+            if let v = D[s] { return v }
+            return Int(s)!
+        }
+
+        let ret = f(sL.last!) + 16 * f(sL.first!)
+        return UInt8(ret)
+    }
+
+
+    public func hexByteStringToIntArray() -> [UInt8] {
+        let cL = " ".characters
+        let s = self.stripCharactersInList(cL)
+        let sL = s.divideIntoChunks(size: 2)
+        return sL.map { singleHexByteStringToInt($0) }
+    }
 

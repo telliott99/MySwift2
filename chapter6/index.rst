@@ -8,9 +8,11 @@ Contents:
    :maxdepth: 1
    
    extensions
-   str_extensions
+   string_extensions
+   array_extensions
    protocols
    generators
    NSCoding
    encryption
+   types
 

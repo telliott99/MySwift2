@@ -4,6 +4,8 @@
 Binary
 ######
 
+In Swift, ``0b10100101`` is a "binary literal", with which you can initialize a UInt8, the standard data type for binary data.
+
 .. sourcecode:: bash
 
     import Foundation
@@ -25,15 +27,31 @@ Binary
     5a
     >
 
+Binary ``10100101`` is equal to 128 + 32 + 4 + 1 = 165 in decimal, and 10*16 + 5 in hexadecimal, or ``a5``.  The ``~`` operator negates bits, so we have that ``b2`` is equal to ``01011010`` which is 64 + 16 + 8 + 2 = 90.  In hexadecimal 90 is equal to 10*5 + 10 or ``5a``.
+
+It is just a peculiarity of this example that ``5 = ~a``, that is, ``0101`` = ~``1010``.
+
+These are the binary operators.
+
     - ``~`` not
     - ``|`` or
     - ``^`` xor
     - ``<<`` left shift
     - ``>>`` right shift
 
+The shift operators are used like so.  Suppose we have decimal 257 which is ``0000000100000001``, when we do ``257 << 8`` the whole pattern is shifted right by eight places (and the low value bits are discarded).  So we end up with ``00000001`` which is just equal to decimal 1.
+
 .. sourcecode:: bash
 
-    import Foundation
+    > swift
+    Welcome to Apple Swift version 2.1.1 (swiftlang-700.1.101.15 clang-700.1.81). Type :help for assistance.
+      1> 257 << 8
+    $R1: Int = 1
+      3>
+
+Here is exclusive or:
+
+.. sourcecode:: bash
 
     import Foundation
 
@@ -46,12 +64,52 @@ Binary
     
 .. sourcecode:: bash
 
-    > xcrun swift test.swift
+    > swift test.swift
     170
     aa
     >
 
-Note:  ``a`` is ``1010``.
+``NSString(format: "%x", n))`` is a convenient way to convert a UInt8 to its String hexadecimal representation.
+
+Note:  ``a`` is decimal 10 or binary ``1010``.
+
+A pure Swift way to do it is with ``String(n, radix: 16)``.
+
+.. sourcecode:: bash
+
+    func intToHexString(n: UInt) -> String {
+        let s = String(n, radix: 16)
+        if s.characters.count % 2 == 1 {
+            return "0" + s
+        }
+        return s
+    }
+
+    func test() {
+        let a: [UInt] = [1,36,255,257]
+        print(a.map { intToHexString(UInt($0)) })
+
+        print(intToHexString(UInt(Int.max)))
+        print(intToHexString(UInt.max))
+    }
+
+    test()
+
+Result:
+
+.. sourcecode:: bash
+
+    > swift test.swift
+    ["01", "24", "ff", "0101"]
+    7fffffffffffffff
+    ffffffffffffffff
+    >
+
+Unfortunately, we have to supply a Type for the function's input.  I don't think there is a way to write a generic Int function.
+
+http://blog.krzyzanowskim.com/2015/03/01/swift_madness_of_generic_integer/
+
+Here is an example from the docs:
 
 .. sourcecode:: bash
 
