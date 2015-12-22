@@ -22,7 +22,7 @@ To obtain a sorted array using built-in methods, one can use either ``sort`` (in
     
 We are using a closure (with brackets ``{ }``) rather than a named function.  See (:ref:`closures_med`).  
 
-One of the unusual properties of closures is that under certain circumstances (what is called a "trailing closure" as a single argument), there is no need for a call operator ``( )``, even though ``sort`` is being called with the closure as its second argument.  
+One of the unusual properties of closures is that under certain circumstances (what is called a "trailing closure" as a single argument), there is no need for a call operator ``( )``, even though ``sortInPlace`` is being called with the closure as its argument.  
 
 Here is a ``cmp`` function for Strings:
 

@@ -80,17 +80,17 @@ We could count our way through the loop:
 
     let greeting = "Hello"
     let cL = greeting.characters
-    let n = cL.count
+    let n = cL.count - 1
     var i = 0
 
     for c in cL { 
-        i += 1
-        if i == cL.count {
+        if i == n {
             print(c)
         }
         else {
             print(c, terminator: "-")
         }
+        i += 1
     }
     
 .. sourcecode:: bash
@@ -101,7 +101,7 @@ We could count our way through the loop:
 
 That gets to be a bit of a mess for what seemed like such a simple task.
 
-Isn't there a cleaner solution?  Maybe we could pass an entire "array" of characters to ``print``.
+Isn't there a cleaner solution?  Maybe we can get an entire "array" of characters and give it to ``joinWithSeparator``.
 
 .. sourcecode:: bash
 
@@ -185,11 +185,28 @@ More compactly:
 
 But that is getting ahead of ourselves.
 
+Now that we've introduced map, I can show you a simple way to view the UTF-8 encoding of ``greeting``:
+
+.. sourcecode:: bash
+
+    let greeting = "Hello"
+    let u = greeting.utf8
+    let a = u.map { UInt8($0) }
+    print(a)
+    
+.. sourcecode:: bash
+
+    > swift test.swift 
+    [72, 101, 108, 108, 111]
+    >
+
 --------------
 String methods
 --------------
 
-Whereas in Objective-C we might ask an NSString for its length, in Swift the ``count`` property could differ depending on the view we are looking at:  a CharacterView or the UTF-8.  For this reason, Swift does not provide a ``count`` method for a String.
+Whereas in Objective-C we might ask an NSString for its length, in Swift the ``count`` property could differ depending on the view we are looking at:  whether its a CharacterView or the UTF-8 encoded form.  
+
+For this reason, Swift does not provide a ``count`` method for a String.
 
 But we can do this:
 

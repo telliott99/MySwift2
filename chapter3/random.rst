@@ -4,7 +4,7 @@
 Random
 ######
 
-I came across a really important function that is in Foundation and is really convenient for generating random data:  ``SecRandomCopyBytes``.
+I came across an important function that is in Foundation and is really convenient for generating random data:  ``SecRandomCopyBytes``.
 
 .. sourcecode:: bash
 

@@ -46,7 +46,7 @@ If the file we try to read doesn't exist, we would see:
     Error: NSCocoaErrorDomain
     >
     
-If just print ``error`` rather than ``error.domain``:
+If we just print ``error`` rather than ``error.domain``:
 
 .. sourcecode:: bash
 

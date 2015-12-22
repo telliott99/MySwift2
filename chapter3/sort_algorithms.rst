@@ -4,6 +4,8 @@
 Sort Algorithms
 ###############
 
+Let's just demo a few algorithms for sorting, implemented in Swift.  First, some utility functions.
+
 .. sourcecode:: bash
 
     func pp (s: String, _ a: [Int]) {
@@ -17,6 +19,10 @@ Sort Algorithms
         a[i] = a[j]
         a[j] = tmp
     }
+
+Then, the elementary sorts:  bubble, selection and insertion sort:
+
+.. sourcecode:: bash
 
     func bubble_sort(inout a: [Int]){
         for _ in 0...a.count - 1 {
@@ -56,6 +62,10 @@ Sort Algorithms
         }
     }
 
+Very useful:  merge sort
+
+.. sourcecode:: bash
+
     func merge(a1: [Int], _ a2: [Int]) -> [Int] {
         // a1 and a2 are sorted already
         var ret: [Int] = Array<Int>()
@@ -87,6 +97,10 @@ Sort Algorithms
         return merge(a1, a2)
     }
 
+And now to exercise them:
+
+.. sourcecode:: bash
+
     let a = [32,7,100,29,55,3,19,82,23]
     pp("before: ", a)
 
@@ -115,6 +129,8 @@ Sort Algorithms
     c = merge_sort(c)
     pp("merge : ", c)
     
+Output:
+
 .. sourcecode:: bash
 
     > swift test.swift

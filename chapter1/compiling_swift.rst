@@ -4,11 +4,11 @@
 Compiling Swift
 ###############
 
-In order to compile Swift programs, you need Xcode.app.  
+In order to compile Swift programs, you need Xcode, formally known as Xcode.app.
 
 Currently, I have Xcode 7.2 (7C68).  
 
-If you have more than one version, you can find out which one is selected by:
+If you have more than one version, you can find out which one is currently selected as the default by:
 
 .. sourcecode:: bash
 
@@ -40,7 +40,7 @@ The way I have done this forever is to do:
     Hello Swift world
     >
 
-Now I find that you can just do:
+Now, recently, I found that you can just do:
 
 .. sourcecode:: bash
 
@@ -48,7 +48,7 @@ Now I find that you can just do:
     Hello Swift world
     >
 
-Some other options are to run swift as an "interpreter" by just doing ``swift`` and then try out some code:
+Some other options are to run Swift as an "interpreter" or REPL (read-evaluate-print-loop) by just doing ``swift`` and then try out some code:
 
 .. sourcecode:: bash
 
@@ -58,7 +58,7 @@ Some other options are to run swift as an "interpreter" by just doing ``swift`` 
     Hello, swift
       2>
       
-or, make the equivalent of a ``bash`` or ``python`` script.  Place this as the first line in your code 
+Alternatively, make the equivalent of a ``bash`` or ``python`` script.  Place this as the first line in your code 
 
     - ``#! /usr/bin/swift``
 
@@ -115,13 +115,13 @@ One can also do "string interpolation", like this
     Hello Tom
     >
 
-Variables are introduced with the ``var`` keyword, and are *typed*.  It can be specified, with the type coming after the variable name).
+Variables are introduced with the ``var`` keyword, and are *typed*.  The type may be specified, with the type coming after the variable name).
 
 .. sourcecode:: bash
 
     var s: String = "hello"
 
-But the compiler can figure the type out most of the time, so it's not necessary or usual to specify it in this way.
+But the compiler can figure out what the type is most of the time, so it's not necessary or usual to specify it in this way.
 
 .. sourcecode:: bash
 
