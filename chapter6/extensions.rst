@@ -31,6 +31,74 @@ This might be handy:
     2 5 7 4 10 10 9 10 7 3 
     > 
     
+We can make Swift like Ruby!
+
+.. sourcecode:: bash
+
+    extension Int {
+        func repetitions(task: () -> Void) {
+            for _ in 0..<self {
+                task()
+            }
+        }
+    }
+
+    3.repetitions {
+        print("Goodbye!")
+    }
+    
+.. sourcecode:: bash
+ 
+    > swift test.swift 
+    Goodbye!
+    Goodbye!
+    Goodbye!
+    >
+
+And another one from the docs:
+
+.. sourcecode:: bash
+
+    extension Int {
+        enum Kind {
+            case Negative, Zero, Positive
+        }
+        var kind: Kind {
+            switch self {
+            case 0:
+                return .Zero
+            case let x where x > 0:
+                return .Positive
+            default:
+                return .Negative
+            }
+        }
+    }
+    
+    // using self above (second case)
+    // rror: expression pattern of type 'Bool' cannot match values of type 'Int'
+    
+    func printIntegerKinds(numbers: [Int]) {
+        for number in numbers {
+            switch number.kind {
+            case .Negative:
+                print("- ", terminator: "")
+            case .Zero:
+                print("0 ", terminator: "")
+            case .Positive:
+                print("+ ", terminator: "")
+            }
+        }
+        print("")
+    }
+    printIntegerKinds([3, 19, -27, 0, -6, 0, 7])
+    
+.. sourcecode:: bash
+
+    > swift test.swift 
+    + + - 0 - 0 + 
+    >
+    
 Moving to extensions on the String type, currently, the syntax 
 
 .. sourcecode:: bash
