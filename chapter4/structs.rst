@@ -8,10 +8,10 @@ Here is a bare-bones Swift struct
 
 .. sourcecode:: bash
 
-    struct Point {
+    struct P {
         var x, y: Int
     }
-    var p = Point(x: 10, y: 20)
+    var p = P(x: 10, y: 20)
     print("\(p.x) \(p.y)")
     p.y = 100
     print("\(p.x) \(p.y)")
@@ -23,32 +23,90 @@ Here is a bare-bones Swift struct
     10 100
     >
 
-Structs are passed by value.
+---------------------
+String Representation
+---------------------
+
+One great addition is to print out a nice (programmer-designed) string to describe a struct or class.  ``description`` is a variable (not a method), which must implement ``get``.  
+
+Add something else to ``P``.  It looks like this:
 
 .. sourcecode:: bash
 
-    struct Point {
+    struct P {
         var x, y: Int
+        var description: String {
+            get { return "P:  x = \(x), y = \(y)" }
+        }
     }
-    var p = Point(x: 10, y: 20)
-    print("\(p.x) \(p.y)")
 
-    var q = p
-    q.x = 90
-    print("p: \(p.x) \(p.y)")
-    print("q: \(q.x) \(q.y)")
+    let p = P(x: 10, y: 20)
+    print(p)
+    print(p.description)
+    
+.. sourcecode:: bash
+
+    > swift test.swift 
+    P(x: 10, y: 20)
+    P:  x = 10, y = 20
+    >
+    
+The first line of output is the default given by Swift, which isn't that bad, really.  And the next line is what we get by calling ``description``.
+
+But wouldn't it be nice if we could just call ``print(st)`` and have it print things exactly how we want?  Or maybe ``print("some label:  \(st)").
+
+To do this, we need to declare that this struct conforms to a protocol with a very fancy name (it used to be called ``Printable``).  Substitute:
 
 .. sourcecode:: bash
 
-    > swift test.swift
-    p: 10 20
-    p: 10 20
-    q: 90 100
+    struct P: CustomStringConvertible {
+        var x, y: Int
+        var description: String {
+            get { return "P:  x = \(x), y = \(y)" }
+        }
+    }
+
+    let p = P(x: 10, y: 20)
+    print("printing:  \(p)")
+
+Now ``print("\(p)")`` will give:
+
+.. sourcecode:: bash
+
+    > swift test.swift 
+    printing:  P:  x = 10, y = 20
     >
 
-The Struct ``p`` is not affected by alterations made to ``q`` after the copy is made.  The converse is also true.
+----------
+Value Type
+----------
 
-Structs are substantially more capable, or complex, in Swift than in C.  What structs can do:
+Structs are passed by value, they are "value types".
+
+.. sourcecode:: bash
+
+    struct P: CustomStringConvertible {
+        var x, y: Int
+        var description: String {
+            get { return "P:  x = \(x), y = \(y)" }
+        }
+    }
+    
+    let p = P(x: 10, y: 20)
+    var p1 = p
+    p1.x = 90
+    print("p: \(p)\np1: \(p1)")
+
+.. sourcecode:: bash
+
+    > swift test.swift 
+    p: P:  x = 10, y = 20
+    p1: P:  x = 90, y = 20
+    >
+
+The Struct ``p`` is not affected by alterations made to ``p1`` after the copy is made.  The converse is also true.
+
+Structs are substantially more capable in Swift than in C.  What structs can do:
 
     - define properties to store values
     - define methods 
@@ -56,6 +114,8 @@ Structs are substantially more capable, or complex, in Swift than in C.  What st
     - define initializers to set up their initial state
     - be extended
     - conform to a protocol
+
+That is, structs do nearly everything that historically we have used classes to do.
 
 Classes are still more powerful, though.  Things that classes can do that structs cannot:
 
@@ -65,50 +125,88 @@ Classes are still more powerful, though.  Things that classes can do that struct
     - de-initialize
     - be reference counted
 
-That's a lot, even for structs!      In general, structs should be preferred, unless you plan to subclass.
+If you are big into inheritance, then classes are for you.
 
-Let's see what we can demonstrate.
+That's a lot, even for structs!  In general, structs should be preferred, unless you plan to subclass.
+
+Let's see what we can do.
 
 .. sourcecode:: bash
 
-    struct MyStruct {
+    struct X: CustomStringConvertible {
         var x: Int
-        init(x: Int = 20)
+        init(input: Int = 0) {
+            x = input
+        }
+        var description: String {
+            get { return "X:  x = \(x)" }
+        }
     }
 
-    let st = MyStruct()
-    print(st)
-
+    let x = X()
+    print("\(x)")
+    
 .. sourcecode:: bash
 
-    > swift test.swift
-    MyStruct(x: 20)
+    > swift test.swift 
+    X:  x = 0
     >
 
-Having a default value for ``x`` in the initializer for MyStruct means you will not get an error by calling ``MyStruct()`` (which you would lacking ``init`` and the default value it provides for ``x``).
+Having a default value for ``input`` in the initializer for X means you will not get an error by calling ``X()`` (which you would, lacking ``init`` and the default value it provides for the ``x`` variable).
 
 You might do it differently.  For example:
 
 .. sourcecode:: bash
 
-    struct MyStruct {
+    struct IKnowWhatThisIs {
         var x: Int
         init(_ input: Int = 20) {
             x = input
         }
     }
 
-    let st = MyStruct(10)
-
-Here we named our input parameter to distinguish it from the property, but because it seems really obvious what ``MyStruct`` does we used the ``_`` syntax to make it unnecessary to provide that name when calling the initializer.
-
-I've always been a bit confused by properties (with getters and setters) and instance variables like ``self.x`` in Objective-C.  In Swift, there is no difference.  Above, we defined ``var x: Int`` and set its value in the initializer.  ``x`` is a property.
-
-On the other hand, properties can be more sophisticated.  We could provide a "getter" and "setter" for ``x``.
+    let a = IKnowWhatThisIs(10)
+    print("\(a)")
 
 .. sourcecode:: bash
 
-    var x {
+    > swift test.swift 
+    IKnowWhatThisIs(x: 10)
+    >
+
+Here we named our input parameter to distinguish it from the property, but because it seems really obvious what ``IKnowWhatThisIs`` does we used the ``_`` syntax to make it unnecessary to provide that name when calling the initializer.
+
+More traditional way of writing a ``Point`` struct:
+
+.. sourcecode:: bash
+
+    struct Point: CustomStringConvertible {
+        var x, y: Int
+        init(x: Int, y: Int) {
+            self.x = x
+            self.y = y
+        }
+        var description: String {
+            get { return "Point:  x = \(x), y = \(y)" }
+        }
+    }
+
+    let p = Point(x: 10, y:20)
+    print("\(p)")
+
+.. sourcecode:: bash
+
+    > swift test.swift 
+    Point:  x = 10, y = 20
+    >
+
+I've always been a bit confused by properties (with getters and setters) and instance variables like ``self.x`` in Objective-C.  In Swift, there is no difference.  Above, we defined ``var x: Int`` and set its value in the initializer.  ``x`` is a property.
+
+On the other hand, properties can be more sophisticated.  We could provide a "getter" and "setter" for ``myvar``.
+
+.. sourcecode:: bash
+
+    var myvar {
         get { /* implementation */ }
         set { /* implementation */ }
     }
@@ -138,12 +236,36 @@ A method which changes the state of a struct (even a variable struct) must be ma
     }
 
     let st = MyStruct(10)
+    st.changeX(20)
+    print(st)
+    
+.. sourcecode:: bash
 
-----
-self
-----
+    > swift test.swift 
+    test.swift:12:1: error: cannot use mutating member on immutable value: 'st' is a 'let' constant
+    st.changeX(20)
+    ^~
+    test.swift:11:1: note: change 'let' to 'var' to make it mutable
+    let st = MyStruct(10)
+    ^~~
+    var
+    >
 
-Use of self.
+Oops.  Make that change:
+
+.. sourcecode:: bash
+
+    var st = MyStruct(10)
+    
+.. sourcecode:: bash
+
+    > swift test.swift 
+    MyStruct(x: 20)
+    >
+    
+-----------
+Use of self
+-----------
 
     Every instance of a type has an implicit property called self, which is exactly equivalent to the instance itself. You use the self property to refer to the current instance within its own instance methods.
 
@@ -164,7 +286,7 @@ When this is not enough:
     x
     x.isLessThan(12)  // prints:  true
 
-Here the function ``isLessThan`` has a parameter that is (for better or worse) named ``x``, just like the variable.  Inside the function, the parameter name takes precedence, and that is what ``x`` refers to.  ``self.x`` is used here to refer to the instance variable.
+Here the function ``isLessThan`` has a parameter that is (for better or worse) named ``x``, just like the variable.  Inside the function, the parameter name takes precedence, so that is what ``x`` refers to.  Then, ``self.x`` is used to refer to the instance variable.
 
 -----------------
 Assigning to self 
@@ -172,7 +294,7 @@ Assigning to self
 
 Assigning to self within a Mutating Method
 
-Mutating methods can assign an entirely new instance to the implicit self property. The Point example shown above could have been written in the following way instead:
+Mutating methods can assign an entirely new instance to the implicit self property.
 
 .. sourcecode:: bash
 
@@ -185,7 +307,7 @@ Mutating methods can assign an entirely new instance to the implicit self proper
     
 This version of the mutating ``moveByX(_:y:)`` method creates a brand new structure whose x and y values are set to the target location.
 
-Mutating methods for enumerations can set the implicit self parameter to be a different case from the same enumeration:
+Mutating methods for enumerations can set the implicit self parameter to be a different case from the same enumeration.  Here is a cool example from the docs:
 
 .. sourcecode:: bash
 
@@ -202,61 +324,29 @@ Mutating methods for enumerations can set the implicit self parameter to be a di
             }
         }
     }
-        
+
+
     var ovenLight = TriStateSwitch.Low
+    print(ovenLight)
+
     ovenLight.next()
+    print(ovenLight)
     // ovenLight is now equal to .High
+
     ovenLight.next()
+    print(ovenLight)
     // ovenLight is now equal to .Off
+
+.. sourcecode:: bash
+
+    > swift test.swift 
+    Low
+    High
+    Off
+    >
     
 More docs:
 
     This example defines an enumeration for a three-state switch. The switch cycles between three different power states (Off, Low and High) every time its ``next()`` method is called.
 
------
-Other
------
-
-Let's leave subscripts, extensions and protocols for later.
-
-Except: it is possible to print out a nice (programmer-designed) string to describe a struct or class.  ``description`` is a variable (not a method), which must implement ``get``.  
-
-Add something else to ``MyStruct``.  It looks like this:
-
-.. sourcecode:: bash
-
-    struct MyStruct {
-        var x: Int
-        var description: String {
-            get {
-                return "MyStruct:  x = \(x)"
-            }
-        }
-    }
-
-    let st = MyStruct(x: 10)
-    print(st)
-    print(st.description)
-    
-.. sourcecode:: bash
-
-    > swift test.swift
-    MyStruct(x: 10)
-    MyStruct:  x = 10
-    >
-    
-Wouldn't it be nice if we could call ``print(st)`` and have it print things exactly how we want?
-
-To do this, we need to implement ``description`` as above, and declare that the struct conforms to a protocol with a very fancy name.  Substitute what follows for the first line (and delete the last line):
-
-.. sourcecode:: bash
-
-    struct MyStruct: CustomStringConvertible {
-
-Now ``print(st)`` will give:
-
-.. sourcecode:: bash
-
-    > swift test.swift
-    MyStruct:  x = 10
-    >
+We will come back to talk about subscripts, extensions and protocols for structs later.
