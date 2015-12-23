@@ -10,7 +10,7 @@ https://mikeash.com/pyblog/friday-qa-2012-08-31-obtaining-and-interpreting-image
 
 We have an image on the Desktop called "x.png".
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     import Cocoa
 
@@ -36,7 +36,7 @@ If you're working in a Playground, you can drag an image file to Resources (do: 
 
 NSImage is a *container* for one or more image representations.  Add this:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     print(img.representations.count)
     let imgRep = img.representations[0] as! NSBitmapImageRep
@@ -57,7 +57,7 @@ However, (according to Mike Ash) the above code is *not* a good way to get it be
 
 What we do instead is to "draw" it and then look at that data.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     import Cocoa
 
@@ -94,7 +94,7 @@ What we do instead is to "draw" it and then look at that data.
     
 Next, we need to draw the image into the bitmapRepresentation.  For that we need a "graphics context".  Add this code to what's above:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let gc = NSGraphicsContext(bitmapImageRep: ir)
     NSGraphicsContext.saveGraphicsState()
@@ -117,7 +117,7 @@ We'll discuss ``drawAtPoint`` below, but note here that ``NSZeroRect`` is a shor
 
 Now the data is in the imageRep (``ir``), and we can use it.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let data = ir.bitmapData  // red, green, blue, alpha
     for i in 0..<8 { print(data[i], terminator: " ") }
@@ -131,7 +131,7 @@ Now the data is in the imageRep (``ir``), and we can use it.
 
 Now we can write it to another file:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let pngData = ir.representationUsingType(
         .NSPNGFileType,
@@ -146,14 +146,14 @@ So what might we do with this?  The simplest idea is to rescale the image.  For 
 
 To do that, change the NSBitmapImageRep to have:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     pixelsWide: w/2,
     pixelsHigh: h/2,
     
 and replace the ``drawAtPoint`` code above with this:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let dst = CGRectMake(0, 0, CGFloat(w)/2, CGFloat(h)/2)
 

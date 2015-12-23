@@ -8,7 +8,7 @@ Here is an example of reading data from a file input on the command line in swif
 
 ``test.swift``
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     import Foundation
 

@@ -6,7 +6,7 @@ Protocols
 
 The basic idea with a protocol is that, to define a new one, we say what function or property an object must have if it is going to be said to follow that protocol.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     protocol Stylish {
         var isStylish: Bool { get }
@@ -29,7 +29,7 @@ The basic idea with a protocol is that, to define a new one, we say what functio
 
 By far the most common example is to outfit a struct or class with the ability to print itself in a useful way.  (For some reason, they felt the need to rename the Printable protocol as CustomStringConvertible, maybe because it's used for things other than printing.  Certainly, the change is a blow to clarity).
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     class Object {
         var n: String
@@ -54,7 +54,7 @@ By far the most common example is to outfit a struct or class with the ability t
     >
 
     
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     struct X: CustomStringConvertible {
         var description: String {
@@ -75,7 +75,7 @@ By far the most common example is to outfit a struct or class with the ability t
     
 The Hashable and Equatable protocols are required to be followed by objects that want to be included in a Set or a Dictionary.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     // must be at global scope
     func == (a: X, b: X) -> Bool {
@@ -105,7 +105,7 @@ Here is a slightly more reasonable implementation.
 
 We obtain a unique id for each object from the current time (slightly different since they are initialized sequentially):
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     import Cocoa
 
@@ -151,7 +151,7 @@ As you can see, the second object was initialized approximately 0.013 millisecon
 
 For the Hashable protocol, an object is required to have a property ``hashValue``, but is also required to respond to ``==``.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     import Cocoa
 
@@ -209,7 +209,7 @@ For the Hashable protocol, an object is required to have a property ``hashValue`
 
 Here is another simple example.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     import Foundation
     class Obj: CustomStringConvertible {
@@ -234,7 +234,7 @@ Here is another simple example.
 
 And here is another one from the Swift docs:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     protocol FullyNamed {
         var fullName: String { get }
@@ -262,7 +262,7 @@ And here is another one from the Swift docs:
 
 The neat thing about this example is we see a good use of Optional.  ``prefix`` is declared as ``var prefix: String?``, and when we call
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     return (prefix != nil ? prefix! + " " : "") + name
     

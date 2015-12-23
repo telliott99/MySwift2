@@ -10,7 +10,7 @@ The exercise is from Hillegass, Objective C.  We load all the propernames from a
 
 ``test.m``
 
-.. sourcecode:: bash
+.. sourcecode:: objective-c
 
     #import <Foundation/Foundation.h>
 
@@ -49,7 +49,7 @@ The exercise is from Hillegass, Objective C.  We load all the propernames from a
 
 Here is my Swift translation.  We use NSString interchangeably with String, but ``componentsSeparatedByString`` returns an ``[AnyObject]``, so we cast it as we want it.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     import Foundation
 
@@ -89,7 +89,7 @@ That wasn't so difficult.  We had to remember the ``do .. try .. catch`` idiom f
 
 Of course, we are still using an NSString method:  ``componentsSeparatedByString``.  We looked at that before too, and came up with:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     s.characters.split() { $0 == "\n" }.map{ String($0) }
 

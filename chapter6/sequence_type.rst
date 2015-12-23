@@ -14,7 +14,7 @@ We will accomplish this with a struct rather than a class, just to show that we 
 
 Since any function that changes state within the struct needs to be specially marked, the ``next`` function needs to have the label ``mutating``.  Also, ``i`` has to be a variable rather than a constant.  (Neither would be true if we had used a class).
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     struct IntGenerator {
         var i = 0
@@ -38,13 +38,13 @@ Since any function that changes state within the struct needs to be specially ma
 
 If we now try to say that our struct conforms to the ``GeneratorType`` protocol:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     struct IntGenerator: GeneratorType
     
 we'll get some errors that lead us to make a few additional changes
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     struct IntGenerator: GeneratorType {
         typealias Element = Int
@@ -65,7 +65,7 @@ we'll get some errors that lead us to make a few additional changes
 
 What have we done?  Fundamentally, the protocol requires a method ``next`` with this signature:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     mutating func next() -> Element?
 
@@ -83,7 +83,7 @@ This code compiles and gives the same output as before.
 
 ``Element?`` is of type Optional Int, and that is also required---its presence suggests the idea that the sequence may have a finite number of values.  So let's modify ``next`` to return ``nil`` when the sequence reaches a maximum value of 5:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     struct IntGenerator: GeneratorType {
         typealias Element = Int
@@ -113,7 +113,7 @@ This code compiles and gives the same output as before.
 
 Now, finally we will try to use the ``for .. in`` construct, by substituting this for the bottom part of the code above:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     var g = IntGenerator()
     for n in g { 
@@ -125,7 +125,7 @@ The compiler complains that "value of type 'IntGenerator' has no member 'Generat
 
 I am not quite sure of all the subtleties here, but I googled a bit and the problem can be solved by adding another struct.  We don't change what is already there, except to instantiate the second struct rather than the first in the ``for .. in`` part.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     struct IntGenerator: GeneratorType {
         typealias Element = Int
@@ -150,7 +150,9 @@ I am not quite sure of all the subtleties here, but I googled a bit and the prob
         }
     print("")
 
-Our additional struct has one method:  ``generate``.  And all that method does is to instantiate and return an ``IntGenerator``.  Swift is looking for a particular function signature for ``generate``.  So as with ``Element``, the type it's looking for is ``Generator`` which must be typealiased to ``IntGenerator``.  And with that change, the compiler allows us to claim that the struct ```IntGeneratorFactory`` conforms to the ``SequenceType`` protocol.
+Our additional struct has one method:  ``generate``.  And all that method does is to instantiate and return an ``IntGenerator``.  It seems a little silly.  Why can't we just do the instantiation ourselves?
+
+Swift is looking for a particular function signature for ``generate``.  So as with ``Element``, the type it's looking for is ``Generator`` but the compiler will complain unless you typealiase that to ``IntGenerator``.  And with that change, the compiler allows us to claim that the struct ```IntGeneratorFactory`` conforms to the ``SequenceType`` protocol.
 
 Now we can do ``for n in g`` and it works.
 
@@ -164,7 +166,7 @@ Here is another similar struct that produces the Fibonacci numbers.  (It wouldn'
     
 http://www.scottlogic.com/blog/2014/06/26/swift-sequences.html
     
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     class FibonacciGenerator: GeneratorType {
         var a = 0, b = 1
@@ -193,7 +195,7 @@ If need be, we could spiff this up by adding a class that provides the ``generat
 
 I thought it would be nice to have a class that generates random numbers suitable for encryption (that is, ``UInt8``).  We will adapt the Foundation function ``SecRandomCopyBytes`` to this purpose (see :ref:`random`).
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     import Foundation
 

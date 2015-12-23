@@ -6,13 +6,13 @@ Characters
 
 A character is a Type in Swift.  You will typically initialize a single character with a String, like this:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let c: Character = "a"
     
 When iterating through a string, we first obtain a CharacterView, which is a special type of array of the characters, and go through each one with the for-in construct:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     for c in "abc".characters {
         print(c)
@@ -24,7 +24,7 @@ When iterating through a string, we first obtain a CharacterView, which is a spe
 
 To print all on one line you *could* do:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     for c in "abc".characters {
         print(c, terminator: ".")
@@ -35,7 +35,7 @@ To print all on one line you *could* do:
 
 But best is probably:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let cL = "abc".characters
     let s = String(cL)
@@ -45,7 +45,7 @@ But best is probably:
 
 As in the above example, one can construct a String from its characters by calling a String initializer.  To put a single character onto the end of a String, you can do this:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     var s = "a"
     let c: Character = "b"
@@ -56,7 +56,7 @@ As in the above example, one can construct a String from its characters by calli
     
 As of Swift 2, the ``+=`` operator is only for String concatenation, so to use it with a Character we need to change the Character back into a String first:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     var s = "a"
     let b = Character("b")
@@ -69,7 +69,7 @@ Here is a quote from the docs:
      
 A note about the global ``print`` function.  (Changed from Swift 1).  ``print`` gives us a newline as the default.  To control this, you use an additional argument:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
     
     let a = "a"
     print(a, terminator: "")    // a
@@ -115,14 +115,14 @@ Let's look at length first.
 
 Here is an example of a String literal (``blackHeart``) formed from a Unicode scalar
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let blackHeart = "\u{2665}"
     print("I \(blackHeart) you")
     // prints:
     // I ♥ you
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let s = "♥"
     print(s.utf8, terminator: "")
@@ -131,7 +131,7 @@ Here is an example of a String literal (``blackHeart``) formed from a Unicode sc
 
 That's not very helpful!  Try again
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let s = "♥"
     let a = Array(s.utf8)
@@ -144,7 +144,7 @@ Here we have told the interpreter to explicitly convert the "String.UTF8View" ob
 
 Accomplish the same thing in the Swift REPL:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     1> let s = "♥"
     s: String = "♥"
@@ -156,7 +156,7 @@ Accomplish the same thing in the Swift REPL:
 
 Another common representation is hex bytes:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     226/16 = 14 (e), 226 % 16 = 2
     153/16 = 9, 153 % 16 = 9
@@ -205,7 +205,7 @@ Counting characters
 
 And now, the big question is, how many characters are there in ``blackHeart``?  
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let blackHeart = "\u{2665}"
     let n = blackHeart.characters.count
@@ -221,7 +221,7 @@ Three bytes in memory and on disk, but one character according to ``count``.
 
 Expand the example:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     import Foundation
 
@@ -242,7 +242,7 @@ Seems like NSString counts correctly too, in this case, though when it yields th
 
 Here is another example, from the docs, where the same character can be formed in two different ways:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     // é
     let eAcute: Character = "\u{E9}"
@@ -269,7 +269,7 @@ Here is another example, from the docs, where the same character can be formed i
 
 Now try the same thing with NSString.  Add this:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     import Foundation
 
@@ -302,7 +302,7 @@ https://www.mikeash.com/pyblog/friday-qa-2015-11-06-why-is-swifts-string-api-so-
 
 Let's try a menagerie of characters:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let eAcute: Character = "\u{E9}"
     let combinedEAcute: Character = "\u{65}\u{301}"
@@ -322,7 +322,7 @@ Let's try a menagerie of characters:
 
 Add this
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     print(s.characters.count)
     print(s.utf8.count)
@@ -349,7 +349,7 @@ As explained in the Swift ebook:
     
 Finally, here is an example of incorporating characters into a String by using the string interpolation method:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let dog: Character = "\u{1F436}"
     let cow: Character = "\u{1F42E}"
@@ -363,7 +363,7 @@ Finally, here is an example of incorporating characters into a String by using t
 
 If you want to convert a String to data (of UTF-8 encoding), one way is to do this:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let dog = "\u{1F436}"
     for codeunit in dog.utf8 {

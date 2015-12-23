@@ -6,7 +6,7 @@ Subscripts
 
 Here is a slightly reworked example from the docs
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     struct TimesTable {
         let multiplier: Int
@@ -43,7 +43,7 @@ What's wild is that:
     
 OK, that's a mouthful.  Notice that we can use subscripts with either structs or classes.  Here's a simple example of overloading with a struct.  The first subscript takes an Int and returns a String, the second returns an Int.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     struct S {
         var a: [String] = ["Tom", "Joan", "Sean"]
@@ -79,7 +79,7 @@ This is a little tricky because the two subscripts are overloaded on the return 
 
 I found it useful in writing a class that wraps an array containing binary data (i.e. a [UInt8]).  Here is a utility function we will need, followed by the class definition:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     import Foundation
 
@@ -133,7 +133,7 @@ We declare ``BinaryData`` to follow the ``Indexable`` protocol, and that means w
 
 Having done that we can do something like:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let b = BinaryData([0,10,128,255])
     print("\(b)")

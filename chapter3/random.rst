@@ -6,7 +6,7 @@ Random
 
 I came across an important function that is in Foundation and is really convenient for generating random data:  ``SecRandomCopyBytes``.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     import Foundation
 
@@ -49,7 +49,7 @@ http://iphonedevelopment.blogspot.com/2008/10/random-thoughts-rand-vs-arc4random
 
 For *really* random numbers, it seems that ``arc4random`` is preferred, but it can't be seeded by the caller.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     import Foundation
 
@@ -73,7 +73,7 @@ The maximum value ``UInt32.max`` is ``4294967295``.  From the Unix man page
 
 We use a bit of trickery to obtain the familiar Python syntax:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     import Foundation
 
@@ -96,7 +96,7 @@ which sounds about right.  (The ``pow`` function takes a pair of ``Double`` valu
 
 We could certainly work with the result from ``arc4random``.  To obtain a random integer in a particular range, we first need to divide by the maximum value
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     import Foundation
 
@@ -107,14 +107,14 @@ We could certainly work with the result from ``arc4random``.  To obtain a random
 
 .. sourcecode:: bash
 
-    > xcrun swift test.swift
+    > swift test.swift
     0.333160816070894
     0.33316
     >
 
 then do
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     import Foundation
 
@@ -135,7 +135,7 @@ which gives the expected result (only ``0`` and ``1``).
 
 However, rather than doing that, do this:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     import Foundation
     
@@ -147,7 +147,7 @@ The function ``arc4random_uniform(N)`` gives a result in ``0...N-1``, that is, i
 
 If you want to seed the generator, use ``rand`` or ``random``.  The first one generates a ``UInt32``.  The second generates an ``Int32``, although it never emits values less than zero.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     import Foundation
 
@@ -172,13 +172,13 @@ If you want to seed the generator, use ``rand`` or ``random``.  The first one ge
 
 which appears to be in the range 0 to
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     pow(Double(2),Double(31)) - 1
 
 as we would expect for a signed Int32.  ``random`` can be seeded:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     import Foundation
 
@@ -226,7 +226,7 @@ If you want to "shuffle" an array, to rearrange the items randomly, one correct 
 
 First, we need a function that produces a random Int in any range.  We choose to use a half-open range, which does not include the end value.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     import Foundation
 
@@ -251,7 +251,7 @@ It seems to work:  we see both ``0`` and ``9`` in the output.
     
 Now implement the algorithm described above.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     func swap(inout a: [Int], _ i: Int, _ j: Int) {
         let tmp = a[i]

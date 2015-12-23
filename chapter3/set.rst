@@ -6,7 +6,7 @@ Set
 
 To construct a set we can do
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     var S1: Set<String> = []
     S1.insert("a")
@@ -27,7 +27,7 @@ Sets are very fast for testing membership.  Inserting and removing items is also
 
 But no matter how many times you try, you'll never have any duplicates.  Meet the Beatles:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     import Foundation
 

@@ -6,7 +6,7 @@ Optionals
 
 It's useful to allow an operation that may or may not succeed, and if it doesn't work, just deal with it.  Swift is strongly typed, but to cover this situation it has values called "Optionals" that may either be ``nil`` or may have a value including a basic type like Int or String.  Consider the following:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     var s: String = "123"
     let m: Int? = Int(s)
@@ -17,7 +17,7 @@ It's useful to allow an operation that may or may not succeed, and if it doesn't
     
 The second conversion ``Int(s)`` will fail because the value ``"123x"`` can't be converted to an integer.  Nevertheless, the code compiles and when run it prints
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     Optional(123)
     nil
@@ -25,7 +25,7 @@ The second conversion ``Int(s)`` will fail because the value ``"123x"`` can't be
 
 The values ``m`` and ``n`` are "Optionals".  Test for ``nil`` by doing either of the following:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     
     let m: Int? = Int("123x")
@@ -45,7 +45,7 @@ The values ``m`` and ``n`` are "Optionals".  Test for ``nil`` by doing either of
     
 Use of the ! symbol in ``n!`` forces the value of ``n`` as an Int to be used, which is fine, once we know for sure that it is not ``nil``.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
     
     import Foundation
     func getOptional() -> Int? {
@@ -75,7 +75,7 @@ Use of the ! symbol in ``n!`` forces the value of ``n`` as an Int to be used, wh
 
 Another idiom in Swift is "optional binding"
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     if let n = dodgyNumber.toInt() {
         print("\(dodgyNumber) has an integer value of \(n)")
@@ -92,7 +92,7 @@ A bit stranger is the "implicitly unwrapped optional":
 
     These kinds of optionals are defined as implicitly unwrapped optionals. You write an implicitly unwrapped optional by placing an exclamation mark (String!) rather than a question mark (String?) after the type..
     
-.. sourcecode:: bash
+.. sourcecode:: swift
     
     let possibleString: String? = "standard optional string"
     print("\(possibleString!)")

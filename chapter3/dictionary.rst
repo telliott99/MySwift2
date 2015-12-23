@@ -6,7 +6,7 @@ Dictionary
     
 Here is a Swift dictionary
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     var D = ["a":"apple","b":"banana","c":"cookie"]
     for (k,v) in D {
@@ -37,7 +37,7 @@ We can ask for these "properties" from a dictionary:
     - ``D.values``
     - ``D.count``
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     var D = ["a":"apple","b":"banana","c":"cookie"]
     print(Array(D.keys))
@@ -58,7 +58,7 @@ Without the ``Array()``, you get
 
 Here is the example from the docs:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let airports = ["DUB":"Dublin", "TYO":"Tokyo"]
     for (code,name) in airports {
@@ -86,7 +86,7 @@ Here is the example from the docs:
     
 We can access the values in a dictionary by subscript notation.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     var D: [String: Int] = ["apple":1, "banana":2]
     print(D)
@@ -105,7 +105,7 @@ We can access the values in a dictionary by subscript notation.
 
 In the code above we declared the type of ``D`` as ``[String: Int]``.  This also works:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     var D = Dictionary<String,Int>()
     var D1: Dictionary<String,Int> = ["apple":1]
@@ -119,7 +119,7 @@ In the first line ``var D = Dictionary<String,Int>()``, we are getting an instan
 
 Dictionary operations return a value if the key is present, and otherwise ``nil`` i.e. and Optional.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     var D: Dictionary<String,Int> = [:]
     print(D["cookie"])  // nil
@@ -133,7 +133,7 @@ So why does the airport example work without "!"  It's because we first asked th
 
 The dictionary method ``updateValue`` returns the old value if present, otherwise it returns ``nil``
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     var D: [String: Int] = ["apple":1, "banana":2]
     if let oldValue = D.updateValue(100, forKey:"cookie") {
@@ -155,7 +155,7 @@ The dictionary method ``updateValue`` returns the old value if present, otherwis
     
 As usual for a dictionary, the keys *are in a particular order* (based on their hash values), but they're not in lexicographical order and appear to be unsorted.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     var D = ["a":"apple","b":"banana","c":"cookie"]
     for k in D.keys.sort() { print("\(k): \(D[k]!) ") }
@@ -174,7 +174,7 @@ dict(zip(a,b)) idiom
 
 At first, I didn't think there was anything comparable to Python's ``dict(zip(key_list,value_list))`` idiom.  So I decided we would roll our own:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     var L1 = Array(1...3)
     var L2 = ["apple","banana","cookie"]
@@ -199,7 +199,7 @@ At first, I didn't think there was anything comparable to Python's ``dict(zip(ke
 
 Update:  I did find Swift's ``zip``, it is called ``Zip2Sequence``
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     var kL = Array(1...3)
     var vL = ["apple","banana","cookie"]
@@ -226,13 +226,13 @@ http://swiftdoc.org/v2.0/type/Dictionary/
 
 For example, this works:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let d1 = Dictionary(dictionaryLiteral: ("a",1), ("b",2))
 
 However, this does not work:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let a1 = ["a", "b"]
     let a2 = [1, 2]
@@ -248,7 +248,7 @@ http://stackoverflow.com/questions/26983019/explanation-of-splat
 
 The only thing I've gotten so far is (using ``z`` from above):
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     var D = [String:Int]()
     for (k,v) in z {

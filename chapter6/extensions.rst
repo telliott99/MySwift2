@@ -8,7 +8,7 @@ In this section we'll develop some extensions, starting with the Int type.
 
 This might be handy:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     import Foundation
 
@@ -33,7 +33,7 @@ This might be handy:
     
 We can make Swift like Ruby!
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     extension Int {
         func repetitions(task: () -> Void) {
@@ -57,7 +57,7 @@ We can make Swift like Ruby!
 
 And another one from the docs:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     extension Int {
         enum Kind {
@@ -101,14 +101,14 @@ And another one from the docs:
     
 Moving to extensions on the String type, currently, the syntax 
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     var s = "Hello, world"
     print(s[0...4])
 
 doesn't work.  We can fix that with the following code, although it's probably not a good idea :)  :
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     extension String {
         subscript(i: Int) -> Character {
@@ -142,7 +142,7 @@ Here is an extension on the Array type that I got from
 
 https://github.com/pNre/ExSwift/blob/master/ExSwift/Array.swift
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     public extension Array {
         func all(test: (Element) -> Bool) -> Bool {

@@ -8,7 +8,7 @@ I have a working example of a class that follows the NSCoding protocol.  I need 
 
 http://stackoverflow.com/questions/25701476/how-to-implement-nscoding
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     import Foundation
 

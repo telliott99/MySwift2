@@ -14,7 +14,7 @@ Here, ``^`` is the "exclusive or" (XOR) operator applied to these two operands.
 
 The XOR truth table is
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     - p ^ k = c
     - 0 ^ 0 = 0
@@ -30,7 +30,7 @@ To put that another way, encryption is reversed by XOR'ing the ciphertext with t
 
 Here is the example from the docs, pasted into the Swift interpreter:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     1> let firstBits: UInt8 = 0b00010100 
     2. let otherBits: UInt8 = 0b00000101 
@@ -45,7 +45,7 @@ Here is the example from the docs, pasted into the Swift interpreter:
 
 The operator ``^`` gives correct results with bytes (i.e. UInt8), as the output shows.  It even works for longer UInts..
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let b1: UInt16 = 0b0001010000010100
     let b2: UInt16 = 0b0001010000000101
@@ -96,7 +96,7 @@ http://telliott99.blogspot.com/2015/12/commoncrypto.html
 
 This code will work in a Swift Cocoa app that has a "bridging header".  (To get a bridging header, simply add an empty Objective-C file to an Xcode Swift Cocoa app project, and click yes when asked whether you want Xcode to generate the header for you).  Then put
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     #import <CommonCrypto/CommonCrypto.h>
 
@@ -104,7 +104,7 @@ in the header.  This won't work from the command line, but there is a trick to m
 
 The first function below, we saw previously in :ref:`random` 
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     import Foundation
 
@@ -118,7 +118,7 @@ The first function below, we saw previously in :ref:`random`
 
 We'll use that function in what follows.  Let me list the code first and then explain it.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     import Foundation
     import CommonCrypto
@@ -167,7 +167,7 @@ In Swift these are marked ``UnsafePointer<UInt8>`` and ``UnsafeMutablePointer<UI
 
 If you want to figure out how many rounds are needed so that the computation takes 1000 ms, run this:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let rounds = CCCalibratePBKDF(
         alg,
@@ -195,7 +195,7 @@ If you want to see what's available in CommonCrypto you can look at the header f
 
 The function used above is shown in the file ``CommonKeyDerivation`` as
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     int 
     CCKeyDerivationPBKDF( 
@@ -223,7 +223,7 @@ https://www.mikeash.com/pyblog/friday-qa-2012-08-10-a-tour-of-commoncrypto.html
 
 Update:  I'm adding an actual encryption example.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     import Foundation
     import CommonCrypto

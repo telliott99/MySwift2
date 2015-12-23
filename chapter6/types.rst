@@ -6,7 +6,7 @@ Types
 
 As everyone knows, Swift is strongly typed, but there are situations that arise where we may need to cast between types.  There is a nice example from the book of a base class ``MediaItem`` and derived classes ``Movie`` and ``Song``:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     class MediaItem {
         var name: String
@@ -33,7 +33,7 @@ As everyone knows, Swift is strongly typed, but there are situations that arise 
 
 We exercise it this way:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     // this is OK b/c all are MediaItem
     let library = [
@@ -53,7 +53,7 @@ We exercise it this way:
 
 We were able to construct an array containing both Movie and Song objects, because the compiler can find that they are both MediaItem types.  We can use the ``is`` operator to test whether a particular item has the type we are looking for.  Another application is to use a conditional form ``as?`` (which is called "downcasting"):
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     for item in library {
         if let song = item as? Song { ++songCount }
@@ -62,7 +62,7 @@ We were able to construct an array containing both Movie and Song objects, becau
 
 This comes up a lot in the context of NSArray.  Objects in an NSArray are untyped, which allows mixed Types.  When we come back to Swift the type of such things is ``AnyObject``.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     import Foundation
 
@@ -82,7 +82,7 @@ This comes up a lot in the context of NSArray.  Objects in an NSArray are untype
 
 For the MediaItem example
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let a2: [AnyObject] = [
         Movie(name: "2001: A Space Odyssey",
@@ -115,7 +115,7 @@ Here we have used ``as!`` to force the downcast because we're sure it cannot fai
 
 The following works in a Playground, but not from the command line.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     func g() { }
     func h(s: String) -> Bool { return true }
@@ -134,7 +134,7 @@ The following works in a Playground, but not from the command line.
 
 Here is a quick demo with a user-defined class and a protocol.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     protocol Incrementable { func addOne() }
 

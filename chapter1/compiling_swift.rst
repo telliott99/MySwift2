@@ -28,7 +28,7 @@ With this file on the Desktop
 
 ``test.swift``:
 
-.. sourcecode:: bash
+.. code-block:: swift
 
     print("Hello Swift world")
 
@@ -92,7 +92,7 @@ I have observed a few constructs that worked correctly by this last method and n
 
 As shown, a basic print statement is
 
-.. sourcecode:: bash
+.. code-block:: swift
 
     print("a string")
     
@@ -104,7 +104,7 @@ One can also do "string interpolation", like this
 
 ``test.swift``:
 
-.. sourcecode:: bash
+.. code-block:: swift
 
     var n = "Tom"
     print("Hello \(n)")
@@ -117,13 +117,13 @@ One can also do "string interpolation", like this
 
 Variables are introduced with the ``var`` keyword, and are *typed*.  The type may be specified, with the type coming after the variable name).
 
-.. sourcecode:: bash
+.. code-block:: swift
 
     var s: String = "hello"
 
 But the compiler can figure out what the type is most of the time, so it's not necessary or usual to specify it in this way.
 
-.. sourcecode:: bash
+.. code-block:: swift
 
     var s = "hello"
 
@@ -133,7 +133,7 @@ Here we print an Int:
 
 ``test.swift``:
 
-.. sourcecode:: bash
+.. code-block:: swift
 
     var x: Int = 2
     print(x)
@@ -142,7 +142,7 @@ Here we print an Int:
     
 This works, and prints what you'd expect.  Going back the other way:
 
-.. sourcecode:: bash
+.. code-block:: swift
 
     let x = Int("2")
 
@@ -150,7 +150,7 @@ The type of x is an "Optional".  What this means is that the value may be ``nil`
 
 To use an optional, one must first unwrap it:
 
-.. sourcecode:: bash
+.. code-block:: swift
 
     let x = Int("2")
     let y = x! + 2
@@ -160,7 +160,7 @@ To use an optional, one must first unwrap it:
 
 If a value is not going to change (it's a constant), always use ``let``:
 
-.. sourcecode:: bash
+.. code-block:: swift
 
     let s = "Tom"
     print("Hello \(s)")

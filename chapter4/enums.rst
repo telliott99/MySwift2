@@ -29,7 +29,7 @@ Similarly,
 
 In Swift:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     // one-liner variant
     enum CoinFlip { case Heads, Tails }
@@ -48,7 +48,7 @@ The shorthand ``.Tails`` can be used because the compiler is able to deduce that
 
 If the definition is on multiple lines, it's slightly different:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     enum CompassPoint {
         case North
@@ -81,7 +81,7 @@ If you see a leading period on something (like ``.None``), it's an enumeration.
 
 Here is another example
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     enum Result: Int, CustomStringConvertible {
         case Failure, Success
@@ -115,7 +115,7 @@ As the docs describe, enumerations in Swift are much more sophisticated than wha
 
 Here is an example based on the fact that bar-codes can be an array of 4 integers (UPCA) or a graphic that can be converted to a potentially very long String.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     enum Barcode {
         case UPCA(Int, Int, Int, Int)
@@ -134,13 +134,13 @@ Here is an example based on the fact that bar-codes can be an array of 4 integer
     
 .. sourcecode:: bash
 
-    > xcrun swift test.swift 
+    > swift test.swift 
     QR code: ABCDEFGHIJKLMNOP.
     >
 
 The above example is really pretty amazing.  We have two different values for the Barcode enum, which are based on different underlying types of data.  Furthermore, each instance of a Barcode has its individual data.  In this code:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     var productBarcode = Barcode.UPCA(8, 85909, 51226, 3)
     productBarcode = .QRCode("ABCDEFGHIJKLMNOP")
@@ -149,13 +149,13 @@ in the second line we are re-assigning the variable to a different Barcode.  Bec
 
 Also seen in this example is the additional flexibility of ``switch`` flow control in Swift.  Each case is allowed to have setup code in parentheses
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     case .QRCode(let productCode):
 
 Here are some other enum definitions from the docs that I haven't really made into full examples yet:
 
-.. sourcecode:: objective-c
+.. sourcecode:: swift
 
     enum ASCIIControlCharacter: Character {
         case Tab = "\t"

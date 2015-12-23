@@ -14,7 +14,7 @@ To obtain arguments passed in on the command line, just do this:
 
 ``test.swift``:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     print(Process.arguments)
 

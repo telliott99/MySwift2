@@ -8,7 +8,7 @@ I believe I put this in the section on random numbers, but it is pretty cool so 
 
 What I want is an operator to do exponentiation.  Swift doesn't have one, but I can define my own.  Here is one:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     import Foundation  // for `pow`
 
@@ -22,7 +22,7 @@ This prints what you'd expect (except that the type of the result is Double).
 
 Here is another one that works with Ints only, and doesn't require ``import Foundation``.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     infix operator ** { }
     func ** (n: Int, p: Int) -> Int {
@@ -43,7 +43,7 @@ Another operator is ``??``, defined as
     
 Say what?
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let D = ["a":"apple"]
     var v = D["a"]
@@ -63,7 +63,7 @@ I think the key here is that the right-hand side rhs is "lazily-evaluated", but 
 
 What is actually *really* useful is that we can define new operators, and those can be any symbol we want, here is an obvious one:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     import Foundation
 
@@ -76,13 +76,13 @@ What is actually *really* useful is that we can define new operators, and those 
 
 .. sourcecode:: bash
 
-    > xcrun swift test.swift 
+    > swift test.swift 
     1.4142135623731
     >
 
 If you are starting to think these Swift folks are entirely too clever for their own good, we are thinking along the same lines.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     infix operator  ☂ { }
 

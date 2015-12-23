@@ -6,7 +6,7 @@ Functions
 
 Function definitions are labeled with the keyword ``func``
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     func greet(name: String) {
         print("Hello \(name)")
@@ -21,7 +21,7 @@ Function definitions are labeled with the keyword ``func``
 
 The value of each argument or "parameter" to a function must have a declared type.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     func f(name: String, age: Int) {
         // do something
@@ -29,13 +29,13 @@ The value of each argument or "parameter" to a function must have a declared typ
 
 In calling the function f, you would do this:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     f("Tom", age: 60)
 
 If you don't wish to specify the second argument like this in the calling function, you can change the definition:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     func f(name: String, _ age: Int) {
         // do something
@@ -43,7 +43,7 @@ If you don't wish to specify the second argument like this in the calling functi
 
 and now this works:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     f("Tom", 60)
 
@@ -55,7 +55,7 @@ However, for the second argument the parameter name is required, unless we do a 
 
 Alternatively, you could decide that you want all the parameters to be named in the call.  Then you would do something like this:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     func f(name name: String, age: Int) {
         // do something
@@ -63,14 +63,14 @@ Alternatively, you could decide that you want all the parameters to be named in 
 
 and now call it like this:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     f(name: "Tom", age: 60)
 
 
 Functions may have results called a return value, but they don't have to.  If you want to return a value from a function, that value must be typed.  Here is a function that returns an Int (specified by ``-> Int``)
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     func count(name: String) -> Int {
         // global function
@@ -86,7 +86,7 @@ Functions may have results called a return value, but they don't have to.  If yo
 
 Functions can return multiple values (from the Apple docs, with slight modification):
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     func minMax(a: [Int]) -> (Int,Int) {
         var min = a[0]
@@ -113,7 +113,7 @@ Functions can return multiple values (from the Apple docs, with slight modificat
 
 Return a function from a function:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     func adder(value: Int) -> (Int -> Int) {
         func f(n:Int) -> Int {
@@ -134,7 +134,7 @@ Notice how the return type of ``adder`` is specified as ``(Int -> Int)``.  That'
 
 Provide a function as an argument to a function?  Sure..
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     func myfilter(list: [Int], _ cond: Int->Bool) -> [Int] {
         var result:[Int] = []
@@ -161,7 +161,7 @@ Default parameters
 
 A function can also have default parameters.  As in Python, the default parameters *must come after* all non-default parameters:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     func join(s1: String, _ s2: String, joiner: String = " ") -> String {
         return s1 + joiner + s2
@@ -180,7 +180,7 @@ There are several other fancy twists on parameters that you can read about in th
 
 Here is one particular example from the Apple docs:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     func sumOf(numbers: Int...) -> Int {
         var sum = 0
@@ -217,7 +217,7 @@ So let's try something.  Add ``let x = 2`` as line 1.
 
 They're not kidding!  The ``x`` at global scope is available inside ``sumOf``.  You can nest deeper:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let s = "abc"
     func f() {

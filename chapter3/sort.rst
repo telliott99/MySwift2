@@ -6,13 +6,13 @@ Sorting
 
 To obtain a sorted array using built-in methods, one can use either ``sort`` (in-place sort) or ``sorted`` (returns a new sorted array).  These used to be global functions in Swift 1, but now they should be called on a Collection like Array.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let names = ["Chris", "Alex", "Barry"]
     let sorted_names = names.sort()
     print(sorted_names)   // ["Alex", "Barry", "Chris"]
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     var a = ["Chris", "Alex", "Barry"]
     a.sortInPlace { $0 < $1 }
@@ -26,7 +26,7 @@ One of the unusual properties of closures is that under certain circumstances (w
 
 Here is a ``cmp`` function for Strings:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
    func cmp(a: String, b: String) -> Bool {
        let m = a.characters.count

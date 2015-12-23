@@ -18,7 +18,7 @@ http://stackoverflow.com/questions/25308978/what-are-intervals-in-swift-ranges
 
 Swift has both half-open and closed intervals and ranges.  A closed interval includes both endpoints, and a half-open one extends up to but does not include the top value.  In Swift you see half-open intervals most.  For example
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let r = 0..<5   // 0,1,2,3,4
     
@@ -28,7 +28,7 @@ A Swift interval "contains" the values between two endpoints, but it does not kn
 
 Here the type information isn't required, but I want to tell the compiler what we expect:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let i1: ClosedInterval = 1...5
     print(i1.contains(3))
@@ -36,7 +36,7 @@ Here the type information isn't required, but I want to tell the compiler what w
 
 This doesn't work:  ``print(i1.contains(3.14159265))`` but the reason is that the interval is typed!  In the interpreter:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     1> let i = 1.5...3.5
     i: ClosedInterval<Double> = {
@@ -49,7 +49,7 @@ This doesn't work:  ``print(i1.contains(3.14159265))`` but the reason is that th
 
 A new operator ``~=`` can be used to do the ``contains`` test:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let i1: ClosedInterval = 1...5
     print(i1.contains(3))
@@ -58,7 +58,7 @@ A new operator ``~=`` can be used to do the ``contains`` test:
 
 The operators for ranges and intervals are the same.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let r1: Range = 1...5
     let r2: Range = 1..<6
@@ -69,7 +69,7 @@ The operators for ranges and intervals are the same.
 
 To reverse a range, use ``reverse``
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let r: Range = 1...3
     for i in r.reverse() { print(String(i) + " ") }
@@ -84,7 +84,7 @@ To reverse a range, use ``reverse``
 
 There is also ``stride``, which is sort of like ``range`` in Python with the optional third argument.  In Swift:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     for i in 0.stride(through: -4, by: -2) {
       print(i)
@@ -100,7 +100,7 @@ There is also ``stride``, which is sort of like ``range`` in Python with the opt
 
 The Swift "interpreter" REPL prints:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
       5> let st = 0.stride(through: -4, by: -2)
     st: StrideThrough<Int> = {
@@ -111,7 +111,7 @@ The Swift "interpreter" REPL prints:
     
 Sequences can be generated lazily (only as needed for use), which is useful with very long ones.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let r: Range = 1...3
     for i in r.lazy.reverse() {
@@ -128,7 +128,7 @@ Sequences can be generated lazily (only as needed for use), which is useful with
 
 And finally:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let x = 6
     switch (x) {
@@ -141,7 +141,7 @@ And finally:
 
 We will talk about ``switch`` statements a bit later.  I hope it is obvious how this works.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let x = 6
     let y = 5

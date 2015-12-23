@@ -16,7 +16,7 @@ Integers may also be signed or unsigned.  One reason these are different is fund
 
 Look at 8 bit integers.  ``UInt8`` can represent [0,255], while ``Int8`` can represent [-128, 127].  In both cases there are 2e8 or 256 total possible values.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     print("\(UInt8.min) \(UInt8.max)")
     print("\(Int8.min) \(Int8.max)")
@@ -40,19 +40,19 @@ We want n + (-n) = 0.
 
 So if n = 1:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     n = 0000 0001
 
 then -n = 
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     -n = 1111 1111
 
 when we add the two numbers together we get 1 0000 0000 and the 1 is lost by overflow.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     127  = 0111 1111
     -127 = 1000 0001
@@ -67,7 +67,7 @@ It's a little strange.
 
 We can see this more directly:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let a: [UInt8] = [255]
     let p = UnsafePointer<UInt8>(a)

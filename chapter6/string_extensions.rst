@@ -6,7 +6,7 @@ Extensions for String
     
 In this section we'll develop some extensions for the String type.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     extension String {
 
@@ -89,7 +89,7 @@ In this section we'll develop some extensions for the String type.
 
 And some useful for dealing with hexadecimal strings:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     /*
     but first, a utility to print a UInt8

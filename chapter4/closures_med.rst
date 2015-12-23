@@ -12,7 +12,7 @@ You have a function and you are going to use it right away, so it seems like a s
 
 Maybe the simplest closure is the one I used in the chapter on sorting:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     var a = ["Chris", "Alex", "Barry"]
     a.sortInPlace { $0 < $1 }
@@ -30,26 +30,26 @@ The ``<`` is our contribution.  We might as well have put ``>``, to sort in the 
 
 We could do this more explicitly as:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     { (a: String, b: String) -> Bool 
         in return a < b }
 
 Fairly compactly as
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     { a,b in a < b }
     
 Or ridiculously compactly as
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     { < }
 
 The Array class method ``map`` takes a function as an argument and applies it to each member of the array.  Here is a first example, using ``map`` with a function (rather than a closure):
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     var a = ["a","b","c"]
     func star (s: String) -> String {
@@ -60,13 +60,13 @@ The Array class method ``map`` takes a function as an argument and applies it to
 
 .. sourcecode:: bash
 
-    > xcrun swift x.swift 
+    > swift x.swift 
     [a*, b*, c*]
     >
 
 Now, maybe we don't expect we will reuse ``star`` in any other place.  Or... well, there are some common usages we can talk about in a bit.  So modify the example to use a closure:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     var a = ["a","b","c"]
     let result = a.map({
@@ -80,7 +80,7 @@ This second version (above) gives the same result as the first.  The keyword ``i
 
 Here is another example:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     var a = [20, 19, 7, 12]
     let result = a.map({
@@ -93,13 +93,13 @@ Here is another example:
     
     .. sourcecode:: bash
     
-    > xcrun swift x.swift 
+    > swift x.swift 
     [60, 57, 21, 36]
     >
 
 The rules allow you to omit things if they're obvious.  In the above example, we can omit the argument type since it's obvious from the array we use:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     var a = [20, 19, 7, 12]
     let result = a.map({
@@ -110,7 +110,7 @@ The rules allow you to omit things if they're obvious.  In the above example, we
     
 You can omit the return type because it is also obvious (but you must omit the ``-> Int``, the variable ``result`` and the ``return`` statement).
 
-.. sourcecode:: bash
+.. sourcecode:: swift
     
     var a = [20, 19, 7, 12]
     let result = a.map({
@@ -119,7 +119,7 @@ You can omit the return type because it is also obvious (but you must omit the `
 
 Similarly, for the other example this works:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     var a = ["a","b","c"]
     let result = a.map({ s in s + "*" })
@@ -127,7 +127,7 @@ Similarly, for the other example this works:
 
 And so does this:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     var a = ["a","b","c"]
     let result = a.map({ $0 + "*" })
@@ -135,7 +135,7 @@ And so does this:
 
 You can even omit the parentheses!
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     var a = ["a","b","c"]
     let result = a.map { $0 + "*" }
@@ -143,14 +143,14 @@ You can even omit the parentheses!
 
 Here are some common use cases for me:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let cL = "ab".characters
     let a1 = cL.map { String($0) }
 
 ``characters`` gives a value of type ``String.CharacterView``.  I'd like an array of String values, and this does it.  Similarly,
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let iL = "ab".utf8
     let a2 = iL.map { UInt($0) }

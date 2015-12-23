@@ -6,7 +6,7 @@ Binary
 
 In Swift, ``0b10100101`` is a "binary literal", with which you can initialize a UInt8, the standard data type for binary data.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     import Foundation
 
@@ -41,7 +41,7 @@ These are the binary operators.
 
 The shift operators are used like so.  Suppose we have decimal 257 which is ``0000000100000001``, when we do ``257 << 8`` the whole pattern is shifted right by eight places (and the low value bits are discarded).  So we end up with ``00000001`` which is just equal to decimal 1.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     > swift
     Welcome to Apple Swift version 2.1.1 (swiftlang-700.1.101.15 clang-700.1.81). Type :help for assistance.
@@ -51,7 +51,7 @@ The shift operators are used like so.  Suppose we have decimal 257 which is ``00
 
 Here is exclusive or:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     import Foundation
 
@@ -75,7 +75,7 @@ Note:  ``a`` is decimal 10 or binary ``1010``.
 
 A pure Swift way to do it is with ``String(n, radix: 16)``.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     func intToHexString(n: UInt) -> String {
         let s = String(n, radix: 16)
@@ -111,7 +111,7 @@ http://blog.krzyzanowskim.com/2015/03/01/swift_madness_of_generic_integer/
 
 Here is an example from the docs:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
 
     let pink: UInt32 = 0xCC6699
@@ -124,7 +124,7 @@ Here is an example from the docs:
 
 Having exclusive or immediately suggests encryption.  Here is a silly example:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     import Foundation
 

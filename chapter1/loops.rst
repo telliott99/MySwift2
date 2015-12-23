@@ -6,7 +6,7 @@ Loops
 
 We are going to use some arrays below, even though they haven't been introduced yet.  I hope what we're doing is fairly obvious, if not, see :ref:`array`.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     var intList = [2,4,6]
     for x in intList { 
@@ -24,7 +24,7 @@ Here we need the explicit conversion to String, because the first thing that is 
 
 We can get a range of values (including 3)
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     var i:Int
     for i in 1...3 { 
@@ -40,7 +40,7 @@ We can get a range of values (including 3)
 
 A while loop:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     while true {
         print("Yes")
@@ -55,7 +55,7 @@ A while loop:
 
 And a traditional loop
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     var count = 0
     for i = 0; i < 3; ++i {
@@ -71,7 +71,7 @@ And a traditional loop
 
 If you want to access the value of ``i`` after the loop terminates, you must declare it outside the loop as ``var i: Int``.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     var i: Int
     for i = 0; i < 3; ++i {
@@ -82,7 +82,7 @@ If you want to access the value of ``i`` after the loop terminates, you must dec
 
 An odd way to do something ``n`` times.  Notice the``_`` variable (a way of saying we will ignore this value, and it's not available inside the loop)
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let base = 2
     let power = 10
@@ -94,7 +94,7 @@ An odd way to do something ``n`` times.  Notice the``_`` variable (a way of sayi
     
 This is legal!
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     var i: Int
     let ifeellikeit = true

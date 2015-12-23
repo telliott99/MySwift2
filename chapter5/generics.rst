@@ -8,7 +8,7 @@ Swift is all about type safety, but provides the tools to do unsafe things when 
 
 We convert call-by-value into call-by-reference.  The parameters are marked with the label ``inout`` and there is no return value.  Notice the use of ``&x`` and ``&y``, with a meaning at least analogous to that in C and C++.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     func swapInts(inout a: Int, inout _ b: Int) {
         let tmp = a
@@ -30,7 +30,7 @@ We convert call-by-value into call-by-reference.  The parameters are marked with
 
 We can replace the above by a generic version.  A generic function will work with any type T.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     func swapTwo<T>(inout a: T, inout _ b: T) {
         let tmp = a
@@ -45,14 +45,14 @@ We can replace the above by a generic version.  A generic function will work wit
 
 .. sourcecode:: bash
 
-    > xcrun swift test.swift
+    > swift test.swift
     x = 1, y = 2
     x = 2, y = 1
     >
 
 For example, the above will work with an Array<String>.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     func swapTwo <T> (a: T, _ b: T) -> (T,T) {
         return (b, a)
@@ -73,7 +73,7 @@ For example, the above will work with an Array<String>.
 
 An alternative approach would be to just use multiple return values in a tuple:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     func swapTwo <T> (a: T, _ b: T) -> (T,T) {
         return (b, a)
@@ -96,7 +96,7 @@ We declare the return type as `(T,T)`.
 
 You might have wondered about the function's name (swapTwo).  The reason for this is that ``swap`` actually exists in the standard library as a generic:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     var m = 1
     var n = 2
@@ -105,7 +105,7 @@ You might have wondered about the function's name (swapTwo).  The reason for thi
 
 That's a lot of ink to describe something that could just be done with a tuple (or a variable that I would name ``tmp``).
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     var x = 1, y = 2
     (x,y) = (y,x)
@@ -119,7 +119,7 @@ Optional
 
 Here is reimplementation of the Optional enum type:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     enum OptionalValue<T> {
         case None
@@ -135,7 +135,7 @@ Stack
 
 Here is an implementation (from the docs, mostly) of a stack:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     struct StringStack {
         var items = [String]()
@@ -156,13 +156,13 @@ Here is an implementation (from the docs, mostly) of a stack:
 
 .. sourcecode:: bash
 
-    > xcrun swift test.swift
+    > swift test.swift
     cuatro
     >
 
 And now, let's rewrite it to use generics
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     struct Stack <T> {
         var items = [T]()
@@ -185,7 +185,7 @@ Prints the same as before.
 
 Use the same struct but with Ints:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     var IntSt = Stack<Int>()
     for i in 1...3 { IntSt.push(i) }
@@ -199,7 +199,7 @@ Use the same struct but with Ints:
 
 I don't have a good use case yet, but you can have more than one generic type:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     func pprint <S,T> (s: S, t: T) {
         print("The value of s is \(s) and t is \(t)")
@@ -214,7 +214,7 @@ I don't have a good use case yet, but you can have more than one generic type:
 
 You can name the generic types anything you like (although caps are standard)
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     func pprint <SillyType1,SillyType2> 
         (s: SillyType1, _ t: SillyType2) {
@@ -224,7 +224,7 @@ You can name the generic types anything you like (although caps are standard)
 
 This next example deals with both generics and protocols.  An efficient collection to use when you want to check whether a value is present is a dictionary.  Since String and Int types can be KeyValue types for a dictionary, this works great:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     func singles <T: Hashable> (input: [T]) -> [T] {
         var D = [T: Bool]()
@@ -255,7 +255,7 @@ What this says is that we'll take an array of type T and then return an array of
 
 Of course, a set would be even better.  (Swift 1 didn't have them).
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     var a = ["a","b","a"]
     a = Array(Set(a))
@@ -268,7 +268,7 @@ In order to use this for a user-defined object, that object must follow the Hash
     
 Declarations involving generics can get pretty complicated.  Notice all the qualifiers that come after ``where``.  (Also, this example has changed since the Swift book was released, ``Sequence`` has become ``SequenceType`` and ``T.Generator.Element`` replaces ``T.GeneratorType.Element``).
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     func anyCommonElements <T, U where
         T: SequenceType, U: SequenceType, 
@@ -289,7 +289,7 @@ Declarations involving generics can get pretty complicated.  Notice all the qual
 
 .. sourcecode:: bash
 
-    > xcrun swift test.swift
+    > swift test.swift
     true
     >
 

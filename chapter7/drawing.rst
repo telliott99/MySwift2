@@ -14,7 +14,7 @@ that implements drawing to a pdf without actually having a window on-screen.  So
 
 Here is the basic code to draw to pdf:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     import Cocoa
 
@@ -55,7 +55,7 @@ Here is the resulting figure, which may justify browsing through the code below.
 .. image:: /figures/x.png
    :scale: 75 %
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     import Cocoa
 

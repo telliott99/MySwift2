@@ -8,7 +8,7 @@ We continue with the example from the previous section
 
 ``CardArray.swift``:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     // a class so we can differentiate Deck and Hand
     class CardArray: CustomStringConvertible,
@@ -139,7 +139,7 @@ We continue with the example from the previous section
 
 We need some accessory functions in ``intstuff.swift``
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     import Foundation
 
@@ -185,7 +185,7 @@ We need some accessory functions in ``intstuff.swift``
 
 To test it, we write a new ``main.swift``:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     func runTests(currentDeck: Deck) {
         test1()

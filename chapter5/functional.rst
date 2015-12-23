@@ -14,7 +14,7 @@ A ``filter`` takes an array of values and a predicate, which is a function that 
 
 There used to be a built-in ``filter`` global function:  called like ``filter(myarray)``.  Now the array class has a ``filter`` method, which is called as ``myarray.filter()``.  We can use it with a closure:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let a = Array(0...10)
     let result = a.filter { $0 < 5 && $0 % 2 == 0 }
@@ -28,7 +28,7 @@ There used to be a built-in ``filter`` global function:  called like ``filter(my
 
 Sets are particularly good for testing membership:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let set = Set(["a","b"])
     let a = ["a","b","c"]
@@ -44,7 +44,7 @@ Sets are particularly good for testing membership:
 
 Here is another example with String and a home-made version of split.  (Later we'll see a better and shorter way to do this with ``map``).
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     func mysplit(s: String) -> [String] {
         var ret = Array<String>()
@@ -74,7 +74,7 @@ Here is another example with String and a home-made version of split.  (Later we
     
 Now, let's write our own version of filter, as a generic function that takes an array parameter.
     
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     func myfilter <T> (a: Array<T>, _ pred: (T) -> (Bool)) -> Array<T> {
         var ret = Array<T>()
@@ -106,7 +106,7 @@ We pass either a function or a closure.
 
 A String example using ``myfilter`` from above:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let a1 = ["a","b","c","d","e"]
 
@@ -130,7 +130,7 @@ Map
 
 A ``map`` function takes an array and a function which transforms the values.  ``map`` applies ``transform`` to each element of the array and returns the result as an array.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     func mymap <T,U> (a: [T], _ transform: (T) -> (U) ) -> [U] {
           var ret = [U]()
@@ -156,7 +156,7 @@ I got ``ord`` from here:
 
 https://github.com/practicalswift/Pythonic.swift/blob/master/src/Pythonic.swift
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     import Foundation
 
@@ -199,7 +199,7 @@ https://github.com/practicalswift/Pythonic.swift/blob/master/src/Pythonic.swift
     
 There is also a function called ``flatMap``:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let a = [[1,2], [3]]
     print(a.flatMap { $0 })
@@ -216,7 +216,7 @@ However, ``flatMap`` fails if the nesting goes another level down:  ``[[1, 2], [
 
 Here is another one.  ``mymap`` returns nil when the element is nil, and the transformed element otherwise.  To me the most interesting part is that we can switch on ``optstr`` as Optional
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     func mymap<T, U>(x: T?, f: T -> U) -> U? {
       switch x {
@@ -239,13 +239,13 @@ Apparently, ``.Some`` and ``.None`` are the two possible enum values for an Opti
 Reduce
 ------
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let a = 1..<100
     let sum = a.reduce(0, combine: +)
     print(sum)  // 4950
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let a = 1..<10
     let product = a.reduce(1, combine: *)

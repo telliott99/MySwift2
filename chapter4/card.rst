@@ -12,7 +12,7 @@ All the code from this section is in one file named ``card.swift``, in the ``cod
 
 The first thing is to define ``enum``s for Suit and Rank.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     /*
     enum Suit and Rank have a "raw value" Int (for <, > and == )
@@ -66,7 +66,7 @@ So Suit and Rank know how to order themselves, and how to print as an appropriat
 
 Next for the Card struct.  The struct definition and some of the methods are marked as ``public``.  This is required in order to use them from a different module, which we will use to test this one.  
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     public func == (lhs: Card, rhs: Card) -> Bool {
         return lhs.suit == rhs.suit && lhs.rank == rhs.rank
@@ -130,7 +130,7 @@ The name ``main`` is required.
     
 This won't work yet, however, I still need to write ``main.swift``.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     func test() {
         var a: [Card] = []

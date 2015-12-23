@@ -6,7 +6,7 @@ Tuples
 
 Tuples may contain two (or more) values of any Type or Types you like.  
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let status = (404, "Not Found")
 
@@ -27,11 +27,11 @@ Tuples may contain two (or more) values of any Type or Types you like.
     OK
     >
 
-A couple points to make here.  First, indexing always starts with ``0``.  Hence ``status.1`` is the *second* component of the tuple ``status``.  Also, Swift encourages the use of ``_`` to ignore or throw away the value of a result when it is not actually going to be used.  And third, assignment of a tuple to ``(_, str)`` requires the parentheses.
+A couple of points to make here.  First, indexing always starts with ``0``.  Hence ``status.1`` is the *second* component of the tuple ``status``.  Also, Swift encourages the use of ``_`` to ignore or throw away the value of a result when it is not actually going to be used.  And third, assignment of a tuple to ``(_, str)`` requires the parentheses.
 
 Tuples are useful for returning multiple values from a function.  A silly example:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     func f(str: String) -> ([String], Int) {
         var ret = Array<String>()
@@ -52,7 +52,7 @@ Tuples are useful for returning multiple values from a function.  A silly exampl
     
 Tuples can be used for multiple assignment:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     func myswap(i: Int, _ j: Int) -> (Int, Int) {
         return (j, i)

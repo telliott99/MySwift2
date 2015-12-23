@@ -22,7 +22,7 @@ They go on:
 
 So a key feature is that closures capture values from the environment when they are called.  Global functions don't do this.  Or they shouldn't.  However this:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let s = "Hello"
     func f() { print(s) }
@@ -32,7 +32,7 @@ Actually does print ``Hello``.
 
 In the next example, we return a function from a function.  The function's type is ``() -> ()``, that is, it takes no arguments and returns void.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let s = "Hello"
     func f() -> () -> () {
@@ -52,7 +52,7 @@ In the next example, we return a function from a function.  The function's type 
     
 We can modify it to eliminate the identifier ``g``:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let s = "Hello"
     func f() -> () -> () {
@@ -69,7 +69,7 @@ We can modify it to eliminate the identifier ``g``:
     
 The following also works, but I can't say I think it's a good idea:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let s = "Hello"
     var x = 5
@@ -82,14 +82,14 @@ The following also works, but I can't say I think it's a good idea:
 
 .. sourcecode:: bash
 
-    > xcrun swift test.swift
+    > swift test.swift
     6
     7
     >
 
 A great example of progressive simplification of closures is the array ``sort`` function, which we call as a method on an array to be sorted, providing a comparison function as the second argument.  So to sort Strings you might write this code:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     func rev(s1: String, s2: String) -> Bool { return s1 > s2 }
     var a = ["a","b","c"]
@@ -99,7 +99,7 @@ A great example of progressive simplification of closures is the array ``sort`` 
     
 To sort Ints *or* Strings, you could write a "generic" function, something like this:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     func rev <T:Comparable> (s1: T, s2: T) 
         -> Bool { return s1 > s2 }
@@ -122,7 +122,7 @@ but we'll hold off on those until :ref:`generics`.
 
 In these examples, it does seem a bit long-winded to use a name for ``rev``, since we only put it immediately as the second argument to ``sorted``.  Use a closure:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     var names = ["Bob", "Alex", "Charlie"]
     names.sortInPlace {
@@ -134,7 +134,7 @@ In these examples, it does seem a bit long-winded to use a name for ``rev``, sin
 
 In fact, the docs say that the closure's argument types can *always* be inferred from the context when a closure is passed as an argument to another function.  In fact, the return type can be inferred as well.  So we can lose them and the compiler won't complain:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     var names = ["Bob", "Alex", "Charlie"]
     names.sortInPlace { s1, s2 in return s1 > s2 }
@@ -142,7 +142,7 @@ In fact, the docs say that the closure's argument types can *always* be inferred
 
 If the entire closure is a single expression, the return can also be omitted.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     var names = ["Bob", "Alex", "Charlie"]
     names.sortInPlace { s1, s2 in s1 > s2 }
@@ -154,7 +154,7 @@ In addition to that, the ``in`` looks weird, so I try to suppress my instinct to
 
 As we saw in the previous section :ref:`closures_med`, we don't need variable names
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     var names = ["Bob", "Alex", "Charlie"]
     names.sortInPlace { $0 > $1 }
@@ -162,7 +162,7 @@ As we saw in the previous section :ref:`closures_med`, we don't need variable na
 
 Even passing in a lone operator will work!
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     var names = ["Bob", "Alex", "Charlie"]
     names.sortInPlace(>)
@@ -186,7 +186,7 @@ At the top of the list in the web resource are these:
 
 With this declaration syntax (``c`` is for closure, ``p`` for parameter, and ``r`` for return):
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     var cName: (pTypes) -> (rType)
     typealias cType = (pTypes) -> (rType)
@@ -194,7 +194,7 @@ With this declaration syntax (``c`` is for closure, ``p`` for parameter, and ``r
 
 Let's start with a closure that takes a String argument and returns one as well:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     func f (name: String, _ myC: (String) -> String) -> String {
             let t = myC(name)
@@ -212,19 +212,19 @@ Let's start with a closure that takes a String argument and returns one as well:
 
 In this part of the above definition
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     func f (name: String, _ myC: (String) -> String) -> String {
 
 The last ``{`` is the beginning of the function, the last ``-> String`` is the functions return type, and the function's argument list consists of
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     (name: String, _ myC: (String) -> String)
 
 We can modify this example by using a ``typealias``, as follows
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     typealias greeting = (String) -> (String)
     func f(name: String, _ myC: greeting) -> String {
@@ -243,7 +243,7 @@ That helps, but only a little bit.  What helps more (though it makes things a li
 
 One important usage is the Cocoa idiom to use blocks for callbacks from open and save panels.  In Objective C we have this method:
 
-.. sourcecode:: bash
+.. sourcecode:: objective-c
 
     [panel beginWithCompletionHandler:^(NSInteger result) {
         if (result == NSFileHandlingPanelOKButton) {
@@ -256,7 +256,7 @@ The structure here is that the method takes an Objective C "block", similar to w
 
 The second parameter is 
 
-.. sourcecode:: bash
+.. sourcecode:: objective-c
 
     completionHandler:^(NSInteger result) { }
     
@@ -264,19 +264,19 @@ An ``^(NSInteger result) { .. }`` defines a block that takes an ``NSInteger`` an
 
 If we're going to do this in Swift, we'll do something like
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     func f (name: String, myC: (String) -> String) -> String {
 
 from before, except our closure won't return anything and the method won't return anything either..
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     panel.beginWithCompletionHandler(handler:###)
 
 We need to replace the ``###`` with a block/closure that takes an NSInteger and doesn't return anything..
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let op = NSOpenPanel()
     op.prompt = "Open File:"
@@ -306,7 +306,7 @@ Another example uses a "trailing" closure:
 
 http://meandmark.com/blog/
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     op.beginWithCompletionHandler { (result: NSInteger) -> Void in 
         if (result == NSFileHandlingPanelOKButton) {
@@ -321,7 +321,7 @@ You can wrap everything from ``{ result: Int .. println(f) }}`` in parentheses l
 
 We can also separate the handler code from its invocation.  Define a variable to hold the ``handler``:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     var handler = { (result: Int) -> Void in
         if (result == NSFileHandlingPanelOKButton) {
@@ -332,13 +332,13 @@ We can also separate the handler code from its invocation.  Define a variable to
 
 Put the above just after ``var op = NSOpenPanel()`` and call
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     op.beginWithCompletionHandler(handler)
 
 Or we could think about just turning it into a named function.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     func handler(result: NSInteger) {
         if (result == NSFileHandlingPanelOKButton) {
@@ -353,7 +353,7 @@ Note:  the function approach should not work, because according to the docs, a f
 
 Stick this into the AppDelegate and call it from ``applicationDidFinishLaunching``:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     func doOpenPanel() {
         var op = NSOpenPanel()

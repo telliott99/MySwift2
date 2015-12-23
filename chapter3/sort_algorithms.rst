@@ -6,7 +6,7 @@ Sort Algorithms
 
 Let's just demo a few algorithms for sorting, implemented in Swift.  First, some utility functions.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     func pp (s: String, _ a: [Int]) {
         print (s + " ")
@@ -22,7 +22,7 @@ Let's just demo a few algorithms for sorting, implemented in Swift.  First, some
 
 Then, the elementary sorts:  bubble, selection and insertion sort:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     func bubble_sort(inout a: [Int]){
         for _ in 0...a.count - 1 {
@@ -64,7 +64,7 @@ Then, the elementary sorts:  bubble, selection and insertion sort:
 
 Very useful:  merge sort
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     func merge(a1: [Int], _ a2: [Int]) -> [Int] {
         // a1 and a2 are sorted already
@@ -99,7 +99,7 @@ Very useful:  merge sort
 
 And now to exercise them:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let a = [32,7,100,29,55,3,19,82,23]
     pp("before: ", a)

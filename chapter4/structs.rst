@@ -6,7 +6,7 @@ Structs
 
 Here is a bare-bones Swift struct
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     struct P {
         var x, y: Int
@@ -31,7 +31,7 @@ One great addition is to print out a nice (programmer-designed) string to descri
 
 Add something else to ``P``.  It looks like this:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     struct P {
         var x, y: Int
@@ -57,7 +57,7 @@ But wouldn't it be nice if we could just call ``print(st)`` and have it print th
 
 To do this, we need to declare that this struct conforms to a protocol with a very fancy name (it used to be called ``Printable``).  Substitute:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     struct P: CustomStringConvertible {
         var x, y: Int
@@ -83,7 +83,7 @@ Value Type
 
 Structs are passed by value, they are "value types".
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     struct P: CustomStringConvertible {
         var x, y: Int
@@ -131,7 +131,7 @@ That's a lot, even for structs!  In general, structs should be preferred, unless
 
 Let's see what we can do.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     struct X: CustomStringConvertible {
         var x: Int
@@ -156,7 +156,7 @@ Having a default value for ``input`` in the initializer for X means you will not
 
 You might do it differently.  For example:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     struct IKnowWhatThisIs {
         var x: Int
@@ -178,7 +178,7 @@ Here we named our input parameter to distinguish it from the property, but becau
 
 More traditional way of writing a ``Point`` struct:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     struct Point: CustomStringConvertible {
         var x, y: Int
@@ -204,7 +204,7 @@ I've always been a bit confused by properties (with getters and setters) and ins
 
 On the other hand, properties can be more sophisticated.  We could provide a "getter" and "setter" for ``myvar``.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     var myvar {
         get { /* implementation */ }
@@ -223,7 +223,7 @@ mutating
 
 A method which changes the state of a struct (even a variable struct) must be marked ``mutating``:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     struct MyStruct {
         var x: Int
@@ -253,7 +253,7 @@ A method which changes the state of a struct (even a variable struct) must be ma
 
 Oops.  Make that change:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     var st = MyStruct(10)
     
@@ -273,7 +273,7 @@ Use of self
     
 When this is not enough:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     struct X {
         var x: Int = 0
@@ -296,7 +296,7 @@ Assigning to self within a Mutating Method
 
 Mutating methods can assign an entirely new instance to the implicit self property.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     struct Point {
         var x = 0.0, y = 0.0
@@ -309,7 +309,7 @@ This version of the mutating ``moveByX(_:y:)`` method creates a brand new struct
 
 Mutating methods for enumerations can set the implicit self parameter to be a different case from the same enumeration.  Here is a cool example from the docs:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     enum TriStateSwitch {
         case Off, Low, High

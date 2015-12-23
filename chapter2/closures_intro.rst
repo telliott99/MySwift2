@@ -10,7 +10,7 @@ According to the docs:
 
 Here is the docs' example where the comparison function is turned into a closure.  First, sorting with a function:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let names = ["Chris", "Alex", "Barry"]
 
@@ -29,7 +29,7 @@ Here is the docs' example where the comparison function is turned into a closure
 
 Notice that the array is not sorted in place.  Instead a copy is returned that is sorted.  Now for the closure version:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let names = ["Chris", "Alex", "Barry"]
     let r = names.sort({ (s1: String, s2: String) -> Bool in return s1 > s2 })

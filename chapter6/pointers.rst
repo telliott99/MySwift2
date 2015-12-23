@@ -7,7 +7,7 @@ Pointers in Swift
 We saw some good examples of Swift pointers, used to work with a C library in _____.  I just discovered ``UnsafeBufferPointer`` (and its mutable cousin), which initialize with a count.  These guys allow use of the ``for .. in`` construct.
 
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     var buffer: [UInt8] = [1,33,126,255]
     let p = UnsafeBufferPointer(start: buffer, count: 4)

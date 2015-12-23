@@ -4,7 +4,7 @@
 NSOpenPanel
 ###########
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     import Cocoa
 

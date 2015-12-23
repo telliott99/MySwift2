@@ -6,7 +6,7 @@ File Operations
 
 Reading files is a bit more complicated than anything we have done so far.  In Swift 2, it involves use of ``do try catch``, like this:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     import Foundation  // for  NSUTF8StringEncoding
 
@@ -32,7 +32,7 @@ We "try" to read the file, and enclose that in a "do" brace followed by "catch" 
 
 We will not really try to explain this line yet:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     catch let error as NSError
 
@@ -62,7 +62,7 @@ Writing
 
 Here are two examples one with data and the other with text:
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     let data = NSData(
         bytes: input,
@@ -71,7 +71,7 @@ Here are two examples one with data and the other with text:
         path, 
         atomically: true)
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     do {
         try input.writeToFile(

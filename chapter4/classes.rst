@@ -4,7 +4,7 @@
 Classes
 #######
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     class Obj: CustomStringConvertible {
         var name: String
@@ -31,7 +31,7 @@ Classes
 
 My favorite simple example of a class is one which keeps track of the count of instances.  The docs say to do this with a ``class`` variable.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     class Counter {
         static var count = 0

@@ -6,7 +6,7 @@ Extensions for Arrays
     
 In this section we'll develop some extensions for the Array type.
 
-.. sourcecode:: bash
+.. sourcecode:: swift
 
     extension Array {
         func elementCount<T: Equatable> (input: T) -> Int {
