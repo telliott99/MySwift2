@@ -59,7 +59,13 @@ when we add the two numbers together we get 1 0000 0000 and the 1 is lost by ove
 
 Added together, we get 0.
 
-It's a little strange.  We can see this more directly:
+Another way to look at this is to say that for a signed Int8 we add 2^p for all the positions p with a ``1`` from the 0th to the 6th position (right-to-left), and then add -2^7 for a ``1`` in the last spot on the left.  
+
+Thus ``1000 0001`` is equal to -128 + 1 = -127.
+
+It's a little strange.
+
+We can see this more directly:
 
 .. sourcecode:: bash
 

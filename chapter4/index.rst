@@ -11,4 +11,5 @@ Contents:
    classes 
    enums
    closures_med
-
+   card
+   deck
