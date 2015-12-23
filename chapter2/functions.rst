@@ -136,7 +136,7 @@ Provide a function as an argument to a function?  Sure..
 
 .. sourcecode:: swift
 
-    func myfilter(list: [Int], _ cond: Int->Bool) -> [Int] {
+    func myfilter(list: [Int], _ cond: Int -> Bool) -> [Int] {
         var result:[Int] = []
         for e in list {
            if cond(e) {

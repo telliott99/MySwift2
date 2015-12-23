@@ -251,4 +251,8 @@ Reduce
     let product = a.reduce(1, combine: *)
     print(product)  // 362880 == 10!
     
+I haven't used reduce much, in practice.  For some ideas, see:
+
+http://stackoverflow.com/questions/15995/useful-code-which-uses-reduce-in-python
+
 

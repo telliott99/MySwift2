@@ -29,7 +29,7 @@ In Swift, ``0b10100101`` is a "binary literal", with which you can initialize a 
 
 Binary ``10100101`` is equal to 128 + 32 + 4 + 1 = 165 in decimal, and 10*16 + 5 in hexadecimal, or ``a5``.  The ``~`` operator negates bits, so we have that ``b2`` is equal to ``01011010`` which is 64 + 16 + 8 + 2 = 90.  In hexadecimal 90 is equal to 10*5 + 10 or ``5a``.
 
-It is just a peculiarity of this example that ``5 = ~a``, that is, ``0101`` = ~``1010``.
+It is just a peculiarity of this example that ``5 = ~a``, that is, ``0101`` = ``~1010``.
 
 These are the binary operators.
 

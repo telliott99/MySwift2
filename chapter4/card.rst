@@ -1,8 +1,8 @@
 .. _card:
 
-***************************
-Playing Cards:  Card struct
-***************************
+***********
+Card struct
+***********
 
 Constructing a deck of playing cards, and then developing a simple game seems like a good project for a starting intermediate programmer.  In this section and the next is my version of a Card struct and a CardArray class to be used as the basis for such a program.
 

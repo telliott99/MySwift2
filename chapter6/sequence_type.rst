@@ -8,11 +8,11 @@ We introduced protocols in a general way previously (:ref:`protocols`).
 
 Let's extend that discussion by looking at the GeneratorType protocol.
 
-First, and fundamentally, there is some object that provides a method ``next``, where each successive call to ``next`` provides the *next* element of whatever type it is that the object provides.
+First, and fundamentally, there is an object that provides a method ``next``, where each successive call to ``next`` provides the *next* element of whatever type it is that the object provides, in whatever order the object defines.
 
 We will accomplish this with a struct rather than a class, just to show that we can, and because classes are really intended for a situation where we intend to subclass our generator, which we aren't going to do.
 
-Since any function that changes state within the struct needs to be specially marked, the ``next`` function needs to have the label ``mutating``.  Also, ``i`` has to be a variable rather than a constant.  (Neither would be true if we had used a class).
+Since any function that changes state within the struct needs to be marked as such, the ``next`` function needs to have the label ``mutating``.  Also, ``i`` has to be a variable rather than a constant.  (Neither would be true if we had used a class).
 
 .. sourcecode:: swift
 
@@ -81,7 +81,9 @@ This code compiles and gives the same output as before.
     1 2 3 4 5 6 7 8 9 10 
     >
 
-``Element?`` is of type Optional Int, and that is also required---its presence suggests the idea that the sequence may have a finite number of values.  So let's modify ``next`` to return ``nil`` when the sequence reaches a maximum value of 5:
+``Element?`` is of type Optional Int, and that is also required.
+
+Its presence suggests that the sequence may have a finite number of values.  So let's modify ``next`` to return ``nil`` when the sequence reaches a maximum value of 5:
 
 .. sourcecode:: swift
 
@@ -121,7 +123,7 @@ Now, finally we will try to use the ``for .. in`` construct, by substituting thi
         }
     print("")
 
-The compiler complains that "value of type 'IntGenerator' has no member 'Generator'".  
+This doesn't work, the compiler complains that "value of type 'IntGenerator' has no member 'Generator'".  
 
 I am not quite sure of all the subtleties here, but I googled a bit and the problem can be solved by adding another struct.  We don't change what is already there, except to instantiate the second struct rather than the first in the ``for .. in`` part.
 
@@ -150,7 +152,7 @@ I am not quite sure of all the subtleties here, but I googled a bit and the prob
         }
     print("")
 
-Our additional struct has one method:  ``generate``.  And all that method does is to instantiate and return an ``IntGenerator``.  It seems a little silly.  Why can't we just do the instantiation ourselves?
+Our additional struct has one method:  ``generate``.  And all that method does is to instantiate and return an ``IntGenerator``.  It seems a little silly that we can't just do the instantiation ourselves?
 
 Swift is looking for a particular function signature for ``generate``.  So as with ``Element``, the type it's looking for is ``Generator`` but the compiler will complain unless you typealiase that to ``IntGenerator``.  And with that change, the compiler allows us to claim that the struct ```IntGeneratorFactory`` conforms to the ``SequenceType`` protocol.
 
@@ -193,7 +195,7 @@ http://www.scottlogic.com/blog/2014/06/26/swift-sequences.html
     
 If need be, we could spiff this up by adding a class that provides the ``generate`` method, and get it to conform to the SequenceType protocol in exactly the same way as before.
 
-I thought it would be nice to have a class that generates random numbers suitable for encryption (that is, ``UInt8``).  We will adapt the Foundation function ``SecRandomCopyBytes`` to this purpose (see :ref:`random`).
+I thought it would be nice to have a class that generates random numbers.  We will adapt the Foundation function ``SecRandomCopyBytes`` to this purpose (see :ref:`random`).
 
 .. sourcecode:: swift
 
@@ -234,8 +236,6 @@ I thought it would be nice to have a class that generates random numbers suitabl
     > swift test.swift.txt 
     119 15 188 0 228 165 37 
     >
-
-Of course, it needs to be hooked up to an encryption routine that takes a string and a key and returns the encrypted text.
 
 There is much, much more to this topic including CollectionType and SliceType and ...
 
