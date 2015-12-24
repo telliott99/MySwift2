@@ -208,13 +208,13 @@ The function used above is shown in the file ``CommonKeyDerivation`` as
 Take them in order:
 
     - ``CCPBKDFAlgorithm``:  is listed earlier in the file as ``typedef uint32_t CCPBKDFAlgorithm``, so it's just a uint32_t.  According to the file "Currently only PBKDF2 is available via kCCPBKDF2", so we just called with ``CCPBKDFAlgorithm(kCCPBKDF2)``
-    - const char *password:  so this is different than the salt, which explains why Swift obligingly let us pass a Swift String in for this parameter
+    - const char \*password:  so this is different than the salt, which explains why Swift obligingly let us pass a Swift String in for this parameter
     - size_t passwordLen:  Int
-    - const uint8_t *salt:  UnsafePointer<UInt8>(salt)
+    - const uint8_t \*salt:  UnsafePointer<UInt8>(salt)
     - size_t saltLen:  Int
     - CCPseudoRandomAlgorith: is also ``typedef uint32_t CCPBKDFAlgorithm``, so it's just a uint32_t.  We called this with CCPseudoRandomAlgorithm(kCCPRFHmacAlgSHA1), which is an enum with the value 1.
     - uint rounds:  Int (why not UInt?)
-    - uint8_t *derivedKey:  UnsafeMutablePointer<UInt8>(key)
+    - uint8_t \*derivedKey:  UnsafeMutablePointer<UInt8>(key)
     - size_t derivedKeyLen
 
 For a lot more about this see

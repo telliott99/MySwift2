@@ -53,7 +53,7 @@ Add something else to ``P``.  It looks like this:
     
 The first line of output is the default given by Swift, which isn't that bad, really.  And the next line is what we get by calling ``description``.
 
-But wouldn't it be nice if we could just call ``print(st)`` and have it print things exactly how we want?  Or maybe ``print("some label:  \(st)").
+But wouldn't it be nice if we could just call ``print(st)`` and have it print things exactly how we want?  Or maybe ``print("some text:  \(st)")``.
 
 To do this, we need to declare that this struct conforms to a protocol with a very fancy name (it used to be called ``Printable``).  Substitute:
 

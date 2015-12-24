@@ -11,3 +11,4 @@ Contents:
    NSOpenPanel
    swift_cocoaapp
    framework
+   c_library

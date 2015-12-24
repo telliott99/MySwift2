@@ -69,7 +69,7 @@ What have we done?  Fundamentally, the protocol requires a method ``next`` with 
 
     mutating func next() -> Element?
 
-and having the return type of ``Element`` requires a "nested" typealias in the struct definition that says ``typealias Element = `` whatever type we are returning.
+and having the return type of ``Element`` requires a "nested" typealias in the struct definition that says ``typealias Element =`` whatever type we are returning.
 
 http://swiftdoc.org/v2.0/protocol/GeneratorType/
 

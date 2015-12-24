@@ -236,3 +236,20 @@ If we then do
 
 So it looks like everything MyApp depends on the copy of the framework that is in ``~/Library/Frameworks/Speaker.framework`` as expected.  Move the framework back to the right place and confirm that it starts working again.
 
+The Speaker framework is available from the command line.  If we have the following code in
+
+``test.swift``:
+
+.. sourcecode:: swift
+
+    import Speaker
+    let sp = Speaker()
+    print(sp.speak())
+
+Then
+
+.. sourcecode:: bash
+
+    swiftc test.swift -o prog -F ~/Library/Frameworks -sdk $(xcrun --show-sdk-path --sdk macosx)
+    ./prog
+    woof

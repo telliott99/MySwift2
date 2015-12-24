@@ -301,7 +301,7 @@ This helped me to finally figure out some things that had been confusing.  Witho
     [Tom, Sean, Joan]
     >
 
-Not only is the ``NSString`` method called, but the type that is returned is a Swift ``[String]` rather than an Objective-C NSArray containing what appear to be NSString objects but are actually not (see the end of the book).
+Not only is the ``NSString`` method called, but the type that is returned is a Swift ``[String]`` rather than an Objective-C NSArray containing what appear to be NSString objects but are actually not (see the end of the book).
 
 Another useful thing is that one can go back and forth between String and NSString easily:
 

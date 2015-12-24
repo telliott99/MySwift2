@@ -10,7 +10,7 @@ I use an enum for the Suit and the Rank of each card.
 
 All the code from this section is in one file named ``card.swift``, in the ``code`` folder.
 
-The first thing is to define ``enum``s for Suit and Rank.
+The first thing is to define ``enum`` s for Suit and Rank.
 
 .. sourcecode:: swift
 
