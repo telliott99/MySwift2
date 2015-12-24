@@ -12,3 +12,5 @@ Contents:
    swift_cocoaapp
    framework
    c_library
+   common_crypto_setup
+   common_crypto
