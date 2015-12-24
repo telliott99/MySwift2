@@ -8,7 +8,7 @@ In order to compile Swift programs, you need Xcode, formally known as Xcode.app.
 
 Currently, I have Xcode 7.2 (7C68).  
 
-If you have more than one version, you can find out which one is currently selected as the default by:
+If you have more than one version, you can find out which one is selected as the default by:
 
 .. sourcecode:: bash
 
@@ -16,7 +16,7 @@ If you have more than one version, you can find out which one is currently selec
     /Applications/Xcode.app/Contents/Developer
     >
 
-and you can set the default path to the active Developer directory with:
+and you can set the path to the active Developer directory with:
 
 .. sourcecode:: bash
 
@@ -48,7 +48,7 @@ Now, recently, I found that you can just do:
     Hello Swift world
     >
 
-Some other options are to run Swift as an "interpreter" or REPL (read-evaluate-print-loop) by just doing ``swift`` and then try out some code:
+Some other options are to run Swift as an "interpreter" or REPL (read-evaluate-print-loop) by just doing ``swift`` and then try out some code by pasting it in there:
 
 .. sourcecode:: bash
 
@@ -71,13 +71,13 @@ Make the file executable before trying to run it:
     > ./test
     Hello Swift world
 
-Another possibility is to use a "playground" in Xcode.  These are great.  The only real limitation (also a benefit) is that they are "sandboxed" so you can't load files from or write to the surrounding directory. 
+Another possibility is to use a "playground" in Xcode.  These are great.  The only real limitation (although it's also a benefit) is that they are "sandboxed" so you can't load files from or write to the surrounding directory. 
 
 And finally, one can compile and then run a file of swift code:
 
 .. sourcecode:: bash
 
-    > xcrun -sdk macosx swiftc test.swift
+    > xcrun swiftc test.swift
     > ./test
     Hello Swift world
     >
@@ -86,7 +86,7 @@ or both steps at once
 
 .. sourcecode:: bash
 
-    > xcrun -sdk macosx swiftc test.swift && ./test
+    > xcrun swiftc test.swift && ./test
     
 I have observed a few constructs that worked correctly by this last method and not by my standard one, but that was back in Swift 1 days.
 

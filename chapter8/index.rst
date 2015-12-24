@@ -10,4 +10,4 @@ Contents:
    translating_objc
    NSOpenPanel
    swift_cocoaapp
-
+   framework

@@ -106,3 +106,17 @@ This is legal!
     }
     print("")
     \\ prints 0 4 8
+
+A case version.  Both of these print exactly the same thing.
+
+.. sourcecode:: swift
+
+    for i in 1...10 {
+    	if i % 3 ==  0 {
+    		print(i)
+    	}
+    }
+
+    for case let i in 1...10 where i % 3 == 0 {
+    	print(i)
+    }
