@@ -75,6 +75,12 @@ Alternatively, just drag the framework icon to the Desktop and then do this in T
 .. sourcecode:: bash
 
     cp -r SpeakerFramework.framework ~/Library/Frameworks
+    
+Substitute the following command, if you wish to use ``/Library/Frameworks``:
+
+.. sourcecode:: bash
+
+    sudo cp -r SpeakerFramework.framework /Library/Frameworks
 
 Now for the app. In Xcode:
 
@@ -113,7 +119,7 @@ Click Add Other...
 
 Then navigate to the framework in ``~/Library/Frameworks/Speaker.framework`` and select it.
 
-Alternatively just drag the framework icon onto the spot where it says "Add frameworks and libraries here".
+Alternatively just drag the framework icon (from ``~/Library/Frameworks`` in Finder) onto the spot where it says "Add frameworks and libraries here".
 
 The MyApp project now shows the framework in the General tab
 
@@ -154,7 +160,7 @@ In the Debug window, we can see the expected output:
 
 It would be nice to make a bigger statement. 
 
-I'll just outline the steps briefly. Delete the default window in ``MainMenu.xib``. Add a new Cocoa class, subclassing NSWindowController. Have Xcode make the xib file too. Drag a label onto that window. Make it really, really big.
+I'll just outline the steps briefly. Delete the default window in ``MainMenu.xib``. Add a new Cocoa class ``MainWindowController.swift``, subclassing NSWindowController. Have Xcode make the xib file too ``MainWindowController.xib``. Drag a label onto that window. Make it really, really big.
 
 .. image:: /figures/framework/label.png
    :scale: 100 %
@@ -214,7 +220,7 @@ and for MainWindowController:
 
 Pretty impressive:
 
-If we select Products > MyApp.app, then show in the Finder, and drag it to the Desktop, and delete everything else, except the framework in ~/Library/Frameworks, it still works. 
+If we select Products > MyApp.app, then show in the Finder, and drag it to the Desktop, and delete everything else except the framework in ~/Library/Frameworks, it still works. 
 
 If we then do
 
@@ -228,5 +234,5 @@ If we then do
 .. image:: /figures/framework/problem.png
    :scale: 100 %
 
-So it looks like everything MyApp depends on the copy of the framework that is in ``~/Library/Frameworks/Speaker.framework`` as expected.
+So it looks like everything MyApp depends on the copy of the framework that is in ``~/Library/Frameworks/Speaker.framework`` as expected.  Move the framework back to the right place and confirm that it starts working again.
 
