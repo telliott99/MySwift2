@@ -167,6 +167,8 @@ Fix the error.  First add the framework to Linked Frameworks and Binaries.  The 
 .. sourcecode:: objc
 
     - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+        int n = f1(2);
+        NSLog(@"%d", n);
         printf("  AD %d\n", f1(1));
     }
 
@@ -174,6 +176,7 @@ Build and run, and the Debug window will show:
 
 .. sourcecode:: bash
 
+    f1: 2;2015-12-24 09:51:41.338 MyOCApp[515:6101] 3
     f1: 1;  AD 2
 
 Now, finally, for Swift.  
