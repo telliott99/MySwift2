@@ -136,13 +136,18 @@ CBC mode requires an "initialization vector" but the current mode, ECB, does not
 
 It's wild, but we are allowed to pass the key and the msg as String types.
 
-We pass in a reference to an Int to hold the result length, and the status is the return value of the function, an Int32.  A status = 0 means success.  The return codes are odd:  -4301 ..
+We pass in a reference to an Int to hold the result length, and the status is the return value of the function, an Int32.  A returned status of 0 indicates success.  The return codes for an error are odd:  -4301 ..  You can read more about that in the header which is online 
+
+http://www.opensource.apple.com/source/CommonCrypto/CommonCrypto-36064/CommonCrypto/CommonCryptor.h
+
+or you can search and find it at ``/usr/include/CommonCrypto/CommonCryptor.h`` (or in the SDK).
+
 
 One tricky part is that we have to pass ``UnsafeMutablePointer<Void>(cipherData)`` and ``UnsafeMutablePointer<Void>(decrypted)`` buffers *of the correct size*.
 
 The message is padded to 16 bytes and it's not surprising that after encryption, the first 16 bytes of the cipherData are non-zero, while those following are still zero.
 
-We obtain the correct result in decrypted, followed by a series of ``9`` until we reach the size 16.  Somewhat surprising to me, the rest of the buffer has also been filled up with junk.  I am not sure why the ``9`` s are there.
+We obtain the correct result in decrypted, followed by a series of ``9`` until we reach the size 16.  Somewhat surprising to me, the rest of the buffer has also been filled up with junk.  I am not sure why the value of ``9`` is but it's not too surprising that they pad out to byte 16.
 
 Rather than write any more about it now, I will just point you to the blog posts I did on this.  They include an example using CBC mode, a longer example where the message is encrypted and decrypted in chunks, and a Framework called Encryptor that bundles up all this functionality.  
 
