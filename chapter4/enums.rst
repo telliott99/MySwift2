@@ -163,7 +163,28 @@ Here are some other enum definitions from the docs that I haven't really made in
         case CarriageReturn = "\r"
     }
 
+    // enum with raw values
     enum Planet: Int {
         case Mercury = 1, Venus, Earth, Mars, 
                           Jupiter, Saturn, Uranus, Neptune 
     }
+
+    // enum with raw values that are of type String
+    enum ProgrammingLanguage: String {
+        case Swift = "Swift"
+        case ObjC = "Objective-C"
+        case C = "C"
+    }
+
+    let lang = ProgrammingLanguage.Swift
+    print("My favorite is : \(lang.rawValue)")
+
+    // works with default values
+    enum Language: String {
+        case Swift
+        case ObjC = "Objective-C"
+        case C
+    }
+
+    let lang2 = ProgrammingLanguage.Swift
+    print("My favorite is : \(lang2)")

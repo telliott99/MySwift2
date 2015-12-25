@@ -13,3 +13,4 @@ Contents:
    stdin
    binary
    closures_intro
+   currying
