@@ -10,14 +10,14 @@ First, something which isn't really Xcode, just an OS X thing.  The directory ``
 
 For the first, you can hold down the OPTION key while doing Go in the menu from Finder.  The option will show ``Library``.  To avoid having to do this all the time, do CMD-J or View > Show View Options.  The resulting window will show a checkbox item "Show Library Folder".  But here's the thing:  this will only happen if you had a finder window open when you did CMD-J!!
 
-.. image:: /figures/show_library.png
+.. image:: /figures/libraries/show_library.png
   :scale: 100 %
 
 Even better, having ``Library`` displayed in the Finder, drag it to the sidebar in a Finder window (or its subdirectory ``Frameworks``, which is something I've used a lot in earlier sections).
 
 One can also do CMD-SHIFT-G to obtain a search field to go to, say ``/usr/local`` in the Finder.  Having arrived, drag that guy to the sidebar as well.
 
-.. image:: /figures/usr_local.png
+.. image:: /figures/libraries/usr_local.png
   :scale: 100 %
 
 ----------------
@@ -28,29 +28,29 @@ Adding a library to your project is as simple as navigating to the library in th
 
 Namely, with the Xcode project itself selected---top (blue) icon in the project navigator on the left hand side---and the General tab selected, scroll to the bottom and you will see
 
-.. image:: /figures/linked_libraries.png
+.. image:: /figures/libraries/linked_libraries.png
   :scale: 100 %
 
 I have added two libraries to my project.  I got them from here
 
-.. image:: /figures/libcrypto.png
+.. image:: /figures/libraries/libcrypto.png
   :scale: 100 %
 
 The other thing you have to do is to tell Xcode where to find the headers.  Again with the project selected, this time select the Build Phases tab.  There are a lot of settings.  In the search box, type "Search".  You will see an area containing search paths:
 
-.. image:: /figures/search_paths.png
+.. image:: /figures/libraries/search_paths.png
   :scale: 100 %
 
 An easy way to get the right path is to navigate there in the finder, then drag and drop the icon for that folder onto an open window in TextEdit, as shown.
 
-.. image:: /figures/get_path.png
+.. image:: /figures/libraries/get_path.png
   :scale: 100 %
 
 Typically you will want to set Header Search Paths to point to the ``include`` directory that holds the relevant ones.
 
 Finally, when you have a "build failure" you need to read the fine print.  Here is one from something I am working on now.  The little caret is under the place where Xcode choked (actually, the preprocessor)
 
-.. image:: /figures/openssl_error.png
+.. image:: /figures/libraries/openssl_error.png
   :scale: 100 %
 
 Some code in ``openssl`` uses a function argument ``const BIGNUM *I``, but the trouble is, some previous code in the SDK (in complex.h), has already defined ``I``.  You can't have that.
