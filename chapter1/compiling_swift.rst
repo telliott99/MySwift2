@@ -73,6 +73,18 @@ Make the file executable before trying to run it:
 
 Another possibility is to use a "playground" in Xcode.  These are great.  The only real limitation (although it's also a benefit) is that they are "sandboxed" so you can't load files from or write to the surrounding directory. 
 
+One thing that's always bothered me is that it doesn't show the output for each step in a loop, by default.  But I learned recently you can do:
+
+.. image:: /figures/show_debug.png
+  :scale: 100 %
+
+So
+
+.. image:: /figures/debug.png
+  :scale: 100 %
+
+(In fact, the tiny icon at the lower left toggles debug).
+
 And finally, one can compile and then run a file of swift code:
 
 .. sourcecode:: bash
