@@ -23,6 +23,25 @@ Here is a bare-bones Swift struct
     10 100
     >
 
+Our struct simply contains two Int variables.  Swift provides an "initializer" automatically in this case to allow the two variables to obtain defined values before the struct is used.  This one is called a "memberwise initializer", we provide the parameters needed in the same order as they are declared in the class.
+
+Alternatively, if you didn't need to pass in parameters for initialization you could do this:
+
+.. sourcecode:: bash
+
+    struct P {
+        var x = 0
+        var y = 0
+    }
+    var p = P()
+    print("\(p.x) \(p.y)")
+
+.. sourcecode:: bash
+
+    > swift test.swift
+    0 0
+    >
+
 ---------------------
 String Representation
 ---------------------
@@ -53,7 +72,7 @@ Add something else to ``P``.  It looks like this:
     
 The first line of output is the default given by Swift, which isn't that bad, really.  And the next line is what we get by calling ``description``.
 
-But wouldn't it be nice if we could just call ``print(st)`` and have it print things exactly how we want?  Or maybe ``print("some text:  \(st)")``.
+Wouldn't it be nice if we could just call ``print(st)`` and have it print things exactly how we want?  Or maybe ``print("some text:  \(st)")``.
 
 To do this, we need to declare that this struct conforms to a protocol with a very fancy name (it used to be called ``Printable``).  Substitute:
 
@@ -176,7 +195,7 @@ You might do it differently.  For example:
 
 Here we named our input parameter to distinguish it from the property, but because it seems really obvious what ``IKnowWhatThisIs`` does we used the ``_`` syntax to make it unnecessary to provide that name when calling the initializer.
 
-More traditional way of writing a ``Point`` struct:
+A more traditional way of writing a ``Point`` struct:
 
 .. sourcecode:: swift
 

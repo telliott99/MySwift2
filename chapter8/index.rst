@@ -14,3 +14,4 @@ Contents:
    c_library
    common_crypto_setup
    common_crypto
+   xcode_libraries

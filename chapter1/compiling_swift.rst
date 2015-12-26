@@ -4,11 +4,11 @@
 Compiling Swift
 ###############
 
-In order to compile Swift programs, you need Xcode, formally known as Xcode.app.
+In order to compile Swift programs, you will need Xcode, otherwise known as Xcode.app.
 
 Currently, I have Xcode 7.2 (7C68).  
 
-If you have more than one version, you can find out which one is selected as the default by:
+If you have more than one version, you can find out which one is selected as the default by doing this in Terminal:
 
 .. sourcecode:: bash
 
@@ -40,7 +40,7 @@ The way I have done this forever is to do:
     Hello Swift world
     >
 
-Now, recently, I found that you can just do:
+Recently, I found that you can just do:
 
 .. sourcecode:: bash
 

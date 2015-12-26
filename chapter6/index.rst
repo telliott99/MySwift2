@@ -1,5 +1,5 @@
 ####################################
-Protocols, Extensions and Generators
+Extensions, Protocols and Generators
 ####################################
 
 Contents:
