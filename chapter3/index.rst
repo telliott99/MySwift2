@@ -12,4 +12,5 @@ Contents:
    set
    random
    sort
-   sort_algorithms
+   basic_sort_alg
+   adv_sort_alg
