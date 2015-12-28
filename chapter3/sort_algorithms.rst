@@ -4,7 +4,7 @@
 Sort Algorithms
 ###############
 
-Let's demonstrate a few of the algorithms for sorting, implemented in Swift.  First, here are a print utility function and a function to exercise the algorithms.
+Let's demonstrate Swift implementations for a few of the algorithms for sorting.  First, here are a print utility function and a function to exercise the algorithms.
 
 .. sourcecode:: swift
 
@@ -22,7 +22,7 @@ Let's demonstrate a few of the algorithms for sorting, implemented in Swift.  Fi
         pp("after: ", c)
     }
 
-Here are the elementary sorting algorithms.
+The elementary sorting algorithms are bubble sort, selection sort and insertion sort.
 
 -----------
 Bubble sort
@@ -34,13 +34,13 @@ In this method
 
     Bubble sort, sometimes referred to as sinking sort, is a simple sorting algorithm that repeatedly steps through the list to be sorted, compares each pair of adjacent items and swaps them if they are in the wrong order.
     
-Effectively, what we do is to find the largest element in the array on the first pass, the next largest on the second. 
-
     It is too slow and impractical for most problems even when compared to insertion sort.
+    
+The result of this process is to find the largest element in the array on the first pass, the next largest on the second.  Rather than remember which value was the largest, we swap repeatedly.
 
 .. sourcecode:: swift
 
-    func bubbleSort(inout a: [Int]){
+    func bubbleSort(inout a: [Int]) {
         var n = a.count
         while n > 0 {
             for j in 0..<n-1 {
@@ -71,7 +71,9 @@ The idea of selection sort
 
 https://en.wikipedia.org/wiki/Selection_sort
 
-divide the array into a sorted portion (on the left), and an unsorted part on the right.  We maintain an index where we will place the next value.  On each pass, we find the minimum value remaining in the unsorted part and then swap.
+is to divide the target array into two parts, a sorted portion on the left, and an unsorted part on the right.
+
+We maintain an index that moves from left to right, where we will place the next value.  On each pass, we find the minimum value remaining in the unsorted part and then swap with the value at that index.
     
 .. sourcecode:: swift
 
@@ -80,7 +82,7 @@ divide the array into a sorted portion (on the left), and an unsorted part on th
         var smallest: Int = 0
         for i in 0..<n-1 {
             smallest = i
-            // look for one smaller
+            // now look for one even smaller
             for j in i+1..<n {
                 if a[j] < a[smallest] {
                     smallest = j
@@ -109,9 +111,13 @@ Insertion sort
 
 https://en.wikipedia.org/wiki/Insertion_sort
 
+I found this one really hard to write.  We move across the array from left to right and take the next value as it comes, no matter whether large or small.  The part of the array to the left of the current index is maintained in sorted order.  For each new value, we find the correct place to insert it, moving elements as necessary.
+
+I found it easier to construct a new array to place the value correctly.
+
 .. sourcecode:: swift
 
-    func placeCorrectly(a: [Int], _ n: Int) -> [Int] {
+    func insertItem(a: [Int], _ n: Int) -> [Int] {
         var tmp: [Int] = []
         var foundIt = false
         for v in a {
@@ -130,8 +136,7 @@ https://en.wikipedia.org/wiki/Insertion_sort
     func insertionSort(inout a: Array<Int>) {
         for i in 1..<a.count {
             var tmp = Array(a[0..<i])
-            // print("tmp: \(tmp), n \(a[i])")
-            tmp = placeCorrectly(tmp, a[i])
+            tmp = insertItem(tmp, a[i])
             a = tmp + a[i+1..<a.count]
         }
     }
@@ -146,7 +151,22 @@ https://en.wikipedia.org/wiki/Insertion_sort
     after:  
     3  7  19  23  29  32  55  82  100  
     >
-    
+
+It is curious that on this line:
+
+.. sourcecode:: swift
+
+    var tmp = Array(a[0..<i])
+
+without the ``Array()`` part, we get this error:
+
+    > swift test.swift
+    test.swift:35:26: error: cannot convert value of type 'ArraySlice<Int>' to expected argument type '[Int]'
+            tmp = insertItem(tmp, a[i])
+                             ^~~
+
+We must explicitly convert the ``ArraySlice<Int>`` to an ``Array<Int>``.
+
 ---------
 Mergesort
 ---------
