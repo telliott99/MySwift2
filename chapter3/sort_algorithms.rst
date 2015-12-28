@@ -6,6 +6,8 @@ Sort Algorithms
 
 Let's demonstrate Swift implementations for a few of the algorithms for sorting.  First, here are a print utility function and a function to exercise the algorithms.
 
+``utils.swift``:
+
 .. sourcecode:: swift
 
     func pp (s: String, _ a: [Int]) {
@@ -22,6 +24,8 @@ Let's demonstrate Swift implementations for a few of the algorithms for sorting.
         pp("after: ", c)
     }
 
+``test`` takes a sort function of signature:  ``(inout [Int]) -> ()``.
+
 The elementary sorting algorithms are bubble sort, selection sort and insertion sort.
 
 -----------
@@ -36,7 +40,9 @@ In this method
     
     It is too slow and impractical for most problems even when compared to insertion sort.
     
-The result of this process is to find the largest element in the array on the first pass, the next largest on the second.  Rather than remember which value was the largest, we swap repeatedly.
+If you watch the animation on wikipedia, you will see that the result of this process is to find the largest element in the array on the first pass and place it at the end, then the next largest on the second, and so on.  Rather than remember which value was the largest seen so far on any one pass, we swap repeatedly.
+
+``main.swift``:
 
 .. sourcecode:: swift
 
@@ -56,13 +62,15 @@ The result of this process is to find the largest element in the array on the fi
 
 .. sourcecode:: bash
     
-    > swift test.swift 
+    > swiftc utils.swift main.swift && ./main
     before:  
     32  7  100  29  55  3  19  82  23  
     after:  
     3  7  19  23  29  32  55  82  100  
     >
-    
+
+(We are using the Swift compiler to combine code in two different files to make an executable ``main`` which we then run with ``./main``).
+
 --------------
 Selection sort
 --------------
@@ -98,7 +106,7 @@ We maintain an index that moves from left to right, where we will place the next
     
 .. sourcecode:: bash
 
-    > swift test.swift 
+    > swiftc utils.swift main.swift && ./main 
     before:  
     32  7  100  29  55  3  19  82  23  
     after:  
@@ -111,7 +119,7 @@ Insertion sort
 
 https://en.wikipedia.org/wiki/Insertion_sort
 
-I found this one really hard to write.  We move across the array from left to right and take the next value as it comes, no matter whether large or small.  The part of the array to the left of the current index is maintained in sorted order.  For each new value, we find the correct place to insert it, moving elements as necessary.
+I found this one hard to write.  We move across the array from left to right and take the next value as it comes, no matter whether large or small.  The part of the array to the left of the current index is maintained in sorted order.  For each new value, we find the correct place to insert it, moving elements as necessary.
 
 I found it easier to construct a new array to place the value correctly.
 
@@ -145,7 +153,7 @@ I found it easier to construct a new array to place the value correctly.
 
 .. sourcecode:: bash
 
-    > swift test.swift 
+    > swiftc utils.swift main.swift && ./main
     before:  
     32  7  100  29  55  3  19  82  23  
     after:  
@@ -220,8 +228,6 @@ We practice divide and conquer, at each stage we divide a larger list into two s
         return merge(a1, a2)
     }
 
-.. sourcecode:: swift
-
     let a = [32,7,100,29,55,3,19,82,23]
     pp("before: ", a)
     c = merge_sort(a)
@@ -229,7 +235,7 @@ We practice divide and conquer, at each stage we divide a larger list into two s
     
 Output:
 
-.. sourcecode:: bash
+.. swiftc utils.swift main.swift && ./main
 
     > swift test.swift
     before:  
@@ -403,4 +409,6 @@ To fix this, we find the largest and smallest elements and pick a value that is 
     qsort [37]
     [1, 1, 2, 3, 4, 6, 6, 7, 9, 13, 15, 37]
     > 
+
+I'm sure you can write better implementations than these.  We should try to do mergesort and quicksort without all this array allocation.
     

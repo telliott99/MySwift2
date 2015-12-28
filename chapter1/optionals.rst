@@ -79,6 +79,125 @@ Use of the ! symbol in ``n!`` forces the value of ``n`` as an Int to be used, wh
     6: 9
     >
 
+Here is an application where we test candidate primes for division by an array of prime numbers.
+
+.. sourcecode:: swift
+
+    func hasDivisorInArray(n: Int, _ a: [Int]) -> Int? {
+        for i in a {
+            if n % i == 0 {
+                return i
+            }
+        }
+        return nil
+    }
+
+    func addNextPrime(inout a: [Int]) {
+        print("\naddNextPrime \(a)")
+        var q = a.last! + 1
+        while true {
+            print("candidate \(q)")
+            if let p = hasDivisorInArray(q,a) {
+                print("\(p) divides \(q) evenly, giving \(q/p)")
+                q++
+                continue
+            }
+            a.append(q)
+            print("found new prime \(q)")
+            return
+        }
+    }
+
+    var pL = [2]
+    for i in 0..<10{
+        addNextPrime(&pL)
+    }
+    print(pL)
+
+.. sourcecode:: bash
+
+    > swift test.swift
+
+    addNextPrime [2]
+    candidate 3
+    found new prime 3
+
+    addNextPrime [2, 3]
+    candidate 4
+    2 divides 4 evenly, giving 2
+    candidate 5
+    found new prime 5
+
+    addNextPrime [2, 3, 5]
+    candidate 6
+    2 divides 6 evenly, giving 3
+    candidate 7
+    found new prime 7
+
+    addNextPrime [2, 3, 5, 7]
+    candidate 8
+    2 divides 8 evenly, giving 4
+    candidate 9
+    3 divides 9 evenly, giving 3
+    candidate 10
+    2 divides 10 evenly, giving 5
+    candidate 11
+    found new prime 11
+
+    addNextPrime [2, 3, 5, 7, 11]
+    candidate 12
+    2 divides 12 evenly, giving 6
+    candidate 13
+    found new prime 13
+
+    addNextPrime [2, 3, 5, 7, 11, 13]
+    candidate 14
+    2 divides 14 evenly, giving 7
+    candidate 15
+    3 divides 15 evenly, giving 5
+    candidate 16
+    2 divides 16 evenly, giving 8
+    candidate 17
+    found new prime 17
+
+    addNextPrime [2, 3, 5, 7, 11, 13, 17]
+    candidate 18
+    2 divides 18 evenly, giving 9
+    candidate 19
+    found new prime 19
+
+    addNextPrime [2, 3, 5, 7, 11, 13, 17, 19]
+    candidate 20
+    2 divides 20 evenly, giving 10
+    candidate 21
+    3 divides 21 evenly, giving 7
+    candidate 22
+    2 divides 22 evenly, giving 11
+    candidate 23
+    found new prime 23
+
+    addNextPrime [2, 3, 5, 7, 11, 13, 17, 19, 23]
+    candidate 24
+    2 divides 24 evenly, giving 12
+    candidate 25
+    5 divides 25 evenly, giving 5
+    candidate 26
+    2 divides 26 evenly, giving 13
+    candidate 27
+    3 divides 27 evenly, giving 9
+    candidate 28
+    2 divides 28 evenly, giving 14
+    candidate 29
+    found new prime 29
+
+    addNextPrime [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
+    candidate 30
+    2 divides 30 evenly, giving 15
+    candidate 31
+    found new prime 31
+    [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31]
+    > 
+
 Another idiom in Swift is "optional binding"
 
 .. sourcecode:: swift
