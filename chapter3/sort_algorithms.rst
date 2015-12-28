@@ -111,8 +111,42 @@ https://en.wikipedia.org/wiki/Insertion_sort
 
 .. sourcecode:: swift
 
-    // still working on this one
+    func placeCorrectly(a: [Int], _ n: Int) -> [Int] {
+        var tmp: [Int] = []
+        var foundIt = false
+        for v in a {
+            if v > n && !foundIt {
+                tmp.append(n)
+                foundIt = true
+            }
+            tmp.append(v)
+        }
+        if !foundIt {
+            tmp.append(n)
+        }
+        return tmp
+    }
 
+    func insertionSort(inout a: Array<Int>) {
+        for i in 1..<a.count {
+            var tmp = Array(a[0..<i])
+            // print("tmp: \(tmp), n \(a[i])")
+            tmp = placeCorrectly(tmp, a[i])
+            a = tmp + a[i+1..<a.count]
+        }
+    }
+
+    test(insertionSort)
+
+.. sourcecode:: bash
+
+    > swift test.swift 
+    before:  
+    32  7  100  29  55  3  19  82  23  
+    after:  
+    3  7  19  23  29  32  55  82  100  
+    >
+    
 ---------
 Mergesort
 ---------
