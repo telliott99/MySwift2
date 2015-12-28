@@ -7,7 +7,7 @@ Contents:
 .. toctree::
    :maxdepth: 1
    
-   compiling_swift
+   getting_swift
    strings
    characters
    numbers

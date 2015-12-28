@@ -32,9 +32,15 @@ The values ``m`` and ``n`` are "Optionals".  Test for ``nil`` by doing either of
     let n = Int("123")
     // "forced unwrapping"
     
-    if m != nil { print("m: Int? = Int(\"123x\") worked: \(m!)") }
-    if n != nil { print("n = Int(\"123\") worked: \(n!)") }
-    if let o = Int("123") {  print("really") }
+    if m != nil { 
+        print("m: Int? = Int(\"123x\") worked: \(m!)") 
+    }
+    if n != nil { 
+        print("n = Int(\"123\") worked: \(n!)") 
+    }
+    if let o = Int("123") {  
+        print("really") 
+    }
     
 .. sourcecode:: bash
 

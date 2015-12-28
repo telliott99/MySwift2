@@ -13,3 +13,4 @@ Contents:
    closures_med
    card
    deck
+   lexer

@@ -292,7 +292,7 @@ and then run it:
 
 The tests demonstrate our ability to generate a deck of cards, shuffle it, and then sort it.  Also, we can deal out four hands and would be ready for a real card game.
 
-The command for compilation is complicated by the fact that we need Foundation.  (We need it to get random numbers to use in shuffling the deck).  When using this method, we need to tell the linker where to find the Foundation framework, in 
+The command for compilation is complicated by the fact that we need Foundation.  (We need it to get random numbers to use in shuffling the deck).  When using this method, we must tell the linker where to find the Foundation framework, in 
 
 .. sourcecode:: bash
 

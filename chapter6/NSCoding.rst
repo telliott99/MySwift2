@@ -56,10 +56,9 @@ http://stackoverflow.com/questions/25701476/how-to-implement-nscoding
     C instance: Tom
     OK
     C instance: Tom
+    >
+    >
     > cat demo
     U$null?0?X$versionX$objectsY$archiverT$top???
-
-
-    TnameV$class??STom?Z$classnameX$classesVtest.C?XNSObject_NSKeyedArchiver?Troot#-27<BGLSUW[`kt{~?????>
     
 That last is not so enlightening.  Perhaps we can explore it more in another section.

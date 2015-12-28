@@ -271,3 +271,24 @@ We first test whether ``prefix`` holds a value, and if so, we get rid of the Opt
 Some other common protocols mentioned already are Equatable, Comparable, Hashable, and CustomPrintConvertible.  
 
 For more about all of these, see Generics.
+
+A protocol can also be used as a Type in defining a function:
+
+.. sourcecode:: swift
+
+    protocol Y { }
+    class C: Y { }
+
+    func f(arg: Y) {
+        print(arg)
+    }
+
+    let c = C()
+    f(c)
+
+.. sourcecode:: bash
+
+    > swift test.swift 
+    test.C
+    >
+
