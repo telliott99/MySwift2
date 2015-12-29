@@ -10,18 +10,20 @@ Let's demonstrate Swift implementations for a few of the algorithms for sorting.
 
 .. sourcecode:: swift
 
-    func pp (s: String, _ a: [Int]) {
-        print (s + " ")
-        for n in a { print("\(n) ", terminator: " ") }
+    func pp (a: [Int]) {
+        for n in a { 
+            print("\(n)", 
+                terminator: " ") 
+        }
         print("")
     }
 
     func test(f: (inout [Int]) -> ()  ) {
         let a = [32,7,100,29,55,3,19,82,23]
-        pp("before: ", a)
+        pp(a)
         var c = a
         f(&c)
-        pp("after: ", c)
+        pp(c)
     }
 
 ``test`` takes a sort function of signature:  ``(inout [Int]) -> ()``.
@@ -52,7 +54,7 @@ If you watch the animation on wikipedia, you will see that the result of this pr
             for j in 0..<n-1 {
                 if a[j] > a[j+1] {
                     swap(&a[j],&a[j+1])
-                    print("a:    \(a)")
+                    pp(a)
                 }
             }
             n--
@@ -64,30 +66,30 @@ If you watch the animation on wikipedia, you will see that the result of this pr
 .. sourcecode:: bash
     
     > swift test.swift 
-    before:  
-    32  7  100  29  55  3  19  82  23  
-    a:    [7, 32, 100, 29, 55, 3, 19, 82, 23]
-    a:    [7, 32, 29, 100, 55, 3, 19, 82, 23]
-    a:    [7, 32, 29, 55, 100, 3, 19, 82, 23]
-    a:    [7, 32, 29, 55, 3, 100, 19, 82, 23]
-    a:    [7, 32, 29, 55, 3, 19, 100, 82, 23]
-    a:    [7, 32, 29, 55, 3, 19, 82, 100, 23]
-    a:    [7, 32, 29, 55, 3, 19, 82, 23, 100]
-    a:    [7, 29, 32, 55, 3, 19, 82, 23, 100]
-    a:    [7, 29, 32, 3, 55, 19, 82, 23, 100]
-    a:    [7, 29, 32, 3, 19, 55, 82, 23, 100]
-    a:    [7, 29, 32, 3, 19, 55, 23, 82, 100]
-    a:    [7, 29, 3, 32, 19, 55, 23, 82, 100]
-    a:    [7, 29, 3, 19, 32, 55, 23, 82, 100]
-    a:    [7, 29, 3, 19, 32, 23, 55, 82, 100]
-    a:    [7, 3, 29, 19, 32, 23, 55, 82, 100]
-    a:    [7, 3, 19, 29, 32, 23, 55, 82, 100]
-    a:    [7, 3, 19, 29, 23, 32, 55, 82, 100]
-    a:    [3, 7, 19, 29, 23, 32, 55, 82, 100]
-    a:    [3, 7, 19, 23, 29, 32, 55, 82, 100]
-    after:  
-    3  7  19  23  29  32  55  82  100  
+    32 7 100 29 55 3 19 82 23 
+    7 32 100 29 55 3 19 82 23 
+    7 32 29 100 55 3 19 82 23 
+    7 32 29 55 100 3 19 82 23 
+    7 32 29 55 3 100 19 82 23 
+    7 32 29 55 3 19 100 82 23 
+    7 32 29 55 3 19 82 100 23 
+    7 32 29 55 3 19 82 23 100 
+    7 29 32 55 3 19 82 23 100 
+    7 29 32 3 55 19 82 23 100 
+    7 29 32 3 19 55 82 23 100 
+    7 29 32 3 19 55 23 82 100 
+    7 29 3 32 19 55 23 82 100 
+    7 29 3 19 32 55 23 82 100 
+    7 29 3 19 32 23 55 82 100 
+    7 3 29 19 32 23 55 82 100 
+    7 3 19 29 32 23 55 82 100 
+    7 3 19 29 23 32 55 82 100 
+    3 7 19 29 23 32 55 82 100 
+    3 7 19 23 29 32 55 82 100 
+    3 7 19 23 29 32 55 82 100 
     >
+
+You can see how the value ``100`` "bubbles" to the end of the array in the first part of the results.  Also, there are a lot of swaps, compared with the later examples.
 
 (We are using the Swift compiler to combine code in two different files to make an executable ``main`` which we then run with ``./main``).
 
@@ -118,7 +120,7 @@ We maintain an index that moves from left to right, where we will place the next
             }
             if smallest > i { 
                 swap(&a[i], &a[smallest]) 
-                print("a:    \(a)")
+                pp(a)
             }
         }
     }
@@ -128,15 +130,13 @@ We maintain an index that moves from left to right, where we will place the next
 .. sourcecode:: bash
 
     > swift test.swift 
-    before:  
-    32  7  100  29  55  3  19  82  23  
-    a:    [3, 7, 100, 29, 55, 32, 19, 82, 23]
-    a:    [3, 7, 19, 29, 55, 32, 100, 82, 23]
-    a:    [3, 7, 19, 23, 55, 32, 100, 82, 29]
-    a:    [3, 7, 19, 23, 29, 32, 100, 82, 55]
-    a:    [3, 7, 19, 23, 29, 32, 55, 82, 100]
-    after:  
-    3  7  19  23  29  32  55  82  100  
+    32 7 100 29 55 3 19 82 23 
+    3 7 100 29 55 32 19 82 23 
+    3 7 19 29 55 32 100 82 23 
+    3 7 19 23 55 32 100 82 29 
+    3 7 19 23 29 32 100 82 55 
+    3 7 19 23 29 32 55 82 100 
+    3 7 19 23 29 32 55 82 100 
     >
 
 --------------
@@ -172,7 +172,7 @@ I found it easier to construct a new array to place the value correctly.
             var tmp = Array(a[0..<i])
             tmp = insertItem(tmp, a[i])
             a = tmp + a[i+1..<a.count]
-            print("a:    \(a)")
+            pp(a)
         }
     }
 
@@ -181,18 +181,16 @@ I found it easier to construct a new array to place the value correctly.
 .. sourcecode:: bash
 
     > swift test.swift 
-    before:  
-    32  7  100  29  55  3  19  82  23  
-    a:    [7, 32, 100, 29, 55, 3, 19, 82, 23]
-    a:    [7, 32, 100, 29, 55, 3, 19, 82, 23]
-    a:    [7, 29, 32, 100, 55, 3, 19, 82, 23]
-    a:    [7, 29, 32, 55, 100, 3, 19, 82, 23]
-    a:    [3, 7, 29, 32, 55, 100, 19, 82, 23]
-    a:    [3, 7, 19, 29, 32, 55, 100, 82, 23]
-    a:    [3, 7, 19, 29, 32, 55, 82, 100, 23]
-    a:    [3, 7, 19, 23, 29, 32, 55, 82, 100]
-    after:  
-    3  7  19  23  29  32  55  82  100  
+    32 7 100 29 55 3 19 82 23 
+    7 32 100 29 55 3 19 82 23 
+    7 32 100 29 55 3 19 82 23 
+    7 29 32 100 55 3 19 82 23 
+    7 29 32 55 100 3 19 82 23 
+    3 7 29 32 55 100 19 82 23 
+    3 7 19 29 32 55 100 82 23 
+    3 7 19 29 32 55 82 100 23 
+    3 7 19 23 29 32 55 82 100 
+    3 7 19 23 29 32 55 82 100 
     >
 
 It is curious that on this line:
@@ -203,9 +201,11 @@ It is curious that on this line:
 
 without the ``Array()`` part, we get this error:
 
+.. sourcecode:: bash
+
     > swift test.swift
-    test.swift:35:26: error: cannot convert value of type 'ArraySlice<Int>' to expected argument type '[Int]'
-            tmp = insertItem(tmp, a[i])
+    test.swift:35:26: error: cannot convert value of type 'ArraySlice<Int>' to expected argument type '[Int]' 
+    tmp = insertItem(tmp, a[i])
                              ^~~
 
 We must explicitly convert the ``ArraySlice<Int>`` to an ``Array<Int>``.
