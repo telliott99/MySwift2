@@ -4,7 +4,9 @@
 Basic sort algorithms
 #####################
 
-Let's demonstrate Swift implementations for a few of the algorithms for sorting.  First, here are a print utility function and a function to exercise the algorithms.
+Let's demonstrate Swift implementations for a few of the algorithms for sorting.  
+
+First, here are a print utility function and a function to exercise the algorithms.
 
 ``utils.swift``:
 
@@ -25,6 +27,8 @@ Let's demonstrate Swift implementations for a few of the algorithms for sorting.
         f(&c)
         pp(c)
     }
+    
+``pp`` stands for "pretty print".
 
 ``test`` takes a sort function of signature:  ``(inout [Int]) -> ()``.
 
@@ -42,7 +46,7 @@ In this method
     
     It is too slow and impractical for most problems even when compared to insertion sort.
     
-If you watch the animation on wikipedia, you will see that the result of this process is to find the largest element in the array on the first pass and place it at the end, then the next largest on the second, and so on.  Rather than remember which value was the largest seen so far on any one pass, we swap repeatedly.
+If you watch the animation on wikipedia, you will see that the result of this process is to find the largest element in the array on the first pass and place it at the end, the next pass will find the second largest, and so on.  Rather than remember which value was the largest seen so far on any one pass, we swap repeatedly.
 
 ``main.swift``:
 
@@ -89,21 +93,19 @@ If you watch the animation on wikipedia, you will see that the result of this pr
     3 7 19 23 29 32 55 82 100 
     >
 
-You can see how the value ``100`` "bubbles" to the end of the array in the first part of the results.  Also, there are a lot of swaps, compared with the later examples.
+You can see how the value ``100`` "bubbles" to the end of the array in the first part of the results.  You can also see that there are a lot of swaps, compared with the later examples.  For random data, on the average the first value requires n/2 swaps, the second (n-1)/2, and so on.
 
-(We are using the Swift compiler to combine code in two different files to make an executable ``main`` which we then run with ``./main``).
+We are using the Swift compiler to combine code in two different files to make an executable ``main`` which we then run with ``./main``.
 
 --------------
 Selection sort
 --------------
 
-The idea of selection sort
+In selection sort
 
 https://en.wikipedia.org/wiki/Selection_sort
 
-is to divide the target array into two parts, a sorted portion on the left, and an unsorted part on the right.
-
-We maintain an index that moves from left to right, where we will place the next value.  On each pass, we find the minimum value remaining in the unsorted part and then swap with the value at that index.
+we divide the target array into two parts, a sorted portion on the left, and an unsorted part on the right.  We maintain an index at one past the sorted portion.  The index moves from left to right, and it is where we will place the next value.  On each pass, we start at the index and then find the minimum value remaining in the unsorted part, and finally swap with the value at the index.
     
 .. sourcecode:: swift
 
@@ -145,9 +147,11 @@ Insertion sort
 
 https://en.wikipedia.org/wiki/Insertion_sort
 
-I found this one hard to write.  We move across the array from left to right and take the next value as it comes, no matter whether large or small.  The part of the array to the left of the current index is maintained in sorted order.  For each new value, we find the correct place to insert it, moving elements as necessary.
+As before, the part of the array to the left of the current index is maintained in sorted order.  
 
-I found it easier to construct a new array to place the value correctly.
+We move across the array from left to right and simply take the next value as it comes, no matter whether large or small.  For each new value, we determine the correct place to insert it, moving elements as necessary.
+
+This one was hard to write.  In the end, I found it easier to construct a new array to place the value correctly.  We can do better than this.
 
 .. sourcecode:: swift
 
@@ -209,4 +213,47 @@ without the ``Array()`` part, we get this error:
                              ^~~
 
 We must explicitly convert the ``ArraySlice<Int>`` to an ``Array<Int>``.
+
+A more compact approach in terms of memory is to modify the array in place.  Here is an alternative version of insertion sort that does just that.
+
+.. sourcecode:: swift
+
+    func insertItem(inout a: [Int], _ p: Int) {
+        var i = 0
+        while i < p {
+            if a[i] > a[p] { break }
+            i++
+        }
+        if i == p { return }
+        var j = p
+        while true { 
+            swap(&a[j-1],&a[j])
+            j--
+            if j == i { break }
+        }
+    }
+
+    func insertionSort(inout a: Array<Int>) {
+        for i in 1..<a.count {
+            insertItem(&a,i)
+            pp(a)
+        }
+    }
+
+    test(insertionSort)
+
+.. sourcecode:: bash
+
+    > swift test.swift 
+    32 7 100 29 55 3 19 82 23 
+    7 32 100 29 55 3 19 82 23 
+    7 32 100 29 55 3 19 82 23 
+    7 29 32 100 55 3 19 82 23 
+    7 29 32 55 100 3 19 82 23 
+    3 7 29 32 55 100 19 82 23 
+    3 7 19 29 32 55 100 82 23 
+    3 7 19 29 32 55 82 100 23 
+    3 7 19 23 29 32 55 82 100 
+    3 7 19 23 29 32 55 82 100 
+    >
 

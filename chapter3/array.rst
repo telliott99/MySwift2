@@ -335,3 +335,47 @@ But the compiler is new and improved, now it says:
                    ^
                    &
     >
+
+Here is another example, applying the Sieve of Eratosthenes to find prime numbers:
+
+https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes
+
+We employ the (highly inefficient) function ``removeAtIndex`` modified to allow us to remove a particular value:
+
+.. sourcecode:: swift
+
+    func removeValue(inout a: [Int], _ v: Int) {
+        for (i, item) in a.enumerate() {
+            if item == v {
+                a.removeAtIndex(i)
+            }
+            if item > v { break }
+        }
+    }
+
+    let N = 51
+    var a = Array(2..<N)
+    var pL: [Int] = []
+    while a.count != 0 {
+        let p = a.first!
+        removeValue(&a,p)
+        pL.append(p)
+
+        // the Sieve part, remove multiples of p
+        if a.count == 0 { break }
+        var n = p + p
+        while n <= a.last! {
+            removeValue(&a,n)
+            n += p
+        }
+    }
+
+    print(pL)
+
+.. sourcecode:: bash
+
+    > swift test.swift 
+    [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47]
+    >
+
+In the code above, we forcibly unwrap optionals twice.  But in each case, that is preceded by a test to ensure that the value will exist.
