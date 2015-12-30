@@ -14,3 +14,4 @@ Contents:
    binary
    closures_intro
    currying
+   errors

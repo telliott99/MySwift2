@@ -21,15 +21,15 @@ Here is a Swift dictionary
     cookie starts with the letter: c
     >
 
-The construct ``for (tuple) in dictionary`` loops over (key, value) pairs.  The (key,value) pairs in a dictionary are not ordered in the usual sense.  However, if you run this code repeatedly, it will repeat the same output.
+The construct ``for (tuple) in dictionary`` loops over (key, value) pairs.  The (key,value) pairs in a dictionary are not ordered in the usual sense.  However, if you run this code repeatedly, it will give the same output.
 
 The values are held in a data structure that is commonly called a "hash", which is optimized for fast lookup.  
 
-The idea is clever but not all that complicated.  Imagine we have a really big post office with a bunch of mailboxes numbered from 1 to one million.  We compute a "hash" from the key, a value between 1 and one million, and then go insert the value in that mailbox.  It's very quick to do a lookup and see what the value is that corresponds to a particular key, or whether any given key corresponds to a stored value.
+The idea is clever but not complicated.  Imagine we have a really big post office with a bunch of mailboxes, say, numbered from 1 to one million.  We compute a "hash" from the key, a value between 1 and one million, and then go insert the value in that mailbox.  It's very quick to do a lookup and see whether any given key corresponds to a stored value, and to return that value.
 
 On the other hand, to know whether a particular value is contained in an array (without first sorting the array), one must look at every value.  Even with a sorted array, the number of lookups goes like log(n).  
 
-That is not true of a dictionary.
+Dictionary lookup is much faster.
 
 We can ask for these "properties" from a dictionary:
 
@@ -113,7 +113,7 @@ In the code above we declared the type of ``D`` as ``[String: Int]``.  This also
     
 and when run it prints ``1``, as you'd expect.  
 
-What is going on is that the ``Dictionary`` class is actually defined as a generic ``Dictionary<KeyType,ValueType>``.  The subscript notation works because that mechanism has been defined inside the class.
+The ``Dictionary`` class is actually defined as a generic ``Dictionary<KeyType,ValueType>``.  The subscript notation works because that mechanism has been defined inside the class.
 
 In the first line ``var D = Dictionary<String,Int>()``, we are getting an instance of dictionary, so we need the call operator ``( )``, which will call the ``init()`` method of the class.
 
@@ -172,7 +172,7 @@ As usual for a dictionary, the keys *are in a particular order* (based on their 
 dict(zip(a,b)) idiom
 --------------------
 
-At first, I didn't think there was anything comparable to Python's ``dict(zip(key_list,value_list))`` idiom.  So I decided we would roll our own:
+At first, I didn't think there was anything comparable to Python's ``dict(zip(key_list,value_list))`` idiom.  So I decided to roll my own:
 
 .. sourcecode:: swift
 
@@ -197,7 +197,7 @@ At first, I didn't think there was anything comparable to Python's ``dict(zip(ke
     [2: "banana", 3: "cookie", 1: "apple"]
     >
 
-Update:  I did find Swift's ``zip``, it is called ``Zip2Sequence``
+Later, I did find Swift's ``zip``, it is called ``Zip2Sequence``
 
 .. sourcecode:: swift
 
@@ -220,7 +220,7 @@ Update:  I did find Swift's ``zip``, it is called ``Zip2Sequence``
     [2: "banana", 3: "cookie", 1: "apple"]
     >
 
-Later, I found that there is an initializer for Dictionary that will take (key,value) pairs.
+I also found that there is an initializer for Dictionary that will take (key,value) pairs.
 
 http://swiftdoc.org/v2.0/type/Dictionary/
 
@@ -240,7 +240,9 @@ However, this does not work:
     let d2 = Dictionary(z)  // does not work
     print(z)
 
-It seems the reason is that the initializer with arguments ``dictionaryLiteral: ("a",1), ("b",2)`` takes a ``tuple``, while I am trying to use an array.  And the size of the tuple is known at compile time, while the size of my array is not.  This is not allowed.
+It seems the reason is that the initializer with arguments ``dictionaryLiteral: ("a",1), ("b",2)`` takes a ``tuple``, while I am trying to use an array.  
+
+And the size of the tuple is known at compile time, while the size of my array is not.  This is not allowed.
 
 The technique is apparently called "splatting".
 
@@ -256,5 +258,3 @@ The only thing I've gotten so far is (using ``z`` from above):
     }
 
 which is not as concise as I would like.
-
-

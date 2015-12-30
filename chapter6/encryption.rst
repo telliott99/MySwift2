@@ -155,7 +155,7 @@ We'll use that function in what follows.  Let me list the code first and then ex
     print(key[0..<mid])
     print(key[mid..<keyLen])
 
-What is going on here?  The big picture is that the password has very little *entropy* (there aren't that many possible values).  But we start with the password and then we crank algorithm in the library 1.5 million times.  It takes about one second to do this.  The idea is to make it computationally expensive for a "password cracker" to turn a candidate into the correct answer.
+What is going on here?  The big picture is that the password has very little *entropy* (there aren't that many possible values).  But we start with the password and then we crank the algorithm in the library 1.5 million times.  It takes about one second to do this.  The idea is to make it computationally expensive for a "password cracker" to turn a candidate into a possibly correct answer.
 
 We start with a String (hard-coded here as "password").  We could turn it first into utf8 and then into [UInt8], but it turns out that Swift will take care of that for us, we just pass the password as a Swift String into the C function.  
 
@@ -191,7 +191,11 @@ It works!
     [154, 133, 96, 115, 174, 137, 140, 1, 3, 124]
     >
 
-If you want to see what's available in CommonCrypto you can look at the header files here:  ``/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/usr/include/CommonCrypto/``
+If you want to see what's available in CommonCrypto you can look at the header files here:
+
+.. sourcecode:: bash
+
+    /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/usr/include/CommonCrypto/
 
 The function used above is shown in the file ``CommonKeyDerivation`` as
 

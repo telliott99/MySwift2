@@ -20,7 +20,7 @@ The three basic collection types are arrays, dictionaries and sets. Let's start 
     cats apples bananas  
     >
 
-A Swift array is a collection of items in a certain order.  All the items must be of the same type, at least generally.  Later we will talk about some fancier uses that are allowed because Objective-C ``NSArray`` may consist of objects with different types.
+A Swift array is a collection of items in a certain order.  All the items must be of the same type, at least generally.  Later we will talk about some fancier uses that are allowed because Objective-C ``NSArray`` does not enforce type restrictions and so may consist of objects with different types.
 
 Any Swift array is typed by the type of the objects it contains.  Above, ``fruits`` is an ``Array<String>``, usually written as ``[String]``.
 
@@ -36,10 +36,10 @@ To check the number of items in an array, query the ``count`` property.  If ther
     
 .. sourcecode:: swift
 
-    var array = ["a","b","c","d"]
-    print("\(array)")
-    array[2] = "k"
-    print(array)
+    var a = ["a","b","c","d"]
+    print(a)
+    a[2] = "k"
+    print(a)
     
 .. sourcecode:: bash
 
@@ -66,7 +66,7 @@ Arrays have the properties ``first`` and ``last``.  Since a particular array may
     Optional(1), Optional(4)
     >
 
-(Best practice says that one must first query whether the Optional variable has a value or is ``nil`` before using it.  If you do ``x!`` and ``x`` is ``nil``, your program will crash).  For more details, see :ref:`optionals`.
+(Best practice says that one must first query whether the Optional variable has a value or is ``nil`` before using it.  If you should happen to do ``x!`` and ``x`` is equal to ``nil``, your program will crash).  For more details, see :ref:`optionals`.
 
 There is a global function ``contains`` to test whether a value is included in a Collection.
 
@@ -124,21 +124,23 @@ As the docs say
 
     var a = ["a","b","c","d","e","f"]
     a[1...4] = ["x"]
-    print("\(a)")
+    print(a)
     var b = a
     b[1] = "j"
-    print("\(a)")
-    print("\(b)")
+    print(a)
+    print(b)
     
 .. sourcecode:: bash
 
     > swift test.swift 
-    [a, x, f]
-    [a, x, f]
-    [a, j, f]
+    ["a", "x", "f"]
+    ["a", "x", "f"]
+    ["a", "j", "f"]
     >
     
-Arrays are value types, so ``a`` and ``b`` refer to different arrays, despite the assignment.  (Although Swift implements copy-on-write, which means that ``a`` and ``b`` refer to the same underlying storage until the moment that we do ``b[1] = "j"``)
+Arrays are value types, so ``a`` and ``b`` refer to different arrays, despite the assignment.  
+
+Swift implements copy-on-write, which means that ``a`` and ``b`` refer to the same underlying storage until the moment that we do ``b[1] = "j"``.
 
 The docs again:
 
@@ -205,7 +207,7 @@ In this last example, we've used string interpolation to print the value of the 
 
     var intArr = [Double](count: 3, repeatedValue: 2.5)
     
-As we said at the beginning, looping over the values can be done by ``for-in``:
+Looping over the values can be done by ``for-in``:
 
 .. sourcecode:: swift
 
@@ -243,7 +245,8 @@ A little functional programming:
        let x = i % 2
        return x == 0
     }
-    print(a.filter(isEven))
+    let b = a.filter(isEven)
+    print(b)
     
 .. sourcecode:: bash
 
@@ -257,7 +260,9 @@ A little functional programming:
 List comprehension
 ------------------
 
-List comprehension is not built-in to Swift, but the functional programming constructs make it fairly easy.  Here is an example with ``filter`` and a trailing closure.
+List comprehension is not built-in to Swift, but the functional programming constructs make it fairly easy.  
+
+The previous example would normally be done this way:  with a trailing closure.
 
 http://stackoverflow.com/questions/24003584/list-comprehension-in-swift
 
@@ -266,116 +271,4 @@ http://stackoverflow.com/questions/24003584/list-comprehension-in-swift
     let evens = (1..<10).filter { $0 % 2 == 0 }
     print(evens)    // [2, 4, 6, 8]
 
-------------------
-Array Modification
-------------------
-
-If you pass an array to a function with the intention of modifying it, declare the array parameter as ``inout`` and pass ``&a`` to the function, like this:
-
-.. sourcecode:: swift
-
-    func pp (s: String, _ a: [Int]) {
-        print("\(s):  \(a)")
-    }
-
-    func swap(inout a: [Int], _ i: Int, _ j: Int) {
-        let tmp = a[i]
-        a[i] = a[j]
-        a[j] = tmp
-    }
-
-    func selection_sort(inout a: [Int]) {
-        for i in 0...a.count - 2 {
-            for j in i...a.count - 1 {
-                if a[j] < a[i] {
-                    swap(&a,i,j)
-                }
-            }
-        }
-    }
-
-    var a = [32,7,100,29,55,3,19,82,23]
-    pp("a: ", a)
-
-    let b = a.sort { $0 < $1 }
-    pp("b: ", b)
-
-    pp("a: ", a)
-    selection_sort(&a)
-    pp("a: ", a)
-      
-.. sourcecode:: bash
-
-    > swift test.swift 
-    a: :  [32, 7, 100, 29, 55, 3, 19, 82, 23]
-    b: :  [3, 7, 19, 23, 29, 32, 55, 82, 100]
-    a: :  [32, 7, 100, 29, 55, 3, 19, 82, 23]
-    a: :  [3, 7, 19, 23, 29, 32, 55, 82, 100]
-    >
-
-If you forget ``inout`` in the parameters, or ``&`` in the call, you used to get a funny error:
-
-.. sourcecode:: bash
-
-    > xcrun swift test.swift
-    test.swift:8:5: error: '@lvalue $T8' is not identical to 'Int'
-        a[i] = a[j]
-        ^
-    test.swift:9:5: error: '@lvalue $T5' is not identical to 'Int'
-        a[j] = tmp
-        ^
-    >
-
-But the compiler is new and improved, now it says:
-
-.. sourcecode:: bash
-
-    test.swift:28:16: error: passing value of type '[Int]' to an inout parameter requires explicit '&'
-    selection_sort(a)
-                   ^
-                   &
-    >
-
-Here is another example, applying the Sieve of Eratosthenes to find prime numbers:
-
-https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes
-
-We employ the (highly inefficient) function ``removeAtIndex`` modified to allow us to remove a particular value:
-
-.. sourcecode:: swift
-
-    func removeValue(inout a: [Int], _ v: Int) {
-        for (i, item) in a.enumerate() {
-            if item == v {
-                a.removeAtIndex(i)
-            }
-            if item > v { break }
-        }
-    }
-
-    let N = 51
-    var a = Array(2..<N)
-    var pL: [Int] = []
-    while a.count != 0 {
-        let p = a.first!
-        removeValue(&a,p)
-        pL.append(p)
-
-        // the Sieve part, remove multiples of p
-        if a.count == 0 { break }
-        var n = p + p
-        while n <= a.last! {
-            removeValue(&a,n)
-            n += p
-        }
-    }
-
-    print(pL)
-
-.. sourcecode:: bash
-
-    > swift test.swift 
-    [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47]
-    >
-
-In the code above, we forcibly unwrap optionals twice.  But in each case, that is preceded by a test to ensure that the value will exist.
+See ::ref:`closures_intro`

@@ -6,7 +6,7 @@ Operators
 
 I believe I put this in the section on random numbers, but it is pretty cool so I'll repeat it here.
 
-What I want is an operator to do exponentiation.  Swift doesn't have one, but I can define my own.  Here is one:
+What I want is an operator to do exponentiation.  Swift doesn't have one, but I can define my own.  Here it is:
 
 .. sourcecode:: swift
 

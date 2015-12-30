@@ -8,6 +8,7 @@ Contents:
    :maxdepth: 1
    
    structs
+   initializers
    classes 
    enums
    closures_med

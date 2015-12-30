@@ -48,7 +48,7 @@ In this method
     
 If you watch the animation on wikipedia, you will see that the result of this process is to find the largest element in the array on the first pass and place it at the end, the next pass will find the second largest, and so on.  Rather than remember which value was the largest seen so far on any one pass, we swap repeatedly.
 
-``main.swift``:
+``test.swift``:
 
 .. sourcecode:: swift
 
@@ -95,7 +95,7 @@ If you watch the animation on wikipedia, you will see that the result of this pr
 
 You can see how the value ``100`` "bubbles" to the end of the array in the first part of the results.  You can also see that there are a lot of swaps, compared with the later examples.  For random data, on the average the first value requires n/2 swaps, the second (n-1)/2, and so on.
 
-We are using the Swift compiler to combine code in two different files to make an executable ``main`` which we then run with ``./main``.
+(We also could use the Swift compiler to combine code in two different files to make an executable ``main`` which we would then run with ``./main``).
 
 --------------
 Selection sort

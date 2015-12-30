@@ -219,7 +219,15 @@ A more traditional way of writing a ``Point`` struct:
     Point:  x = 10, y = 20
     >
 
-I've always been a bit confused by properties (with getters and setters) and instance variables like ``self.x`` in Objective-C.  In Swift, there is no difference.  Above, we defined ``var x: Int`` and set its value in the initializer.  ``x`` is a property.
+Although this works, it is worth pointing out that the initializer is unnecessary in this case.  Swift will give us a default member-wise initializer for free.  If you remove ``init`` from the above code, it will work exactly the same.
+
+See more in ::ref:`initializers`.
+
+-------------------
+getting and setting
+-------------------
+
+I confess to being a bit confused (in Objective-C) by properties (with getters and setters) and instance variables like ``self.x``.  In Swift, there is no difference.  Above, we defined ``var x: Int`` and set its value in the initializer.  ``x`` is a property.
 
 On the other hand, properties can be more sophisticated.  We could provide a "getter" and "setter" for ``myvar``.
 

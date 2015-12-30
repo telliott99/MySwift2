@@ -22,6 +22,8 @@ To construct a set we can do
     print(S1.union(S2))         //  ["b", "e", "a", "d", "c"]
     print(S1.exclusiveOr(S2))   //  ["b", "e", "d", "c"]
     print(S1.subtract(S2))      //  ["d", "e"]
+    
+Union is equal to intersection plus exclusiveOr.
 
 Sets are very fast for testing membership.  Inserting and removing items is also fast.
 
