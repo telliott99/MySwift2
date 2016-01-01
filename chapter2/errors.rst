@@ -4,7 +4,9 @@
 Errors
 ******
 
-    This section is not written yet
+This section is not completed yet
+
+.. sourcecode:: swift
 
     import Foundation
 
@@ -18,16 +20,22 @@ Errors
     let b = false
     assert(b, "So b is not true!")
 
-
-
+.. sourcecode:: swift
 
     guard let value = possibleNil else {leave scope}
     guard some condition else {continue}
 
+.. sourcecode:: swift
+
     assert 
     check your code for errors
 
+.. sourcecode:: swift
+
     precondition
     check that your clients have given you valid args
-    
+
+    .. sourcecode:: swift
+
+
     try catch

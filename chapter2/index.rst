@@ -15,3 +15,5 @@ Contents:
    closures_intro
    currying
    errors
+   extensions1
+   
