@@ -151,7 +151,7 @@ As before, the part of the array to the left of the current index is maintained 
 
 We move across the array from left to right and simply take the next value as it comes, no matter whether large or small.  For each new value, we determine the correct place to insert it, moving elements as necessary.
 
-This one was hard to write.  In the end, I found it easier to construct a new array to place the value correctly.  We can do better than this.
+This one was hard to write.  For a first pass at a solution, I found it easier to construct a new array to place the value correctly.
 
 .. sourcecode:: swift
 
@@ -219,12 +219,14 @@ A more compact approach in terms of memory is to modify the array in place.  Her
 .. sourcecode:: swift
 
     func insertItem(inout a: [Int], _ p: Int) {
+        // find the correct place to insert
         var i = 0
         while i < p {
             if a[i] > a[p] { break }
             i++
         }
         if i == p { return }
+        // swap until we get there
         var j = p
         while true { 
             swap(&a[j-1],&a[j])
