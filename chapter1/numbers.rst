@@ -88,4 +88,9 @@ But that is really getting ahead of ourselves, I think.
 Floating point numbers (like 1.2 to 3.0 x 10e23---the number of stars in the visible universe) have two parts:  a *mantissa* and an *exponent*.  The details of how they are represented on disk and in memory is not important right now, but what is important is that they have sizes and a Type for each size.  These are Float (32 bits) and Double (64 bits).
 
 One very common type for data in C is ``char``.  An ``unsigned char`` corresponds to Swift's ``UInt8``.
+
+Note that modern C has moved away from ``char`` and is actually quite like Swift:
+
+https://matt.sh/howto-c
+
     
