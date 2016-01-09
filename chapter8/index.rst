@@ -1,17 +1,17 @@
-#####
-Cocoa
-#####
+###################
+Graphics and Images
+###################
 
 Contents:
 
 .. toctree::
    :maxdepth: 1
    
-   translating_objc
+   drawing
+   images
    NSOpenPanel
+   window
+   fifteen
    swift_cocoaapp
-   framework
-   c_library
-   common_crypto_setup
-   common_crypto
-   xcode_libraries
+   translating_objc
+   

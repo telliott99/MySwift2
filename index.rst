@@ -19,3 +19,4 @@ Contents:
    chapter6/index
    chapter7/index
    chapter8/index
+   chapter9/index

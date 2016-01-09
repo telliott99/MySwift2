@@ -1,6 +1,6 @@
-####################################
-Extensions, Protocols and Generators
-####################################
+##########
+Extensions
+##########
 
 Contents:
 
@@ -10,10 +10,4 @@ Contents:
    extensions
    string_extensions
    array_extensions
-   protocols
-   sequence_type
-   NSCoding
-   encryption
-   types
-   pointers
    
