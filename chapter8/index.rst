@@ -1,17 +1,12 @@
-###################
-Graphics and Images
-###################
+##################
+Types and Pointers
+##################
 
 Contents:
 
 .. toctree::
    :maxdepth: 1
    
-   drawing
-   images
-   NSOpenPanel
-   window
-   fifteen
-   swift_cocoaapp
-   translating_objc
+   types
+   pointers
    

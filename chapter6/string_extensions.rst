@@ -3,8 +3,47 @@
 #####################
 Extensions for String
 #####################
+
+Moving to extensions on the String type, currently, the syntax 
+
+.. sourcecode:: swift
+
+    var s = "Hello, world"
+    print(s[0...4])
+
+doesn't work.  We can fix that with the following code, although it's probably not a good idea :)  :
+
+.. sourcecode:: swift
+
+    extension String {
+        subscript(i: Int) -> Character {
+            let index = startIndex.advancedBy(i)
+            return self[index]
+        }
+        subscript(r: Range<Int>) -> String {
+            let start = startIndex.advancedBy(r.startIndex)
+            let end = startIndex.advancedBy(r.endIndex)
+            return self[start..<end]
+        }
+    }
+    var s = "Hello, world"
+    print(s[4])
+    print(s[0...4])
     
-In this section we'll develop some extensions for the String type.
+.. sourcecode:: bash
+
+    > swift x.swift
+    o
+    Hello
+    >
+
+The Swift language does not provide the facility to just index into a String.  Instead, being prepared to deal gracefully with all the complexity of Unicode means that we are supposed to le-t the compiler generate a valid range for us.
+
+Since ``r`` is a ``Range<Int>``, ``r.startIndex`` is just the first Int in the range.  However, the string indices are not Int values.  Hence, we ask for the ``self.startIndex`` and then use the range as a counter to advance it to where we want to be.
+
+And after that we advance it to where we want to stop.  We really should do some bounds checking, or not?
+
+In the next section we'll develop some extensions for the String type.
 
 .. sourcecode:: swift
 

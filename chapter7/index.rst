@@ -10,7 +10,4 @@ Contents:
    protocols
    sequence_type
    NSCoding
-   encryption
-   types
-   pointers
    
