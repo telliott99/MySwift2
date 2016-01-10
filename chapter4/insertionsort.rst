@@ -78,7 +78,7 @@ without the ``Array()`` part, we get an error:
 
 We must explicitly convert the ``ArraySlice<Int>`` to an ``Array<Int>``.
 
-A more compact approach in terms of memory is to modify the array in place.  Here is an alternative version of insertion sort that does just that.
+A more compact approach in terms of memory is to modify the array in place.  Here is an alternative version of insertion sort which does just that.
 
 .. sourcecode:: swift
 

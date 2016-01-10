@@ -33,7 +33,7 @@ If you pass an array to a function with the intention of modifying it, declare t
     var a = [32,7,100,29,55,3,19,82,23]
     print(cavemanSort(&a))
 
-This is the world's stupidest sort function.  For more about ``arc4random_uniform`` see ::ref:`random`.  It just gives us a random Int in the range of valid indexes for the array.  We pick two such random indexes and swap the corresponding values.  For each pass through the loop we see if the result is equal to a correctly sorted version of ``a``.  It takes a long time.
+This is the world's stupidest sort function.  For more about ``arc4random_uniform`` see ::ref:`random`.  It just gives us a random Int in the range of valid indexes for the array.  We pick two such random indexes and swap the corresponding values.  For each pass through the loop we see if the result is equal to a correctly sorted version of ``a``.  It takes a really long time.
       
 .. sourcecode:: bash
 
@@ -87,9 +87,7 @@ We employ the (highly inefficient) function ``removeAtIndex``, modified to allow
 
 The algorithm involves setting up an array of all the integers starting from 2.  Take the first element from the current version of the array, that will be a prime number.  Now go through the array and remove all elements that are multiples of the chosen prime:  4, 6, 8, etc.  
 
-Carry out the same process with the next integer still present in the array:  3.
-
-Repeat until the array is exhausted.
+Then, carry out the same process with the next integer still present in the array:  3.  Repeat until the array is exhausted.
 
 .. sourcecode:: swift
 
