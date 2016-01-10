@@ -1,13 +1,13 @@
-##########
-Extensions
-##########
+########
+Generics
+########
 
 Contents:
 
 .. toctree::
    :maxdepth: 1
    
-   extensions
-   string_extensions
-   array_extensions
-   
+   generics
+   functional
+   closures_adv
+

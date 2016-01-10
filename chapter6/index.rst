@@ -9,7 +9,3 @@ Contents:
    
    subscripts
    operators
-   generics
-   functional
-   closures_adv
-

@@ -62,6 +62,7 @@ This prints:
     ["Chris", "Alex", "Barry"]
     ["Alex", "Barry", "Chris"]
     >
+    
 If you ask to use the global ``sort`` function:
 
 .. sourcecode:: swift

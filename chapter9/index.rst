@@ -1,12 +1,13 @@
-##################
-Types and Pointers
-##################
+########################
+Protocols and Generators
+########################
 
 Contents:
 
 .. toctree::
    :maxdepth: 1
    
-   types
-   pointers
+   protocols
+   sequence_type
+   NSCoding
    
