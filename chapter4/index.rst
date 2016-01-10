@@ -9,6 +9,7 @@ Contents:
    
    sort
    bubblesort
-   selection_insertion
+   selectionsort
+   insertionsort
    mergesort
    quicksort

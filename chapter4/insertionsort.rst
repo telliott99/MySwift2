@@ -1,58 +1,19 @@
-.. _selection_insertion:
+.. _insertionsort:
 
-##########################
-Selection & insertion sort
-##########################
-
-In selection sort
-
-https://en.wikipedia.org/wiki/Selection_sort
-
-we divide the target array into two parts, a sorted portion on the left, and an unsorted part on the right.  We maintain an index at one past the sorted portion.  The index moves from left to right, and it is where we will place the next value.  On each pass, we start at the index and then find the minimum value remaining in the unsorted part, and finally swap with the value at the index.
-    
-.. sourcecode:: swift
-
-    func selectionSort(inout a: [Int]) {
-        let n = a.count
-        var smallest: Int = 0
-        for i in 0..<n-1 {
-            smallest = i
-            // now look for one even smaller
-            for j in i+1..<n {
-                if a[j] < a[smallest] {
-                    smallest = j
-                }
-            }
-            if smallest > i { 
-                swap(&a[i], &a[smallest]) 
-                pp(a)
-            }
-        }
-    }
-
-    test(selectionSort)
-    
-.. sourcecode:: bash
-
-    > swift test.swift 
-    32 7 100 29 55 3 19 82 23 
-    3 7 100 29 55 32 19 82 23 
-    3 7 19 29 55 32 100 82 23 
-    3 7 19 23 55 32 100 82 29 
-    3 7 19 23 29 32 100 82 55 
-    3 7 19 23 29 32 55 82 100 
-    3 7 19 23 29 32 55 82 100 
-    >
-
---------------
+##############
 Insertion sort
---------------
+##############
 
 https://en.wikipedia.org/wiki/Insertion_sort
 
-As before, the part of the array to the left of the current index is maintained in sorted order.  
+As before, the part of the array to the left of the current index is maintained in sorted order.  However, the values to the right of the index are not all larger than the ones to the left.
 
-We move across the array from left to right and simply take the next value as it comes, no matter whether large or small.  For each new value, we determine the correct place to insert it, moving elements as necessary.
+.. image:: /figures/insertionsort.png
+    :scale: 100 %
+
+In insertion sort, we move across the array from left to right and simply take the next value as it comes, no matter whether large or small.  For each new value, we determine the correct place to insert it.  
+
+Elements must be moved as necessary.  We make fewer comparisons and more swaps than in selection sort.
 
 This one was hard to write.  For a first pass at a solution, I found it easier to construct a new array to place the value correctly.
 
@@ -87,7 +48,7 @@ This one was hard to write.  For a first pass at a solution, I found it easier t
 
 .. sourcecode:: bash
 
-    > swift test.swift 
+    > swiftc utils.swift main.swift && ./main
     32 7 100 29 55 3 19 82 23 
     7 32 100 29 55 3 19 82 23 
     7 32 100 29 55 3 19 82 23 
@@ -106,7 +67,7 @@ It is curious that on this line:
 
     var tmp = Array(a[0..<i])
 
-without the ``Array()`` part, we get this error:
+without the ``Array()`` part, we get an error:
 
 .. sourcecode:: bash
 
@@ -149,7 +110,7 @@ A more compact approach in terms of memory is to modify the array in place.  Her
 
 .. sourcecode:: bash
 
-    > swift test.swift 
+    > swiftc utils.swift main.swift && ./main
     32 7 100 29 55 3 19 82 23 
     7 32 100 29 55 3 19 82 23 
     7 32 100 29 55 3 19 82 23 

@@ -4,9 +4,9 @@
 Bubblesort
 ##########
 
-Let's demonstrate Swift implementations for a few of the algorithms for sorting.  
+In what follows we will construct Swift implementations for the standard sorting algorithms.  
 
-First, here are a print utility function and a function to exercise the algorithms.
+To begin with, here are a print utility function and a function to exercise the algorithms.  We place them in a separate file:
 
 ``utils.swift``:
 
@@ -45,10 +45,16 @@ In this method
     Bubble sort, sometimes referred to as sinking sort, is a simple sorting algorithm that repeatedly steps through the list to be sorted, compares each pair of adjacent items and swaps them if they are in the wrong order.
     
     It is too slow and impractical for most problems even when compared to insertion sort.
-    
-If you watch the animation on wikipedia, you will see that the result of this process is to find the largest element in the array on the first pass and place it at the end, the next pass will find the second largest, and so on.  Rather than remember which value was the largest seen so far on any one pass, we swap repeatedly.
 
-``test.swift``:
+We start at the left end of the array, indexes and compare the first two values, call them ``a[0]`` and ``a[1]``.  If ``a[1]`` is smaller than ``a[0]``, swap the two items.  More generally, compare the value at index ``i`` with that at ``i+1``, starting from ``i=0`` and moving through the array until ``i+1`` is equal to ``a.count-1``.
+    
+If you watch the animation on wikipedia, you will see that the result of this process is to find the largest element in the array on the first pass and place it at the end.
+
+On the second pass, we need to go only until ``i+1`` is equal to ``a.count-2``.  This pass will find the second largest value, and so on.
+
+Rather than remember which value was the largest seen so far on any one pass, we swap repeatedly.
+
+``main.swift``:
 
 .. sourcecode:: swift
 
@@ -67,9 +73,11 @@ If you watch the animation on wikipedia, you will see that the result of this pr
 
     test(bubbleSort)
 
+Since we are using code from two separate files, the procedure to run the program is different. The explanation is at the end.
+
 .. sourcecode:: bash
     
-    > swift test.swift 
+    > swiftc utils.swift main.swift && ./main
     32 7 100 29 55 3 19 82 23 
     7 32 100 29 55 3 19 82 23 
     7 32 29 100 55 3 19 82 23 
@@ -92,9 +100,20 @@ If you watch the animation on wikipedia, you will see that the result of this pr
     3 7 19 23 29 32 55 82 100 
     3 7 19 23 29 32 55 82 100 
     >
+    
+You can see how the value ``100`` "bubbles" to the end of the array in the first part of the results.  
 
-You can see how the value ``100`` "bubbles" to the end of the array in the first part of the results.  You can also see that there are a lot of swaps, compared with the later examples.  For random data, on the average the first value requires n/2 swaps, the second (n-1)/2, and so on.
-
-(We also could use the Swift compiler to combine code in two different files to make an executable ``main`` which we would then run with ``./main``).
+It is also clear that there are a lot of swaps, compared with the later examples.  For random data, on the average the first value requires n/2 swaps, the second (n-1)/2, and so on.
 
 Bubblesort is a really inefficient algorithm.  We'll see better ones in the next two sections.
+
+In this code:
+
+.. sourcecode:: bash
+    
+    > swiftc utils.swift main.swift && ./main
+
+we invoke the Swift compiler directly with ``swiftc``, and pass to it two filenames:  ``utils.swift`` and ``main.swift``.  The latter name is required.  The result is an "executable" called ``main``.  
+
+``&&`` separates two instructions to the shell.  In order to run the executable, Unix requires prepending ``./`` which is shorthand for "start in the current directory" when you look for ``main``.
+
