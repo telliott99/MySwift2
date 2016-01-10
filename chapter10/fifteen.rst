@@ -14,11 +14,15 @@ After tapping the square labeled 12:
 .. image:: /figures/fifteen2.png
     :scale: 75 %
 
-Its previous incarnation is here:
+In this version, I have not yet implemented the proper alignment of the numbers in their squares (it's a pain, it changed in Swift 2 and I haven't figured it out yet).
+
+The other missing piece is to shuffle the board properly to start a new game.  My understanding is that there are two sets of possible arrangements of the tiles:  only one set is solvable, or to think of it the other way around, only one set can be reached by legal moves from a solved starting board.  
+
+The previous incarnation of the game (Objective-C) is here:
 
 http://telliott99.blogspot.com/2011/02/fifteen.html
 
-All that is required is to make a new Xcode project that is a Cocoa Swift application.  In the nib set the ContentView of the window to be the class MyView, and then have this code in the project.
+All that is required is to make a new Xcode project---a Cocoa Swift application.  In the nib set the ContentView of the window to be the class MyView, and then have this code in the project.
 
 .. sourcecode:: swift
 

@@ -13,6 +13,3 @@ Contents:
    set
    random
    shuffle
-   sort
-   basic_sort_alg
-   adv_sort_alg

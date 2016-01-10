@@ -1,13 +1,13 @@
-########################
-Protocols and Generators
-########################
+##########
+Extensions
+##########
 
 Contents:
 
 .. toctree::
    :maxdepth: 1
    
-   protocols
-   sequence_type
-   NSCoding
+   extensions
+   string_extensions
+   array_extensions
    

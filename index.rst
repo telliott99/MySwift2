@@ -21,3 +21,4 @@ Contents:
    chapter8/index
    chapter9/index
    chapter10/index
+   chapter11/index
