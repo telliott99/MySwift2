@@ -9,3 +9,6 @@ Contents:
    
    subscripts
    operators
+   types
+   pointers
+   

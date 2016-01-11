@@ -266,15 +266,16 @@ The ``Hashable`` protocol requires that the array contain objects that are "hash
 
 In order to use this for a user-defined object, that object must follow the Hashable protocol.  We'll talk more about :ref:`protocols` here.
     
-Declarations involving generics can get pretty complicated.  Notice all the qualifiers that come after ``where``.  (Also, this example has changed since the Swift book was released, ``Sequence`` has become ``SequenceType`` and ``T.Generator.Element`` replaces ``T.GeneratorType.Element``).
+Declarations involving generics can get pretty complicated.  Notice all the qualifiers that come after ``where``.  (Also, this example has changed since Swift 1, ``Sequence`` has become ``SequenceType`` and ``T.Generator.Element`` replaces ``T.GeneratorType.Element``).
 
 .. sourcecode:: swift
 
-    func anyCommonElements <T, U where
-        T: SequenceType, U: SequenceType, 
-        T.Generator.Element: Equatable,   
-        T.Generator.Element == U.Generator.Element> 
-        (lhs: T, rhs: U) -> Bool {
+    func anyCommonElements <T: SequenceType,
+        U: SequenceType
+        where T.Generator.Element: Equatable,
+            T.Generator.Element == U.Generator.Element>
+
+        (lhs: T, _ rhs: U) -> Bool {
         for lhsItem in lhs {
             for rhsItem in rhs {
                 if lhsItem == rhsItem {
@@ -284,13 +285,7 @@ Declarations involving generics can get pretty complicated.  Notice all the qual
         }
         return false
     }
-
-    println("\(anyCommonElements([1, 2, 3], [3]))")
-
-.. sourcecode:: bash
-
-    > swift test.swift
-    true
-    >
+    anyCommonElements([1, 2, 3], [3])  // true
+    anyCommonElements("abc".characters, Set(["a"]))  // true
 
 Note:  this is a highly inefficient way to do this, but it works.  To make it more efficient, sort both arrays, or use a dictionary.

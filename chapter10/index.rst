@@ -1,12 +1,10 @@
-##################
-Types and Pointers
-##################
+######
+Graphs
+######
 
 Contents:
 
 .. toctree::
    :maxdepth: 1
    
-   types
-   pointers
-   
+   graphs

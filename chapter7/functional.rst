@@ -227,8 +227,8 @@ Here is another one.  ``mymap`` returns nil when the element is nil, and the tra
 
     var optstr: String? = "hello"
     switch optstr {
-    case .Some:  print("some")
-    case .None:  print("none")
+        case .Some:  print("some")
+        case .None:  print("none")
     }
     
     // prints "some"
