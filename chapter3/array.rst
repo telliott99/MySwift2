@@ -271,4 +271,32 @@ http://stackoverflow.com/questions/24003584/list-comprehension-in-swift
     let evens = (1..<10).filter { $0 % 2 == 0 }
     print(evens)    // [2, 4, 6, 8]
 
-See ::ref:`closures_intro`
+See :ref:`closures_intro`
+
+------
+Slices
+------
+
+Using subscripts to obtain a sub-array from an array returns a Type called a "slice".  The basic reason for this is that Swift wants to use the same underlying storage for the array and any slice of it until it absolutely needs to do a copy.  
+
+The problem comes when the compiler complains that your "slice" is not an array (I don't have an example handy, but I guarantee you will see this problem).  To fix it, use a cast.
+
+.. sourcecode:: swift
+
+    1> let a = [1,2,3,4]
+    a: [Int] = 4 values {
+      [0] = 1
+      [1] = 2
+      [2] = 3
+      [3] = 4
+    }
+      2> let b = a[0..<2]
+    b: ArraySlice<Int> = 2 values {
+      [0] = 1
+      [1] = 2
+    }
+      3> let c = Array(b)
+    c: [Int] = 2 values {
+      [0] = 1
+      [1] = 2
+    }
