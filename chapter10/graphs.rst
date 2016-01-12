@@ -142,7 +142,7 @@ Here is a direct translation of the first example to a Swift Playground (except 
             return path
         }
         if !(graph.keys.contains(start)) {
-            print("!.keys.contains (start): \(start)")
+            print("!(graph.keys.contains (start)): \(start)")
             return nil
         }
         for node in graph[start]! {
