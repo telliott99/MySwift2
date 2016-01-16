@@ -9,3 +9,4 @@ Contents:
    
    graphs
    linkedlist
+   dynamic
