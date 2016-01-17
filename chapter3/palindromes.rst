@@ -33,6 +33,8 @@ First, a function that returns an array of each digit in an Int as an ``[Int]``:
     132 [2, 3, 1]
     >
 
+The digits are in reverse order.
+
 Now we use the digits to test whether an Integer is palindromic:
 
 .. sourcecode:: swift
@@ -56,7 +58,7 @@ Now we use the digits to test whether an Integer is palindromic:
     132 false
     >
 
-There is an easier solution, however.  Just turn the Int into its String representation:
+There is a somewhat easier solution, however.  Just turn the Int into the characters of its String representation:
 
 .. sourcecode:: swift
 
