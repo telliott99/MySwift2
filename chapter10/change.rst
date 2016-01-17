@@ -331,10 +331,10 @@ Everything works as expected.  Finally, to actually implement the algorithm.
      var temp = [S]()
      var results = [S]()
 
-     func test(inout L: [S]) {
+     func test(inout L: [S]) -> [S] {
          while L.count > 0 {
              for s in L {
-                 results.append(s)  // we checked uniqueness in loop
+                 results.append(s)  // we checked uniqueness already
                  for c1 in coins {
                      for c2 in coins {
                          if c1.rawValue >= c2.rawValue {
@@ -355,21 +355,18 @@ Everything works as expected.  Finally, to actually implement the algorithm.
              L = temp
              temp = [S]()
          }
-
-         print(results.count)
-         for r in results {
-             print(r)
-         }
+         return results
      }
 
      let N = 100
      var s = S(p:N, n:0, d:0, q:0)
      var L = [s]
 
-     test(&L)
+     results = test(&L)
+     print(results.count)
 
      var a = [String]()
-     for r in L {
+     for r in results {
          a.append("\(r)")
      }
 
@@ -383,17 +380,21 @@ Everything works as expected.  Finally, to actually implement the algorithm.
      > cp change.swift main.swift
      > swiftc coin.swift main.swift && ./main
      242
-     100p 0n 0d 0q
      95p 1n 0d 0q
+     90p 2n 0d 0q
      90p 0n 1d 0q
-     75p 0n 0d 1q
+     85p 3n 0d 0q
+     85p 1n 1d 0q
+     
      ...
-     5p 17n 1d 0q
-     0p 16n 2d 0q
-     5p 19n 0d 0q
-     0p 18n 1d 0q
-     0p 20n 0d 0q
+     0p 10n 5d 0q
+     0p 10n 0d 2q
+     0p 0n 5d 2q
+     0p 0n 10d 0q
+     0p 0n 0d 4q
      >
+
+(``100p..`` sorts between ``10p..`` and ``0p..``)
 
 I changed to an array of Strings at the end to allow easy sorting of the results.  This could also be done better using the actual type S.
 
