@@ -9,6 +9,7 @@ Contents:
    
    array
    array_mod
+   palindromes
    dictionary
    set
    random
