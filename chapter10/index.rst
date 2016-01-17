@@ -1,6 +1,6 @@
-######
-Graphs
-######
+###############
+More algorithms
+###############
 
 Contents:
 
@@ -10,3 +10,4 @@ Contents:
    graphs
    linkedlist
    dynamic
+   change
