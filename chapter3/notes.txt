@@ -1,0 +1,80 @@
+c = b^e mod m
+
+https://en.wikipedia.org/wiki/Modular_exponentiation
+
+[(a mod m) * (b mod m)] mod m = (a * b) mod m
+
+an example
+
+71 * 53 = 3763, % 13 = 6
+71 % 13 = 6
+53 % 13 = 1
+6 * 1 = 6, % 13 = 6
+
+3763 * 43 = 161809, % 13 = 11
+43 % 13 = 4
+6 * 4 = 24, % 13 = 11
+
+any factor yielding 0 for the modulus yields zero after
+but of course..
+
+subsequent multiplication doesn't change the fact
+that it is still evenly divided by the modulus
+
+-----------------
+
+application to our problem?
+apparently not, because 
+we are using a different modulus at each step.
+
+compute 2^(p-1) % p == 1?
+
+so let's see
+p = 3    2*2 = 4        % 3 = 1
+p = 4    2*2*2 = 8      % 4 = 0
+p = 5    2*2*2*2 = 16   % 5 = 1
+p = 6    32             % 6 = 2
+p = 7    64             % 7 = 1
+p = 8    128            % 8 = 0
+p = 9    256            % 9 = 4
+p = 10   512            % 10 = 2
+p = 11   1024           % 11 = 1
+p = 12   2048           % 12 = 8
+p = 13   4096           % 13 = 1
+
+any shortcut?
+
+computing p % m can be made faster than a naive implementation 
+but it's probably already optimized.
+
+computing 2^p from scratch
+use exponentiation by squaring
+
+5^55 = 5^(32 + 16 + 4 + 2 + 1) 
+     = 5^32 * 5^16 * 5^4 * 5^2 * 5
+
+5^55 mod 221 = 1 * 1 * 183 * 25 * 5 mod 221 
+             = 22875 mod 221 = 112
+
+-----------------
+
+For our problem, we could just cache the previous 2^(p-1) and
+let the computer do the % operation.
+
+this works in Python but not in Swift
+
+2^(p-1) becomes too big to cache (larger than Int.max)
+
+-----------------
+
+2^(p-1) % p
+
+what is the biggest power of 2 we can store?
+as an unsigned Int it is 2^64
+
+so we need to break p-1 into the sum of powers of 2 
+(less than 65) and compute mod p
+then multiply together and do mod p
+
+too much work for me to implement that in Swift right now
+

@@ -10,6 +10,7 @@ Contents:
    array
    array_mod
    palindromes
+   primes
    dictionary
    set
    random
