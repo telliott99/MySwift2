@@ -45,7 +45,7 @@ That's a really deep stack!.  Python gives us 1000.
     RuntimeError: maximum recursion depth exceeded
     >>>
 
-Recursion is a natural way to express certain problems.  The classic example is the factorial function:
+Recursion is a natural way to express the solutions certain problems.  One classic example is the factorial function:
 
 .. sourcecode:: swift
 
@@ -131,3 +131,155 @@ In Swift:
     11920928955078125
     >
 
+--------------
+Tower of Hanoi
+--------------
+
+A last example of recursion is the Tower(s) of Hanoi
+
+https://en.wikipedia.org/wiki/Tower_of_Hanoi
+
+.. image:: /figures/towers.png
+    :scale: 100 %
+
+http://telliott99.blogspot.com/2009/08/towers-of-hanoi.html
+
+The game consists of three pegs and a set of disks of decreasing size, say integral values from 4 to 1.  The fundamental restriction of the game is that a larger disk may be placed on top of a smaller one.
+
+The goal of the game is to move all the disks from the left peg to the right-hand one.  Symbolize the disks as o, oo, ooo, and oooo;  while the pegs are L, M, R.
+
+For the n = 2 case, the moves are
+
+- o ->  M
+- oo -> R
+- o ->  R
+
+We use the middle peg as a convenient place to cache an intermediate structure.
+
+What about the n = 3 case?  
+
+Move the disks o and oo in the same order as for n = 2, but with the middle peg as the target and the right-hand peg as the cache:
+
+- o ->   R
+- oo ->  M
+- o ->   M
+
+Now move the triple-disk ooo to R.
+
+- ooo -> R
+
+Finally, move the disks o and oo to R, with the left peg as the cache.
+
+- o ->   L
+- oo ->  R
+- o ->   R
+
+To state the recursion in words:  if we know how to move (n-1) pegs, then we can move nth peg to the target.  First move n-1 pegs to the cache, then the nth peg to the target, then move the n-1 pegs to the target.
+
+As a first step in coding this problem, I wrote a routine to plot positions in the game:
+
+.. sourcecode:: swift
+
+    func hanoiRep(a_in: [Int], n: Int) -> [String] {
+        func lineRep(v: Int, n: Int) -> String {
+            let sp = Array(count:n-v, 
+                     repeatedValue:" ").joinWithSeparator("")
+            let dash = Array(count:v, 
+                     repeatedValue:"-").joinWithSeparator("")
+            return " \(sp)\(dash)|\(dash)\(sp) "
+        }
+        var a = a_in.sort(<)
+        var ret = [String]()
+        for _ in 0..<n {
+            if a.count > 0 {
+                let v = a.removeLast()
+                ret.append(lineRep(v, n: n))
+            }
+            else {
+                ret.append(lineRep(0, n: n))
+            }
+        }
+        return ret.reverse()
+    }
+
+    func addTwo(a: [String], _ b: [String]) -> [String] {
+        assert(a.count == b.count, "arrays must be the same size")
+        var ret = [String]()
+        for (s1,s2) in Zip2Sequence(a,b) {
+            ret.append(s1 + s2)
+        }
+        return ret
+    }
+
+    func completeHanoiRep(left: [Int], _ middle: [Int], 
+                        _ right: [Int]) -> String {
+        func maxValue(a: [Int]) -> Int {
+            var m = 0
+            for v in a { if v > m { m = v } }
+            return m
+        }
+        let n = maxValue(left + middle + right)
+        let s1 = hanoiRep(left, n: n)
+        let s2 = hanoiRep(middle, n: n)
+        var s = addTwo(s1,s2)
+        let s3 = hanoiRep(right, n: n)
+        s = (addTwo(s,s3))
+        return s.joinWithSeparator("\n")
+    }
+
+    func test() {
+        print("")
+        var s = completeHanoiRep([1,2,3,4],[],[])
+        print(s)
+        print("\n----------------------------------\n")
+        s = completeHanoiRep([3,4],[2],[1])
+        print(s)
+        print("\n----------------------------------\n")
+        s = completeHanoiRep([4],[1,2],[3])
+        print(s)
+    }
+
+    test()
+    
+.. sourcecode:: bash
+
+    > swift test.swift 
+    
+        -|-         |          |     
+       --|--        |          |     
+      ---|---       |          |     
+     ----|----      |          |     
+
+    ----------------------------------
+
+         |          |          |     
+         |          |          |     
+      ---|---       |          |     
+     ----|----    --|--       -|-    
+
+    ----------------------------------
+
+         |          |          |     
+         |          |          |     
+         |         -|-         |     
+     ----|----    --|--     ---|---  
+    >
+
+In order, these are the starting position, after the second move in n = 3 game, and after the fourth move in the same game.
+
+A simple way to remember the rules for the game is that the piece to be chosen at each stage (oriented top to bottom and plotted in order left to right), the result is a binary ruler.
+
+.. sourcecode:: bash
+
+                  o
+          o       o       o 
+      o   o   o   o   o   o   o
+    o o o o o o o o o o o o o o o
+
+To form the next stage we would take this whole thing, then add ooooo, then another copy of this whole thing.
+
+The other rule is that for odd numbered games the middle peg is the target for even numbered disks, and so on.
+
+According to wikipedia:
+
+    The puzzle was invented by the French mathematician Édouard Lucas in 1883. There is a legend about a Vietnamese temple which contains a large room with three time-worn posts in it surrounded by 64 golden disks. The monks of Hanoi, acting out the command of an ancient prophecy, have been moving these disks, in accordance with the rules of the puzzle, since that time. The puzzle is therefore also known as the Tower of Brahma puzzle. According to the legend, when the last move of the puzzle is completed, the world will end.
