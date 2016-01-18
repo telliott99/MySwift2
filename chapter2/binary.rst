@@ -69,6 +69,10 @@ Here is exclusive or:
     aa
     >
 
+--------
+Printing
+--------
+
 ``NSString(format: "%x", n))`` is a convenient way to convert a UInt8 to its String hexadecimal representation.
 
 Note:  ``a`` is decimal 10 or binary ``1010``.
@@ -108,6 +112,78 @@ Result:
 Unfortunately, we have to supply a Type for the function's input.  I don't think there is a way to write a generic Int function.
 
 http://blog.krzyzanowskim.com/2015/03/01/swift_madness_of_generic_integer/
+
+------------
+Bit shifting
+------------
+
+Multiplication of binary numbers:
+
+- 0 x 0 = 0
+- 0 x 1 = 0
+- 1 x 0 = 0
+- 1 x 1 = 1
+
+thus for a multiplicand ``1011``:
+
+.. sourcecode:: bash
+
+    1 * 1011 = 1011
+
+and for a multiplier > 1 (``1011`` equals 11 and ``101`` equals 5):
+
+.. image:: /figures/binary_mult.png
+    :scale: 75 %
+
+.. sourcecode:: bash
+
+    101 x 1011 = 001011 + 00000 + 101100
+    
+so we must add:
+
+.. sourcecode:: bash
+    
+    001011
+    101100
+    ------
+    110111
+
+(``110111`` equals 55).
+
+The difficult step is the addition of "partial products."
+
+An algorithm to do this involves left-shifting the multiplicand ``1011`` and right-shifting the multiplier.
+
+.. sourcecode:: swift
+
+    var m = 0b1011
+    var n = 0b101
+
+    var p = 0
+
+    while n != 0 {
+        // test the right-most bit of n
+        if (n & 0b01) != 0 {
+            p += m
+        }
+        m = m << 1
+        n = n >> 1
+    }
+
+    print(p)
+    let s = String(num, radix: 2)
+    print(s)
+
+.. sourcecode:: bash
+
+    > swift test.swift 
+    55
+    110111
+    >
+
+
+
+Technically, the Type of ``var m = 0b1011`` is UInt8, but it works the same in practice.
 
 Here is an example from the docs:
 

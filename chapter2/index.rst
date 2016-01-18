@@ -9,6 +9,7 @@ Contents:
    
    command_line
    functions
+   recursion
    files
    stdin
    binary
