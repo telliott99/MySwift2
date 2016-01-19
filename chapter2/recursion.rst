@@ -303,6 +303,17 @@ then another copy of:
       o   o   o   o   o   o   o
     o o o o o o o o o o o o o o o
 
+The result is:
+
+.. sourcecode:: bash
+
+                                  o
+                  o               o               o
+          o       o       o       o       o       o       o    
+      o   o   o   o   o   o   o   o   o   o   o   o   o   o   o  
+    o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o 
+    
+
 The other rule is that for odd numbered games the middle peg is the target for even numbered disks, and so on.
 
 A much simpler representation is to print the arrays, e.g.:
