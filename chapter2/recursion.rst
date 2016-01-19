@@ -25,7 +25,7 @@ The code inside a function can call the same function again.  In principle, this
     Segmentation fault: 11
     >
 
-That's a really deep stack!.  Python gives us 1000.
+That's a really deep stack!.  Python gives us 999.
 
 .. sourcecode:: python
     
@@ -108,7 +108,7 @@ A Python version:
     32768
     >
 
-In Swift:
+In Swift (without the command line arguments):
 
 .. sourcecode:: swift
 
@@ -150,9 +150,9 @@ The goal of the game is to move all the disks from the left peg to the right-han
 
 For the n = 2 case, the moves are
 
-- o ->  M
-- oo -> R
-- o ->  R
+- ``o ->  M``
+- ``oo -> R``
+- ``o ->  R``
 
 We use the middle peg as a convenient place to cache an intermediate structure.
 
@@ -160,23 +160,27 @@ What about the n = 3 case?
 
 Move the disks o and oo in the same order as for n = 2, but with the middle peg as the target and the right-hand peg as the cache:
 
-- o ->   R
-- oo ->  M
-- o ->   M
+- ``o ->   R``
+- ``oo ->  M``
+- ``o ->   M``
 
 Now move the triple-disk ooo to R.
 
-- ooo -> R
+- ``ooo -> R``
 
 Finally, move the disks o and oo to R, with the left peg as the cache.
 
-- o ->   L
-- oo ->  R
-- o ->   R
+- ``o ->   L``
+- ``oo ->  R``
+- ``o ->   R``
 
-To state the recursion in words:  if we know how to move (n-1) pegs, then we can move nth peg to the target.  First move n-1 pegs to the cache, then the nth peg to the target, then move the n-1 pegs to the target.
+To state the recursion in words:  if we know how to move (n-1) pegs, then we can move nth peg to the target.
 
-As a first step in coding this problem, I wrote a routine to plot positions in the game:
+- move n-1 pegs to the cache
+- move the nth peg to the target
+- move n-1 pegs to the target.
+
+In thinking about this problem, I decided to first write a function to plot positions in the game:
 
 .. sourcecode:: swift
 
@@ -215,7 +219,11 @@ As a first step in coding this problem, I wrote a routine to plot positions in t
                         _ right: [Int]) -> String {
         func maxValue(a: [Int]) -> Int {
             var m = 0
-            for v in a { if v > m { m = v } }
+            for v in a { 
+                if v > m { 
+                    m = v 
+                } 
+            }
             return m
         }
         let n = maxValue(left + middle + right)
@@ -276,10 +284,152 @@ A simple way to remember the rules for the game is that the piece to be chosen a
       o   o   o   o   o   o   o
     o o o o o o o o o o o o o o o
 
-To form the next stage we would take this whole thing, then add ooooo, then another copy of this whole thing.
+To form the next stage we would take this whole thing, then add 
+
+.. sourcecode:: bash
+
+    o
+    o 
+    o
+    o
+    o
+
+then another copy of:
+
+.. sourcecode:: bash
+
+                  o
+          o       o       o 
+      o   o   o   o   o   o   o
+    o o o o o o o o o o o o o o o
 
 The other rule is that for odd numbered games the middle peg is the target for even numbered disks, and so on.
+
+A much simpler representation is to print the arrays, e.g.:
+
+.. sourcecode:: bash
+
+    [4,3] [1] [2]
+
+Maybe it's just me, but for something moderately complex like this problem, I find it easier to write a solution in Python, and then go back to Swift and look for ways to use Swift's unique features.
+
+Here is a Python solution to the Tower of Hanoi problem.
+
+.. sourcecode:: python
+
+    def pprint():
+        pL = []
+        for k in 'LMR':
+            pL.append(str(D[k]).ljust(20))
+        print '\n'.join(pL)
+
+    def validate(v, dst):
+        for item in D[dst]:
+            assert item > v
+
+    def find_value(value):
+        for k in D:
+            if value in D[k]:
+                return k
+
+    def find_cache(src,dst):
+        pD = { 'LM':'R', 'LR':'M', 'MR':'L' }
+        k = ''.join(sorted([src,dst]))
+        return pD[k]
+
+    def move(value, dst='R'):
+        print "move %s dst %s" % (value, dst)
+        src = find_value(value)
+        validate(value,dst)
+        assert value == D[src].pop()
+        D[dst].append(value)
+
+    def solve(value,dst):
+        pprint()
+        print "solve value: %s" % value
+        if value == 1:
+            move(1, dst)
+            return
+        src = find_value(value)
+        cache = find_cache(src,dst)
+        print "src %s dst %s cache %s" % (src, dst, cache)
+
+        solve(value-1,cache)
+        move(value,dst)
+        solve(value-1,dst)
+
+    N = 3
+    sL = range(1,N+1)
+    sL.reverse()
+    D = { 'L':sL,
+          'M':[],
+          'R':[] }
+
+    solve(N,'R')
+    pprint()
+    
+And here is what it prints for ``N = 3``:
+
+.. sourcecode:: bash
+
+    > cd ..
+    > python test.py
+    [3, 2, 1]           
+    []                  
+    []                  
+    solve value: 3
+    src L dst R cache M
+    [3, 2, 1]           
+    []                  
+    []                  
+    solve value: 2
+    src L dst M cache R
+    [3, 2, 1]           
+    []                  
+    []                  
+    solve value: 1
+    move 1 dst R
+    move 2 dst M
+    [3]                 
+    [2]                 
+    [1]                 
+    solve value: 1
+    move 1 dst M
+    move 3 dst R
+    []                  
+    [2, 1]              
+    [3]                 
+    solve value: 2
+    src M dst R cache L
+    []                  
+    [2, 1]              
+    [3]                 
+    solve value: 1
+    move 1 dst L
+    move 2 dst R
+    [1]                 
+    []                  
+    [3, 2]              
+    solve value: 1
+    move 1 dst R
+    []                  
+    []                  
+    [3, 2, 1]           
+    >  
+    
+For ``N = 17`` it takes a while, but at the end it prints:
+
+.. sourcecode:: bash
+
+    solve value: 1
+    move 1 dst R
+    []                  
+    []                  
+    [17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+    >
 
 According to wikipedia:
 
     The puzzle was invented by the French mathematician Édouard Lucas in 1883. There is a legend about a Vietnamese temple which contains a large room with three time-worn posts in it surrounded by 64 golden disks. The monks of Hanoi, acting out the command of an ancient prophecy, have been moving these disks, in accordance with the rules of the puzzle, since that time. The puzzle is therefore also known as the Tower of Brahma puzzle. According to the legend, when the last move of the puzzle is completed, the world will end.
+
+Want to try ``N = 64``?
