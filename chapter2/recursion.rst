@@ -45,7 +45,7 @@ That's a really deep stack!.  Python gives us 999.
     RuntimeError: maximum recursion depth exceeded
     >>>
 
-Recursion is a natural way to express the solutions certain problems.  One classic example is the factorial function:
+Recursion is a natural way to express the solutions to certain problems.  One classic example is the factorial function:
 
 .. sourcecode:: swift
 
@@ -144,7 +144,7 @@ https://en.wikipedia.org/wiki/Tower_of_Hanoi
 
 http://telliott99.blogspot.com/2009/08/towers-of-hanoi.html
 
-The game consists of three pegs and a set of disks of decreasing size, say integral values from 4 to 1.  The fundamental restriction of the game is that a larger disk may be placed on top of a smaller one.
+The game consists of three pegs and a set of disks of decreasing size, say integral values from 4 to 1.  The fundamental restriction of the game is that a larger disk may never be placed on top of a smaller one.
 
 The goal of the game is to move all the disks from the left peg to the right-hand one.  Symbolize the disks as o, oo, ooo, and oooo;  while the pegs are L, M, R.
 
