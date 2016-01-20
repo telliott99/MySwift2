@@ -10,35 +10,33 @@ We practice divide and conquer, at each stage we divide a larger list into two s
 
 .. sourcecode:: swift
 
-    func merge(a1: [Int], _ a2: [Int]) -> [Int] {
-        // a1 and a2 are sorted already
+    func pp (a: [Int]) {
+        for n in a { 
+            print("\(n)", 
+                terminator: " ") 
+        }
+        print("")
+    }
+
+    func merge(array1: [Int], _ array2: [Int]) -> [Int] {
+        // a and b are sorted already
         var ret: [Int] = Array<Int>()
-        var i: Int = 0
-        var j: Int = 0
-        while i < a1.count || j < a2.count {
-            if j == a2.count {
-                if i == a1.count - 1 { 
-                    ret.append(a1[i]) 
-                }
-                else { 
-                    ret += a1[i...a1.count-1] 
-                }
+        var a = array1
+        var b = array2
+        while a.count > 0 || b.count > 0 {
+            if a.count == 0 {
+                ret += b
                 break
             }
-            if i == a1.count {
-                if j == a2.count - 1 { 
-                    ret.append(a2[j]) 
-                }
-                else { 
-                    ret += a2[j...a2.count-1] 
-                }
+            if b.count == 0 {
+                ret += a
                 break
             }
-            if a1[i] < a2[j] { 
-                ret.append(a1[i]); i += 1 
+            if a[0] < b[0] {
+                ret.append(a.removeFirst())
             }
-            else { 
-                ret.append(a2[j]); j += 1 
+            else {
+                ret.append(b.removeFirst())
             }
         }
         return ret
@@ -54,19 +52,17 @@ We practice divide and conquer, at each stage we divide a larger list into two s
     }
 
     let a = [32,7,100,29,55,3,19,82,23]
-    pp("before: ", a)
-    c = merge_sort(a)
-    pp("merge : ", c)
+    pp(a)
+    let c = merge_sort(a)
+    pp(c)
     
 Output:
 
 .. sourcecode:: bash 
 
-    > swiftc utils.swift main.swift && ./main
-    before:  
-    32  7  100  29  55  3  19  82  23  
-    merge :  
-    3  7  19  23  29  32  55  82  100  
+    > swift test.swift 
+    32 7 100 29 55 3 19 82 23 
+    3 7 19 23 29 32 55 82 100 
     >
 
  
