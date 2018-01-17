@@ -19,7 +19,7 @@ We practice divide and conquer, at each stage we divide a larger list into two s
     }
 
     func merge(array1: [Int], _ array2: [Int]) -> [Int] {
-        // a and b are sorted already
+        // array1 and array2 are sorted already
         var ret: [Int] = Array<Int>()
         var a = array1
         var b = array2
